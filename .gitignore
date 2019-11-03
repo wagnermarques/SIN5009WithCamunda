@@ -1,3 +1,27 @@
+
+#servidor do camunda
+tools/camunda_bpm/*
+
+#modeler do camunda
+tools/camunda-modeler-3.3.5-linux-x64/*
+
+#eclipse ide
+tools/eclipse-jee-2019-09-R-linux-gtk-x86_64/*
+
+#talend esb
+tools/talend/*
+
+#banco que o servidor do camunda cria qdo roda
+camunda-h2-dbs/
+
+#arquivos que emacs cria qdo estamos editando
+.#*
+\#*\#
+
+# artefatos gerados pelo maven ao empacotar projetos
+processapps/**/target
+
+
 # Compiled class file
 *.class
 
