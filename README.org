@@ -3,7 +3,6 @@
 
 * Introducao e Apresentacao deste material
    
-
 * Download e Instalacao
 ** Setup Environment 
  
@@ -16,6 +15,7 @@
      export ESB_DEPLOY_DIR=$ESB_HOME/deploy
      export ESB_CMD="$ESB_HOME/bin/client -r 7"
      export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
+     export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
      export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
   #+END_SRC
 
@@ -38,7 +38,7 @@
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #Comando para startart o camunda
-     #$CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
+     $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
 
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
@@ -48,7 +48,8 @@
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [1] 17701
+  : [1] 2664
+  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [2] 2665
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -72,7 +73,8 @@
 
    #+RESULTS: rodando esb
    : 
-   : [wagner@Unknown container]$ [wagner@Unknown container]$ [wagner@Unknown container]$ [wagner@Unknown container]$ [wagner@Unknown container]$ [wagner@Unknown container]$ [wagner@Unknown container]$ [2] 17750
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [wagner@Unknown container]$ [3] 2865
 
 ** Rodando o eclipse IDE
    
@@ -81,6 +83,11 @@
       #starts code
       $ECLIPSE_HOME/eclipse &
    #+END_SRC
+
+   #+RESULTS: rodando o eclipse IDE
+   : 
+   : [4] 3070
+
 * Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando nossas ferramentas instaladas
    A ideia aqui e so acessar pra ver se esta tudo funcionando
@@ -90,8 +97,6 @@
 
     pra ver os logs do camunda, usar o comando abaixo...
 
-    tail -f /home/wagner/wagnerdocri@gmail.com3/progsativos/camunda/server/apache-tomcat-9.0.19/logs/catalina.out
-    
     Usuario: Administrador
 
     Senha: Administrador
@@ -99,82 +104,74 @@
 **** api rest
      Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
 
-***** Deployments
+***** Deployments 
 
-      
-   #+NAME:                     
+   #+NAME:qtos deployments                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "Qtos deployments?"
       echo $(curl --fail --silent --show-error localhost:8080/engine-rest/deployment/count)
       echo "----------------------------------------------------------------------"
-      echo "."
-      
+      echo "."  
+   #+END_SRC
+
+   #+RESULTS: qtos deployments
+   : 
+   : Qtos deployments?
+   : {"count":3}
+   : ----------------------------------------------------------------------
+   : .
+
+
+   
+   #+NAME:fazer deploy
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
       echo "Fazer deploy"
       echo $(curl --fail --silent --show-error localhost:8080/engine-rest/deployment/create)
       echo "----------------------------------------------------------------------"
       echo "."
 
-      
    #+END_SRC
 
-   #+RESULTS: 
-   : 
-   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-
 ***** process definitions
-      
+
 
       
-
-   #+NAME: process definitions rests                    
+   #+NAME:/process-definition/count
    #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code      
-      echo "Qtde de processos instalados no engine"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition/count)
-
+      #starts code
       echo "Engine name"
       echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition/count)
       echo "----------------------------------------------------------------------"
       echo "."
 
-      echo "Get Executions"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution)
-      echo "----------------------------------------------------------------------\n"
-
-      echo "Get Executions"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution)
-
    #+END_SRC
 
-   #+RESULTS: process definitions rests
-   #+begin_example
-
-   Qtde de processos instalados no engine
-   {"count":2}
-   [wagner@nsipc163 camunda]$ Engine name
-   {"count":2}
-   ----------------------------------------------------------------------\n
-   [wagner@nsipc163 camunda]$ Get Executions
-   [{"id":"6184a0c3-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6184a0c3-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"62023563-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"62023563-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"62321e80-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"623c7edf-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"623c7edf-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6243aaff-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6243aaff-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6262cc3b-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null}]
-   ----------------------------------------------------------------------\n
-   [wagner@nsipc163 camunda]$ Get Executions
-   [{"id":"6184a0c3-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6184a0c3-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"62023563-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"62023563-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"62321e80-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6224158a-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"623c7edf-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"623c7edf-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6243aaff-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6243aaff-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6262cc3b-f209-11e9-ae7a-7440bbfe2c2f","processInstanceId":"6258b9e5-f209-11e9-ae7a-7440bbfe2c2f","ended":false,"tenantId":null}]
-   #+end_example
-   
-
-   
-
-   
-   #+NAME:  see result                   
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      cat out.json
-   #+END_SRC
-
-   #+RESULTS: see result
+   #+RESULTS: /process-definition/count
    : 
-   : out.json
+   : Engine name
+   : {"count":3}
+   : ----------------------------------------------------------------------
+   : .
+
+
+   
+   #+NAME: /executionx
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+   #starts code
+   echo "Get Executions"
+   echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution)
+   echo "----------------------------------------------------------------------\n"
+   #+END_SRC
+
+   #+RESULTS: /executionx
+   : 
+   : Get Executions
+   : [{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null}]
+   : ----------------------------------------------------------------------\n
+
+   
    
 *** Acessando o camunda Modeler
 *** Acesando o nosso esb 
@@ -202,10 +199,8 @@
 
    #+END_SRC
 
-
 * Criando o processo
   
-
 * Instalando (Deploy) os artefatos de software para rodar o processo
 
 ** Instalando no esb dependencias necessarias pra rodar nossos servicos
@@ -361,7 +356,6 @@
 
 ** Usando Camunda Modeler e rodando um processo e integrando ele com nossa logica de negocio
    
-
 * Criando um processo
   
   
@@ -400,7 +394,53 @@ remoto, mas dando um mvn archetype:generate vc vai encontrar eesses
 archetypes listados lá...
 
 camunda4.png
-
-
 * referencias
   https://docs.camunda.org/get-started/quick-start/
+
+
+* Desligando todos os tools
+  
+   #+NAME: Desligando todos os tools    
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      #use esse comando abaixo pra parar o camunda
+      $CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
+
+      #O Camunda modeler he so fechar pela interface grafica dele
+
+      #Desligando ESB Talend
+      cd $ESB_HOME && ./bin/stop
+   #+END_SRC
+
+   #+RESULTS: Desligando todos os tools
+   #+begin_example
+
+   CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"  (wd: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda)
+   (wd agora: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/talend/Runtime_ESBSE/container)
+   Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+   Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+   Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+   Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+   Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
+   nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
+   GRAVE: Could not contact [localhost:8005] (base port [8005] and offset [0]). Tomcat may not be running.
+   nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
+   GRAVE: Error stopping Catalina
+   java.net.ConnectException: Connection refused (Connection refused)
+           at java.net.PlainSocketImpl.socketConnect(Native Method)
+           at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+           at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+           at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+           at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+           at java.net.Socket.connect(Socket.java:589)
+           at java.net.Socket.connect(Socket.java:538)
+   (Socket.java:434)
+   (Socket.java:211)
+           at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:513)
+           at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+           at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+           at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+           at java.lang.reflect.Method.invoke(Method.java:498)
+           at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:403)
+           at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:497)
+   #+end_example
