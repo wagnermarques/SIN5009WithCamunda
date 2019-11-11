@@ -1,5 +1,7 @@
 package br.usp.sin5009;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -16,12 +18,35 @@ public class LoggerDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) throws Exception {
 		LOGGER.info("<<<<< public class LoggerDelegate implements JavaDelegate {...");
 		LOGGER.info("<<<<< public void execute(DelegateExecution execution) throws Exception {...");
+
+		String processDefinitionId = execution.getProcessDefinitionId();		
+		String currentActivityId = execution.getCurrentActivityId();
+		String currentActivityName = execution.getCurrentActivityName();
+		String processInstanceId = execution.getProcessInstanceId();	
+		String processBusinessKey = execution.getProcessBusinessKey();
+		String executionId = execution.getId();
 		
-		LOGGER.info("##### \n\n  ... LoggerDelegate invoked by " + "\n\n processDefinitionId="
-				+ execution.getProcessDefinitionId() + ", \n\n activtyId=" + execution.getCurrentActivityId()
-				+ ", \n\n activtyName='" + execution.getCurrentActivityName() + "'" + ", \n\n processInstanceId="
-				+ execution.getProcessInstanceId() + ", \n\n businessKey=" + execution.getProcessBusinessKey()
-				+ ", \n\n executionId=" + execution.getId() + " \n\n");
+		LOGGER.info(processDefinitionId);
+		LOGGER.info(processInstanceId);
+		LOGGER.info(processBusinessKey);
+		LOGGER.info(executionId);
+		LOGGER.info(currentActivityId);
+		LOGGER.info(currentActivityName);
+		
+		
+		Map<String, Object> variables = execution.getVariables();
+		Iterator<String> iterator = variables.keySet().iterator();
+		while(iterator.hasNext()) {
+			String variableName = iterator.next();
+			Object variableValue = variables.get(variableName);
+			LOGGER.info(variableName +" = "+variableValue);
+		}
+			
+//		LOGGER.info("\n\n  ... LoggerDelegate invoked by " + "\n\n processDefinitionId="
+//				+ execution.getProcessDefinitionId() + ", \n\n activtyId=" + execution.getCurrentActivityId()
+//				+ ", \n\n activtyName='" + execution.getCurrentActivityName() + "'" + ", \n\n processInstanceId="
+//				+ execution.getProcessInstanceId() + ", \n\n businessKey=" + execution.getProcessBusinessKey()
+//				+ ", \n\n executionId=" + execution.getId() + " \n\n");
 
 		LOGGER.info(">>>>>");
 	}
