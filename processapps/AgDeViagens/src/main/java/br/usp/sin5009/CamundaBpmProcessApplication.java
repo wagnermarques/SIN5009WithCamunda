@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class CamundaBpmProcessApplication extends ServletProcessApplication {
 
 
-	private static final String PROCESS_DEFINITION_KEY = "AgDeViagens";
+	private static final String PROCESS_DEFINITION_KEY = "procNameCliente";
 	private final Logger LOGGER = Logger.getLogger(CamundaBpmProcessApplication.class.getName());
 	 
 	
@@ -29,7 +29,7 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication {
   @PostDeploy
   public void onDeploymentFinished(ProcessEngine processEngine) {
 	  
-	  LOGGER.info("@PostDeploy public void onDeploymentFinished(ProcessEngine processEngine) {... ");
+	  LOGGER.info("##### @PostDeploy public void onDeploymentFinished(ProcessEngine processEngine) {... ");
 	  
 	  //String canal_de_comunicacao = 
 	  // start an initial process instance

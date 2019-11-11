@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="ProcessoAgenciaDeViagens">
 	<property environment="env"/>
-	<target name="copy.war.into.tomcat" >	    
-	    <echo> ### ANT fazendo deploy do processo em : ${env.CAMUNDA_BPM_PLATFORM_DEPLOY_DIR}</echo>
+	<target name="copy.war.into.tomcat" >
+		<echo> ### ANT fazendo deploy do processo em : ${env.CAMUNDA_BPM_PLATFORM_DEPLOY_DIR}</echo>
 		<copy file="target/AgDeViagens.war" todir="${env.CAMUNDA_BPM_PLATFORM_DEPLOY_DIR}" />
 	</target>
-	
+
+
+	<target name="undeploy.war.from.tomcat" >
+		<echo> ### ANT fazendo UNdeploy do processo em :${env.CAMUNDA_BPM_PLATFORM_DEPLOY_DIR}</echo>
+		<delete file="${env.CAMUNDA_BPM_PLATFORM_DEPLOY_DIR}/AgDeViagens.war"/>
+	</target>
+
 </project>

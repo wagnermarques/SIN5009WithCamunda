@@ -157,6 +157,22 @@
              Follow the instructions in build.properties.example to make it work!-->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>undeployOnCleanPackage</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ant antfile="${basedir}/build.xml">
+                  <target name="undeploy.war.from.tomcat" />
+                </ant>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
         <configuration>
           <tasks>
             <ant antfile="${basedir}/build.xml">

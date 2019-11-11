@@ -1,8 +1,7 @@
 #+Title: Camunda Anots
 #+Subtitle:
 
-* Introducao e Apresentacao deste material
-   
+* Introducao e Apresentacao deste material   
 * Download e Instalacao
 ** Setup Environment 
  
@@ -16,10 +15,14 @@
      export ESB_CMD="$ESB_HOME/bin/client -r 7"
      export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
      export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
+     export M2_REPO=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+     
      export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
   #+END_SRC
 
   #+RESULTS: setup environment
+  : 
+  : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
 
 * Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Rodando o camunda platform
@@ -43,13 +46,12 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [1] 2664
-  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [2] 2665
+  : [5] 10431
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -60,7 +62,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : [1] 17089
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [3] 6318
 
 ** Rodando nosso ESB (Talend )
 
@@ -86,7 +89,7 @@
 
    #+RESULTS: rodando o eclipse IDE
    : 
-   : [4] 3070
+   : [4] 6418
 
 * Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando nossas ferramentas instaladas
@@ -101,10 +104,10 @@
 
     Senha: Administrador
 
-**** api rest
-     Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
+*** Acessando o camunda BPM (Api rest)
+    Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
 
-***** Deployments 
+**** Deployments 
 
    #+NAME:qtos deployments                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -118,11 +121,9 @@
    #+RESULTS: qtos deployments
    : 
    : Qtos deployments?
-   : {"count":3}
+   : {"count":5}
    : ----------------------------------------------------------------------
    : .
-
-
    
    #+NAME:fazer deploy
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -134,10 +135,10 @@
 
    #+END_SRC
 
-***** process definitions
-
-
-      
+**** process definitions
+     https://docs.camunda.org/manual/7.5/reference/rest/process-definition/
+     
+***** Quantos processos estao definidos?
    #+NAME:/process-definition/count
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
@@ -151,11 +152,79 @@
    #+RESULTS: /process-definition/count
    : 
    : Engine name
-   : {"count":3}
+   : {"count":5}
    : ----------------------------------------------------------------------
    : .
 
 
+***** Quais sao eles?
+   
+   #+NAME: quais sao os projetos definidos                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo "Engine name"
+      echo $(curl --fail --silent --show-error -o process-definition.json localhost:8080/engine-rest/process-definition && cat process-definition.json)
+      echo "----------------------------------------------------------------------"
+      echo "."
+   #+END_SRC
+
+   #+RESULTS: quais sao os projetos definidos
+   : 
+   : Engine name
+   : [{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":1,"resource":"invoice.v1.bpmn","deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},{"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":2,"resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true}]
+   : ----------------------------------------------------------------------
+   : .
+
+***** undeploy     
+
+     #+NAME:deployments list e delete                     
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo "List deployments"
+      #echo $(curl -X DELETE --fail --silent --show-error localhost:8080/engine-rest/deploymentId
+      echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/ab2b0a11-012a-11ea-8864-7440bbfe2c2f?cascade=true)
+      echo "----------------------------------------------------------------------"
+      echo "."  
+   #+END_SRC
+
+   #+RESULTS: deployments list e delete
+   : 
+   : List deployments
+   : [wagner@localhost SIN5009WithCamunda]$
+   : ----------------------------------------------------------------------
+   : .
+
+
+**** iniciando um processo
+     https://docs.camunda.org/manual/7.7/reference/rest/process-definition/post-start-process-instance/
+     
+   #+NAME: iniciando processo                     
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+     #starts code     
+      echo "Iniciando processo"
+      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution/count)
+      #echo .
+      #echo $(curl --fail --silent --show-error -X POST localhost:8080/engine-rest/process-definition/idProcessCliente:2:092b3210-0192-11ea-b2fe-7440bbfe2c2f/start --data '{"businessKey"="5","canal_de_comunicacao"="email"})
+      #echo .
+      #echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution/count)
+      #echo "----------------------------------------------------------------------"
+      #echo "."
+   #+END_SRC
+
+   #+RESULTS: iniciando processo
+   : 
+   : Iniciando processo
+   : {"count":8}
+   : .
+   : curl: (22) The requested URL returned error: 415
+   : .
+   : {"count":8}
+   : ----------------------------------------------------------------------
+   : .
+
+
+**** Quantos estao executando?
+   https://docs.camunda.org/manual/7.5/reference/rest/execution/
    
    #+NAME: /executionx
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -168,10 +237,17 @@
    #+RESULTS: /executionx
    : 
    : Get Executions
-   : [{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null}]
+   : [{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   :  {"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null}]
    : ----------------------------------------------------------------------\n
 
-   
+
    
 *** Acessando o camunda Modeler
 *** Acesando o nosso esb 
@@ -201,6 +277,31 @@
 
 * Criando o processo
   
+   #+NAME: mvn clean package antrun:copy.war.into.tomcat
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+     cd $thisRepoDir/processapps/AgDeViagens
+     mvn clean package antrun:copy.war.into.tomcat
+   #+END_SRC
+
+   #+RESULTS: mvn clean package antrun:copy.war.into.tomcat
+   #+begin_example
+
+   [[1;34mINFO[m] Scanning for projects...
+   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+   [[1;34mINFO[m] [1;31mBUILD FAILURE[m
+   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+   [[1;34mINFO[m] Total time:  1.753 s
+   [[1;34mINFO[m] Finished at: 2019-11-06T21:12:51-02:00
+   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+   [1m[Help 1][m
+   [[1;31mERROR[m] 
+   [[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+   [[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+   [[1;31mERROR[m] 
+   [[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+   [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoNotFoundException
+   #+end_example
+
 * Instalando (Deploy) os artefatos de software para rodar o processo
 
 ** Instalando no esb dependencias necessarias pra rodar nossos servicos

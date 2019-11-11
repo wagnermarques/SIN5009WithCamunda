@@ -16,13 +16,13 @@ public class LoggerDelegate implements JavaDelegate {
   
   public void execute(DelegateExecution execution) throws Exception {
     
-    LOGGER.info("\n\n  ... LoggerDelegate invoked by "
-            + "processDefinitionId=" + execution.getProcessDefinitionId()
-            + ", activtyId=" + execution.getCurrentActivityId()
-            + ", activtyName='" + execution.getCurrentActivityName() + "'"
-            + ", processInstanceId=" + execution.getProcessInstanceId()
-            + ", businessKey=" + execution.getProcessBusinessKey()
-            + ", executionId=" + execution.getId()
+    LOGGER.info("##### \n\n  ... LoggerDelegate invoked by "
+            + "\n\n processDefinitionId=" + execution.getProcessDefinitionId()
+            + ", \n\n activtyId=" + execution.getCurrentActivityId()
+            + ", \n\n activtyName='" + execution.getCurrentActivityName() + "'"
+            + ", \n\n processInstanceId=" + execution.getProcessInstanceId()
+            + ", \n\n businessKey=" + execution.getProcessBusinessKey()
+            + ", \n\n executionId=" + execution.getId()
             + " \n\n");
     
   }
