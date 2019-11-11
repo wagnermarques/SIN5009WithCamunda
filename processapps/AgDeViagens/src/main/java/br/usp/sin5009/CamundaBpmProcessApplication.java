@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class CamundaBpmProcessApplication extends ServletProcessApplication {
 
 
-	private static final String PROCESS_DEFINITION_KEY = "procNameCliente";
+	private static final String PROCESS_DEFINITION_KEY = "procIdCliente";
 	private final Logger LOGGER = Logger.getLogger(CamundaBpmProcessApplication.class.getName());
 	 
 	

@@ -181,8 +181,9 @@
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
+      deploymentId=a71872e9-04aa-11ea-a7ce-d1ba4f139da4
       #echo $(curl -X DELETE --fail --silent --show-error localhost:8080/engine-rest/deploymentId
-      echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/ab2b0a11-012a-11ea-8864-7440bbfe2c2f?cascade=true)
+      echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
@@ -214,14 +215,7 @@
    #+RESULTS: iniciando processo
    : 
    : Iniciando processo
-   : {"count":8}
-   : .
-   : curl: (22) The requested URL returned error: 415
-   : .
-   : {"count":8}
-   : ----------------------------------------------------------------------
-   : .
-
+   : {"count":10}
 
 **** Quantos estao executando?
    https://docs.camunda.org/manual/7.5/reference/rest/execution/
@@ -237,16 +231,31 @@
    #+RESULTS: /executionx
    : 
    : Get Executions
-   : [{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+   : [{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f",
+   :   "processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
    :  {"id":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
    :  {"id":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
-   :  {"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
-   :  {"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
-   :  {"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
-   :  {"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
-   :  {"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null}]
+   :  {"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","processInstanceId":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","ended":false,"tenantId":null},{"id":"a80db302-04ab-11ea-a7ce-d1ba4f139da4","processInstanceId":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","ended":false,"tenantId":null}]
    : ----------------------------------------------------------------------\n
 
+**** Terminando um processo
+     
+     nao funcionando ainda...
+   #+NAME: terminate process                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code      
+         echo "Terminating process...."
+         caseId=a806ae1a-04ab-11ea-a7ce-d1ba4f139da4
+         echo $(curl -X POST --fail --silent --show-error localhost:8080/engine-rest/case-instance/{a806ae1a-04ab-11ea-a7ce-d1ba4f139da4}/terminate)
+         echo "----------------------------------------------------------------------\n"
+
+   #+END_SRC
+
+   #+RESULTS: terminate process
+   : 
+   : Terminating process....
+   : [wagner@localhost SIN5009WithCamunda]$ curl: (22) The requested URL returned error: 415
+   : ----------------------------------------------------------------------\n
 
    
 *** Acessando o camunda Modeler
