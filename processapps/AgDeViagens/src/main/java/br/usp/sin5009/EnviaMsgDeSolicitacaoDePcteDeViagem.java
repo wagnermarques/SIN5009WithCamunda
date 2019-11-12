@@ -18,25 +18,57 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		LOGGER.info("##### -------------------------------------------");
-		LOGGER.info("##### EnviaSolicitacaoDePcteDeViagem executing...");
-		
-		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
-	    //runtimeService.startProcessInstanceByMessage("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem");
+		LOGGER.info("\n\n\n\n[[[[[[ -------------------------------------------");
+		LOGGER.info("[[[[[[ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {...");
 
-		MessageCorrelationResult correlateWithResult = execution.getProcessEngineServices().getRuntimeService()
-		.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem")
-		.correlateWithResult();
+		String thisProcessExecutionBusinessKey = execution.getBusinessKey();
+		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
+		MessageCorrelationResult correlateWithResult = null;
+
+		// runtimeService.startProcessInstanceByMessage("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem");
+
+		/* 
+		 * Se o nosso processo cliente tiver um business key a gente passa ele pra agencia de viagens via msg
+		 */
+		if (thisProcessExecutionBusinessKey != null) {
+			correlateWithResult = runtimeService
+					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem")
+					.processInstanceBusinessKey(thisProcessExecutionBusinessKey).correlateWithResult();
+		} else {
+			correlateWithResult = runtimeService
+					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem").correlateWithResult();
+		}
 		
-		LOGGER.info("correlateWithResult.toString()...");
-		LOGGER.info(correlateWithResult.toString());
-		
-		
+		LOGGER.info("**** entendendo correlateWithResult...");
+		MessageCorrelationResultType resultType = correlateWithResult.getResultType();
+
+		String businessKey = correlateWithResult.getProcessInstance().getBusinessKey();
+		String caseInstanceId = correlateWithResult.getProcessInstance().getCaseInstanceId();
+		String processDefinitionId = correlateWithResult.getProcessInstance().getProcessDefinitionId();
+		String processInstanceId = correlateWithResult.getProcessInstance().getProcessInstanceId();
+		LOGGER.info("correlateWithResult.getResultType().name() = " + correlateWithResult.getResultType().name());
+		LOGGER.info("correlateWithResult.getProcessInstance().getBusinessKey() = "
+				+ correlateWithResult.getProcessInstance().getBusinessKey());
+		LOGGER.info("correlateWithResult.getProcessInstance().getCaseInstanceId() = "
+				+ correlateWithResult.getProcessInstance().getCaseInstanceId());
+		LOGGER.info("correlateWithResult.getProcessInstance().getProcessDefinitionId() = "
+				+ correlateWithResult.getProcessInstance().getProcessDefinitionId());
+		LOGGER.info("correlateWithResult.getProcessInstance().getProcessInstanceId() = "
+				+ correlateWithResult.getProcessInstance().getProcessInstanceId());
+
+//		String id = correlateWithResult.getExecution().getId();
+//		boolean ended = correlateWithResult.getExecution().isEnded();
+//		boolean suspended = correlateWithResult.getExecution().isSuspended();		
+//		LOGGER.info("correlateWithResult.getExecution().isEnded() = "+ String.valueOf(correlateWithResult.getExecution().isEnded()));
+//		LOGGER.info("correlateWithResult.getExecution().isEnded() = " + String.valueOf(correlateWithResult.getExecution().isEnded()));
+//		LOGGER.info("correlateWithResult.getExecution().isSuspended() = " + String.valueOf(correlateWithResult.getExecution().isSuspended()));
+
+		LOGGER.info("]]]]]] -------------------------------------------");
+
 //		Map<String, Object> variablesMsgPayload = new HashMap<String, Object>();
 //		variablesMsgPayload.put("messageName", "SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem");
 //		variablesMsgPayload.put("businesskey", "1");
 //                variablesMsgPayload.put("canal_de_comunicacao", "email");
-
 
 //		String processInstanceId = correlateWithResult.getExecution().getProcessInstanceId();
 //		ProcessInstance processInstance = correlateWithResult.getProcessInstance();

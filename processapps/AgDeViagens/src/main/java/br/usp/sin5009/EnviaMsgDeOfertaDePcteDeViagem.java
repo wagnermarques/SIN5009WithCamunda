@@ -15,7 +15,7 @@ public class EnviaMsgDeOfertaDePcteDeViagem implements JavaDelegate {
 	
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
-		LOGGER.info("##### EnviaMsgDeOfertaDePcteDeViagem executing...");
+		LOGGER.info("\n\n\n\n##### EnviaMsgDeOfertaDePcteDeViagem executing...");
 				
 		
 		String canal_de_comunicacao = execution.getVariable("canal_de_comunicacao").toString();

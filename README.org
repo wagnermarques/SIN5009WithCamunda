@@ -21,8 +21,6 @@
   #+END_SRC
 
   #+RESULTS: setup environment
-  : 
-  : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
 
 * Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Rodando o camunda platform
@@ -46,12 +44,13 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [5] 10431
+  : [1] 2461
+  : [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [2] 2462
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -62,8 +61,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-   : [3] 6318
+   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
+   : [5] 12026
 
 ** Rodando nosso ESB (Talend )
 
@@ -89,7 +88,7 @@
 
    #+RESULTS: rodando o eclipse IDE
    : 
-   : [4] 6418
+   : [4] 11670
 
 * Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando nossas ferramentas instaladas
@@ -106,6 +105,55 @@
 
 *** Acessando o camunda BPM (Api rest)
     Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
+
+
+**** Quantos processos estao definidos?
+
+   #+NAME:/process-definition/count
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo "Engine name"
+      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition/count)
+      echo "----------------------------------------------------------------------"
+      echo "."
+
+   #+END_SRC
+
+   #+RESULTS: /process-definition/count
+   : 
+   : Engine name
+   : {"count":2}
+   : ----------------------------------------------------------------------
+   : .
+
+
+   
+   #+NAME:  quais processos estao definidos?                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo "Engine name"
+      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition)
+      echo "----------------------------------------------------------------------"
+      echo "."
+   #+END_SRC
+
+   #+RESULTS: quais processos estao definidos?
+   : 
+   : Engine name
+   : [{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f",
+   :   "key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL",
+   :   "description":null,"name":"Invoice Receipt","version":1,
+   :   "resource":"invoice.v1.bpmn",
+   :   "deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,
+   :   "tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},
+   :  {"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f",
+   :   "key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL",
+   :   "description":null,"name":"Invoice Receipt","version":2,
+   :   "resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true}]
+   : ----------------------------------------------------------------------
+   : .
+
+
 
 **** Deployments 
 
@@ -135,29 +183,9 @@
 
    #+END_SRC
 
-**** process definitions
-     https://docs.camunda.org/manual/7.5/reference/rest/process-definition/
-     
-***** Quantos processos estao definidos?
-   #+NAME:/process-definition/count
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Engine name"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition/count)
-      echo "----------------------------------------------------------------------"
-      echo "."
-
-   #+END_SRC
-
-   #+RESULTS: /process-definition/count
-   : 
-   : Engine name
-   : {"count":5}
-   : ----------------------------------------------------------------------
-   : .
 
 
-***** Quais sao eles?
+**** Quais sao eles?
    
    #+NAME: quais sao os projetos definidos                   
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -175,13 +203,13 @@
    : ----------------------------------------------------------------------
    : .
 
-***** undeploy     
+**** undeploy     
 
      #+NAME:deployments list e delete                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
-      deploymentId=a71872e9-04aa-11ea-a7ce-d1ba4f139da4
+      deploymentId=6b145033-0574-11ea-ade2-b88584fd06d6
       #echo $(curl -X DELETE --fail --silent --show-error localhost:8080/engine-rest/deploymentId
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
@@ -191,7 +219,7 @@
    #+RESULTS: deployments list e delete
    : 
    : List deployments
-   : [wagner@localhost SIN5009WithCamunda]$
+   : [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 

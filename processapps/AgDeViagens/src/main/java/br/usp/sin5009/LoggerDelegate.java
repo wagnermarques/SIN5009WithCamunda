@@ -16,7 +16,7 @@ public class LoggerDelegate implements JavaDelegate {
 	private final Logger LOGGER = Logger.getLogger(LoggerDelegate.class.getName());
 
 	public void execute(DelegateExecution execution) throws Exception {
-		LOGGER.info("<<<<< public class LoggerDelegate implements JavaDelegate {...");
+		LOGGER.info("\n\n\n\n<<<<< public class LoggerDelegate implements JavaDelegate {...");
 		LOGGER.info("<<<<< public void execute(DelegateExecution execution) throws Exception {...");
 
 		String processDefinitionId = execution.getProcessDefinitionId();		
@@ -26,12 +26,12 @@ public class LoggerDelegate implements JavaDelegate {
 		String processBusinessKey = execution.getProcessBusinessKey();
 		String executionId = execution.getId();
 		
-		LOGGER.info(processDefinitionId);
-		LOGGER.info(processInstanceId);
-		LOGGER.info(processBusinessKey);
-		LOGGER.info(executionId);
-		LOGGER.info(currentActivityId);
-		LOGGER.info(currentActivityName);
+		LOGGER.info("processDefinitionId = " + processDefinitionId);
+		LOGGER.info("processInstanceId = " + processInstanceId);
+		LOGGER.info("processBusinessKey = " + processBusinessKey);
+		LOGGER.info("executionId = " + executionId);
+		LOGGER.info("currentActivityId = " + currentActivityId);
+		LOGGER.info("currentActivityName = " + currentActivityName);
 		
 		
 		Map<String, Object> variables = execution.getVariables();
