@@ -20,7 +20,7 @@ public class ProcessUnitTest {
 
   @ClassRule
   @Rule
-  public static ProcessEngineRule rule = TestCoverageProcessEngineRuleBuilder.create().build();
+  public static ProcessEngineRule processEngineRule = TestCoverageProcessEngineRuleBuilder.create().build();
 
   private static final String PROCESS_DEFINITION_KEY = "AgDeViagens";
 
@@ -30,7 +30,7 @@ public class ProcessUnitTest {
 
   @Before
   public void setup() {
-    init(rule.getProcessEngine());
+    init(processEngineRule.getProcessEngine());
   }
 
   /**

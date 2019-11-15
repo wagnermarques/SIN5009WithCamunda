@@ -9,15 +9,20 @@
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #starts code
      export thisRepoDir=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda
+     export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
+     export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
+
      export ECLIPSE_HOME=$thisRepoDir/tools/eclipse-jee-2019-09-R-linux-gtk-x86_64
+     
+     export M2_REPO=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+
      export ESB_HOME=$thisRepoDir/tools/talend/Runtime_ESBSE/container
      export ESB_DEPLOY_DIR=$ESB_HOME/deploy
      export ESB_CMD="$ESB_HOME/bin/client -r 7"
-     export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
-     export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
-     export M2_REPO=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
      
      export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
+     export SOAPUI_HOME=
+     export VerLogsCmd="tail -f /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/logs/catalina.out"
   #+END_SRC
 
   #+RESULTS: setup environment
@@ -28,8 +33,8 @@
    O comando abaixo roda a plataforma camunda 
    Sera aberta no navegador a seguinte url
    http://localhost:8080/camunda/app/admin/default/#/login
-
    
+
    #+NAME:                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
@@ -44,13 +49,12 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [1] 2461
-  : [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [2] 2462
+  : [3] 5699
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -61,8 +65,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-   : [5] 12026
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [3] 2665
 
 ** Rodando nosso ESB (Talend )
 
@@ -88,7 +92,7 @@
 
    #+RESULTS: rodando o eclipse IDE
    : 
-   : [4] 11670
+   : [1] 2893
 
 * Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando nossas ferramentas instaladas
@@ -199,7 +203,7 @@
    #+RESULTS: quais sao os projetos definidos
    : 
    : Engine name
-   : [{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":1,"resource":"invoice.v1.bpmn","deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},{"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":2,"resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true}]
+   : [{"id":"CompanhiaAerea_0d8u3pr:1:98930796-05a0-11ea-ade2-b88584fd06d6","key":"CompanhiaAerea_0d8u3pr","category":"http://bpmn.io/schema/bpmn","description":null,"name":"CompanhiaAerea","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":null,"historyTimeToLive":null,"startableInTasklist":true},{"id":"CompanhiaAerea_0d8u3pr:2:2d3c79d3-0636-11ea-8ac8-b88584fd06d6","key":"CompanhiaAerea_0d8u3pr","category":"http://bpmn.io/schema/bpmn","description":null,"name":"CompanhiaAerea","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":null,"historyTimeToLive":null,"startableInTasklist":true},{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":1,"resource":"invoice.v1.bpmn","deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},{"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":2,"resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true},{"id":"procIdAgDeViagens:1:98930794-05a0-11ea-ade2-b88584fd06d6","key":"procIdAgDeViagens","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameAgDeViagens","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdAgDeViagens:2:2d3b6861-0636-11ea-8ac8-b88584fd06d6","key":"procIdAgDeViagens","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameAgDeViagens","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdCliente:1:9892e083-05a0-11ea-ade2-b88584fd06d6","key":"procIdCliente","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameCliente","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdCliente:2:2d3acc20-0636-11ea-8ac8-b88584fd06d6","key":"procIdCliente","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameCliente","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true}]
    : ----------------------------------------------------------------------
    : .
 
@@ -209,8 +213,7 @@
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
-      deploymentId=6b145033-0574-11ea-ade2-b88584fd06d6
-      #echo $(curl -X DELETE --fail --silent --show-error localhost:8080/engine-rest/deploymentId
+      deploymentId=285500be-0732-11ea-83ce-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -219,19 +222,64 @@
    #+RESULTS: deployments list e delete
    : 
    : List deployments
-   : [wagner@nsi_pc_149_3 SIN5009WithCamunda]$ [wagner@nsi_pc_149_3 SIN5009WithCamunda]$
+   : [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
 
+   A chamada rest acima realmente faz o undeploy dos processos
+   entretanto o arquivo war continua no diretorio de deploy do
+   servidor.
+
+
+   Pra fazer o undeploy do war basta dar o comando 
+   
+   mvn clean
+
+   Fazer o undeploy do war com mvn clean nao faz o undeploy do
+   processo no cockpit do camunda.
+
+   
+   #+NAME: ls deploy dir
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+            ls -l $CAMUNDA_BPM_PLATFORM_DEPLOY_DIR
+   #+END_SRC
+
+   #+RESULTS: ls deploy dir
+   #+begin_example
+
+   total 5100
+   drwxr-x---.  5 wagner wagner    4096 nov 14 19:59 AgDeViagens
+   -rw-rw-r--.  1 wagner wagner 5173874 nov 14 19:59 AgDeViagens.war
+   drwxrwxr-x.  7 wagner wagner    4096 out 24 15:07 camunda
+   drwxrwxr-x.  6 wagner wagner    4096 out 24 15:07 camunda-invoice
+   drwxr-xr-x.  4 wagner wagner    4096 mai 22 09:24 camunda-welcome
+   drwxr-x---. 14 wagner wagner    4096 out 24 15:07 docs
+   drwxrwxr-x.  4 wagner wagner    4096 out 24 15:07 engine-rest
+   drwxr-x---.  6 wagner wagner    4096 out 24 15:07 examples
+   drwxrwxr-x.  4 wagner wagner    4096 out 24 15:07 h2
+   drwxr-x---.  5 wagner wagner    4096 out 24 15:07 host-manager
+   drwxr-x---.  5 wagner wagner    4096 out 24 15:07 manager
+   drwxr-x---.  3 wagner wagner    4096 out 24 15:07 ROOT
+   #+end_example
+
 **** iniciando um processo
+     Pra ler um pouco mais sobre como instanciar um processo fazendo
+     uma chamada rest, acesse a url abaixo:
+
      https://docs.camunda.org/manual/7.7/reference/rest/process-definition/post-start-process-instance/
+
      
    #+NAME: iniciando processo                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
      #starts code     
       echo "Iniciando processo"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/execution/count)
+      processDefinitionId=procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f
+      echo .
+      echo $("http://localhost:8080/engine-rest/$processDefinitionId/start")
+      echo .
+      echo $(curl -X POST --fail --silent --show-error localhost:8080/engine-rest/$processDefinitionId/start)
       #echo .
       #echo $(curl --fail --silent --show-error -X POST localhost:8080/engine-rest/process-definition/idProcessCliente:2:092b3210-0192-11ea-b2fe-7440bbfe2c2f/start --data '{"businessKey"="5","canal_de_comunicacao"="email"})
       #echo .
@@ -243,7 +291,11 @@
    #+RESULTS: iniciando processo
    : 
    : Iniciando processo
-   : {"count":10}
+   : [wagner@localhost SIN5009WithCamunda]$ .
+   : bash: http://localhost:8080/engine-rest/procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f/start: No such file or directory
+   : .
+   : curl: (22) The requested URL returned error: 404
+
 
 **** Quantos estao executando?
    https://docs.camunda.org/manual/7.5/reference/rest/execution/
@@ -312,6 +364,14 @@
 
    #+END_SRC
 
+**** Iniciando o processo
+     
+     
+   #+NAME: Iniciando o processo
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo $(curl localhost:8080/engine-rest/
+   #+END_SRC
 * Criando o processo
   
    #+NAME: mvn clean package antrun:copy.war.into.tomcat

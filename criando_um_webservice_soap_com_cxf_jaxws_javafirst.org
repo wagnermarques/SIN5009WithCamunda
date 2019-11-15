@@ -1,0 +1,47 @@
+#+Title: cxf-jaxws-javafirst (Creates a project for developing a Web service starting from Java code)
+#+Subtitle:
+
+   Para criar um webservice SOAP basta criar um projeto com o
+   archetype do 
+
+   cxf-jaxws-javafirst (Creates a project for developing a Web service starting from Java code)
+
+   Na linha de comando dê um mvn archetype e encontre o archetype *cxf-jaxws-javafirst*
+
+
+   Fiz isso e o meu meu projeto foi criado no diretório conforme
+   mostrado abaixo
+
+   eu criei uma variável chamada dirDoProjeto pra nao precisar ficar
+   digitando toda vez o caminho do meu projeto, mesmo porque pra
+   organizar os projetos acabo utilizando caminhos longos o que dá
+   muita preguiça na hora de digita-los..
+   
+
+   O repositorio onde vc vai encontrar esse projeto esta em 
+
+   https://github.com/wagnermarques/SIN5009NonBpmnEngineArtifacts
+
+   Considerando que eu fiz alterações no projeto em relação ao
+   original criado pelo archetype do maven, vale a pena olhar as
+   diferencas já que nao vai dar tempo de colocar todas elas aqui
+   nesse texto de apresentacao..
+
+   
+   #+NAME: setup dirDoProjeto
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      export dirDoProjeto=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009NonBpmnEngineArtifacts/cxf-jaxws-javafirst-webservice      
+   #+END_SRC
+
+   #+RESULTS: setup dirDoProjeto
+
+   #+RESULTS: 
+   : 
+   : [wagner@Unknown SIN5009NonBpmnEngineArtifacts]$ [wagner@Unknown cxf-jaxws-javafirst-webservice]$ /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009NonBpmnEngineArtifacts/cxf-jaxws-javafirst-webservice
+
+
+   O projeto já cria o webservice, agora a gente tem que fazer o
+   deploy
+
+

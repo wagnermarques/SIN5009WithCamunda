@@ -33,10 +33,12 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 		if (thisProcessExecutionBusinessKey != null) {
 			correlateWithResult = runtimeService
 					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem")
-					.processInstanceBusinessKey(thisProcessExecutionBusinessKey).correlateWithResult();
+					.processInstanceBusinessKey(thisProcessExecutionBusinessKey)
+					.correlateWithResult();
 		} else {
 			correlateWithResult = runtimeService
-					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem").correlateWithResult();
+					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem")
+					.correlateWithResult();
 		}
 		
 		LOGGER.info("**** entendendo correlateWithResult...");

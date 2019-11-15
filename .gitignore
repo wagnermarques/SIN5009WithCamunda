@@ -1,6 +1,12 @@
+#protect credentials
+**/**/mail-config.properties
+**/**/credentials.txt
 
 #servidor do camunda
-tools/camunda_bpm/*
+tools/camunda_bpm/
+
+
+
 
 #modeler do camunda
 tools/camunda-modeler-3.3.5-linux-x64/*
