@@ -10,10 +10,6 @@
     <bpmn:startEvent id="StartEventProcessStarted" name="Process&#10;started">
       <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Task_Logar" name="Logger" camunda:class="br.usp.sin5009.LoggerDelegate">
-      <bpmn:incoming>SequenceFlow_0xoe2rg</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1q60rk3</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:manualTask id="Task_1axu1i1" name="Planejamento da viagem e do  canal de comunic">
       <bpmn:incoming>SequenceFlow1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1pv1c8r</bpmn:outgoing>
@@ -33,7 +29,7 @@
     <bpmn:intermediateThrowEvent id="EnviaMsgDeSolicitacaoDePcteDeViagem" name="Envia Msg de Solic Pcte de Viagem">
       <bpmn:incoming>SequenceFlow_1nz8lb9</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1cccacj</bpmn:outgoing>
-      <bpmn:messageEventDefinition messageRef="Message_1vy6d0o" camunda:class="br.usp.sin5009.EnviaMsgDeSolicitacaoDePcteDeViagem" />
+      <bpmn:messageEventDefinition messageRef="Message_1vy6d0o" camunda:expression="#{Named_EnviaMsgDeSolicitacaoDePcteDeViagem.invokeProcess(&#39;procIdCliente&#39;, execution)}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1nz8lb9" sourceRef="Task_EnviaEmail" targetRef="EnviaMsgDeSolicitacaoDePcteDeViagem" />
     <bpmn:sequenceFlow id="SequenceFlow_1q60rk3" sourceRef="Task_Logar" targetRef="Task_EnviaEmail" />
@@ -42,7 +38,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1pv1c8r" sourceRef="Task_1axu1i1" targetRef="Task_SetupPlanoDeViagem" />
     <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEventProcessStarted" targetRef="Task_1axu1i1" />
     <bpmn:sequenceFlow id="SequenceFlow_0j91tiw" sourceRef="OfertaDePcteDeViagemRecebida_09qp1f4" targetRef="EndEvent_1qjp6gg" />
-    <bpmn:scriptTask id="Task_EnviaEmail" name="Envia Email" scriptFormat="groovy">
+    <bpmn:scriptTask id="Task_EnviaEmail" name="Testa Groovy Script" scriptFormat="groovy">
       <bpmn:incoming>SequenceFlow_1q60rk3</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1nz8lb9</bpmn:outgoing>
       <bpmn:script>qtdeTipoDeCli = 0
@@ -54,6 +50,10 @@
 
         println "Qtde de Tipos de Clientes: " + qtdeTipoDeCli</bpmn:script>
     </bpmn:scriptTask>
+    <bpmn:manualTask id="Task_Logar" name="Logger">
+      <bpmn:incoming>SequenceFlow_0xoe2rg</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1q60rk3</bpmn:outgoing>
+    </bpmn:manualTask>
   </bpmn:process>
   <bpmn:process id="procIdAgDeViagens" name="procNameAgDeViagens" isExecutable="true" camunda:versionTag="0.1">
     <bpmn:endEvent id="EndEvent_0fizn7a">
@@ -126,9 +126,6 @@
       <bpmndi:BPMNShape id="ManualTask_1im010s_di" bpmnElement="Task_1axu1i1">
         <dc:Bounds x="260" y="350" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0k8zul2_di" bpmnElement="Task_Logar">
-        <dc:Bounds x="620" y="350" width="100" height="80" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
         <di:waypoint x="209" y="390" />
         <di:waypoint x="260" y="390" />
@@ -198,7 +195,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1q60rk3_di" bpmnElement="SequenceFlow_1q60rk3">
         <di:waypoint x="720" y="390" />
-        <di:waypoint x="882" y="390" />
+        <di:waypoint x="800" y="390" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_0o73j4s_di" bpmnElement="idSolicPcteViagRecebida">
         <dc:Bounds x="222" y="882" width="36" height="36" />
@@ -217,7 +214,7 @@
         <di:waypoint x="240" y="882" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1nz8lb9_di" bpmnElement="SequenceFlow_1nz8lb9">
-        <di:waypoint x="982" y="390" />
+        <di:waypoint x="900" y="390" />
         <di:waypoint x="1032" y="390" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Task_0zwt4xc_di" bpmnElement="Task_0zwt4xc">
@@ -258,7 +255,10 @@
         <dc:Bounds x="240" y="1080" width="550" height="210" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ScriptTask_0pmtsf9_di" bpmnElement="Task_EnviaEmail">
-        <dc:Bounds x="882" y="350" width="100" height="80" />
+        <dc:Bounds x="800" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ManualTask_0zcoolx_di" bpmnElement="Task_Logar">
+        <dc:Bounds x="620" y="350" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

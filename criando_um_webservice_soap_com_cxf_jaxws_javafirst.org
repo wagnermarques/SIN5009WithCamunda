@@ -1,5 +1,17 @@
 #+Title: cxf-jaxws-javafirst (Creates a project for developing a Web service starting from Java code)
-#+Subtitle:
+#+Subtitle: java first and contract first
+
+* Apresentacao desse texto
+  Apresentar como foi criado os nossos webservices
+  No momento temos apenas java first
+
+  A documentação utilizada para essa tarefa de criação de webservices
+  está em
+  http://cxf.apache.org/docs/developing-a-service.html#DevelopingaService-JavaFirstDevelopment
+
+  https://glenmazza.net/blog/entry/web-service-tutorial
+  
+* criando java first webservcices
 
    Para criar um webservice SOAP basta criar um projeto com o
    archetype do 
@@ -44,4 +56,7 @@
    O projeto já cria o webservice, agora a gente tem que fazer o
    deploy
 
+   O Deploy esta sendo feito no mesmo tomcat do camunda, basta rodar
+   mvn clean package antrun:run onde antrun:run é que faz o deploy.
 
+* contract first webserivces

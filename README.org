@@ -65,8 +65,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-   : [3] 2665
+   : ECLIPSE_HOME/eclipse
+   : [1] 13432
 
 ** Rodando nosso ESB (Talend )
 
@@ -92,7 +92,7 @@
 
    #+RESULTS: rodando o eclipse IDE
    : 
-   : [1] 2893
+   : [1] 7209
 
 * Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando nossas ferramentas instaladas
@@ -109,7 +109,6 @@
 
 *** Acessando o camunda BPM (Api rest)
     Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
-
 
 **** Quantos processos estao definidos?
 
@@ -213,7 +212,7 @@
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
-      deploymentId=285500be-0732-11ea-83ce-7440bbfe2c2f
+      deploymentId=8bd4d84b-08eb-11ea-bf9f-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -222,7 +221,7 @@
    #+RESULTS: deployments list e delete
    : 
    : List deployments
-   : [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$
+   : [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
@@ -270,16 +269,26 @@
 
      https://docs.camunda.org/manual/7.7/reference/rest/process-definition/post-start-process-instance/
 
+     Nesta url abaixo tem um comando do curl que inicia tambem um
+     processo.
+     https://docs.camunda.org/get-started/quick-start/deploy/
      
    #+NAME: iniciando processo                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
      #starts code     
-      echo "Iniciando processo"
-      processDefinitionId=procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f
+
+      echo .      
+      processDefinitionKey=procIdCliente
+      echo $(curl --silent -H "Content-Type: application/json" -X POST -d '{"variables": {"tipos_de_clientes": "email"}}' http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start)
+      echo 
       echo .
-      echo $("http://localhost:8080/engine-rest/$processDefinitionId/start")
-      echo .
-      echo $(curl -X POST --fail --silent --show-error localhost:8080/engine-rest/$processDefinitionId/start)
+     
+      #echo "Iniciando processo"
+      #processDefinitionId=procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f
+      #echo .
+      #echo $("http://localhost:8080/engine-rest/$processDefinitionId/start")
+      #echo .
+      #echo $(curl -X POST --fail --silent --show-error localhost:8080/engine-rest/$processDefinitionId/start)
       #echo .
       #echo $(curl --fail --silent --show-error -X POST localhost:8080/engine-rest/process-definition/idProcessCliente:2:092b3210-0192-11ea-b2fe-7440bbfe2c2f/start --data '{"businessKey"="5","canal_de_comunicacao"="email"})
       #echo .
@@ -290,11 +299,12 @@
 
    #+RESULTS: iniciando processo
    : 
-   : Iniciando processo
-   : [wagner@localhost SIN5009WithCamunda]$ .
-   : bash: http://localhost:8080/engine-rest/procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f/start: No such file or directory
+   : [wagner@Unknown cxf-jaxws-javafirst-webservice]$ .
+   : [wagner@Unknown cxf-jaxws-javafirst-webservice]$   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+   :                                  Dload  Upload   Total   Spent    Left  Speed
+   :   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    48    0     0  100    48      0     21  0:00:02  0:00:02 --:--:--    21100   554    0   506  100    48    119     11  0:00:04  0:00:04 --:--:--   130100   554    0   506  100    48    119     11  0:00:04  0:00:04 --:--:--   130
+   : 1$1); line: 1, column: 40] (through reference chain: org.camunda.bpm.engine.rest.dto.runtime.StartProcessInstanceDto[\"variables\"]->java.util.LinkedHashMap[\"canal_de_comunicacao\"])"}
    : .
-   : curl: (22) The requested URL returned error: 404
 
 
 **** Quantos estao executando?

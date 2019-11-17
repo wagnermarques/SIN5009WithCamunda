@@ -16,8 +16,7 @@
 	<properties>
 		<camunda.version>7.11.0</camunda.version>
 		<camunda.connector.version>1.2.0</camunda.connector.version>
-                <version.spin>1.7.4</version.spin>
-                
+		<version.spin>1.7.4</version.spin>
 		<!-- Adjust if you want to use Camunda Enterprise Edition (EE): <camunda.version>7.11.0-ee</camunda.version> 
 			Make sure you also switch to EE repository below -->
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -42,29 +41,32 @@
 				<type>pom</type>
 				<version>${camunda.connector.version}</version>
 			</dependency>
-                        <dependency>
-                          <groupId>org.camunda.spin</groupId>
-                          <artifactId>camunda-spin-bom</artifactId>
-                          <scope>import</scope>
-                          <type>pom</type>
-                          <version>${version.spin}</version>
-                        </dependency>
+			<dependency>
+				<groupId>org.camunda.spin</groupId>
+				<artifactId>camunda-spin-bom</artifactId>
+				<scope>import</scope>
+				<type>pom</type>
+				<version>${version.spin}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
+
 	<dependencies>
-	  <dependency>
-	    <!-- process engine, needs to be 'provided' because it's already a shared 
-		 library in the container -->
-	    <groupId>org.camunda.bpm</groupId>
-	    <artifactId>camunda-engine</artifactId>
-	    <scope>provided</scope>
-	  </dependency>
-	  <dependency>
-	    <groupId>org.camunda.bpm</groupId>
-	    <artifactId>camunda-engine-cdi</artifactId>
-	    <version>${camunda.version}</version>
-	  </dependency>          
+		<dependency>
+			<!-- process engine, needs to be 'provided' because it's already a shared 
+				library in the container -->
+			<groupId>org.camunda.bpm</groupId>
+			<artifactId>camunda-engine</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.camunda.bpm</groupId>
+			<artifactId>camunda-engine-cdi</artifactId>
+			<version>${camunda.version}</version>
+		</dependency>
+
 		<dependency>
 			<!-- AssertJ Testing Library -->
 			<groupId>org.camunda.bpm.extension</groupId>
@@ -79,23 +81,24 @@
 			<artifactId>camunda-spin-dataformat-all</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.camunda.bpm</groupId>
 			<artifactId>camunda-engine-plugin-spin</artifactId>
 			<scope>test</scope>
 		</dependency>
 
-                <!-- https://docs.camunda.org/manual/7.5/reference/spin/  -->
-                <dependency>
-                  <groupId>org.camunda.spin</groupId>
-                  <artifactId>camunda-spin-core</artifactId>
-                </dependency>
-                
-                <dependency>
-                  <groupId>org.camunda.spin</groupId>
-                  <artifactId>camunda-spin-dataformat-all</artifactId>
-                </dependency>
-                
+		<!-- https://docs.camunda.org/manual/7.5/reference/spin/ -->
+		<dependency>
+			<groupId>org.camunda.spin</groupId>
+			<artifactId>camunda-spin-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.camunda.spin</groupId>
+			<artifactId>camunda-spin-dataformat-all</artifactId>
+		</dependency>
+
 		<!-- Required to use Templates in unit tests -->
 		<dependency>
 			<groupId>org.camunda.template-engines</groupId>
@@ -108,17 +111,21 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- 
-                     https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-mail-core 
-                     nao consegui fazer funcionar ainda o email, 
-                     deixando aqui por enquanto isso
-                -->
+		<!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-mail-core 
+			nao consegui fazer funcionar ainda o email, deixando aqui por enquanto isso -->
 		<dependency>
 			<groupId>org.camunda.bpm.extension</groupId>
 			<artifactId>camunda-bpm-mail-core</artifactId>
 			<version>1.2.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.5.8</version>
+			<type>pom</type>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-email -->
 		<dependency>
@@ -126,7 +133,6 @@
 			<artifactId>commons-email</artifactId>
 			<version>1.5</version>
 		</dependency>
-
 
 		<!-- https://docs.camunda.org/manual/latest/user-guide/process-engine/connectors/ 
 			camunda-connect-connectors-all This artifact contains the HTTP and SOAP connectors 
@@ -146,6 +152,23 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+
+
+		<!-- Java EE 7 Specification -->
+		<dependency>
+			<groupId>org.jboss.spec</groupId>
+			<artifactId>jboss-javaee-7.0</artifactId>
+			<version>1.0.3.Final</version>
+			<type>pom</type>
+			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>xalan</artifactId>
+					<groupId>xalan</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -214,110 +237,91 @@
 
 	<build>
 
-          <finalName>${project.artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 
-	  <plugins>
-            <plugin>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>2.3.1</version>
-              <configuration>
-                <source>1.6</source>
-                <target>1.6</target>
-              </configuration>
-            </plugin>
-            
-            <plugin>
-              <artifactId>maven-war-plugin</artifactId>
-              <version>2.1.1</version>
-              <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-              </configuration>
-            </plugin>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
 
-	    <plugin>
-	      <!-- Deploy to Tomcat using: mvn clean package antrun:run Follow the 
-		   instructions in build.properties.example to make it work! -->
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-antrun-plugin</artifactId>
-	      <executions>
-		<execution>
-		  <id>undeployOnCleanPackage</id>
-		  <phase>clean</phase>
-		  <goals>
-		    <goal>run</goal>
-		  </goals>
-		  <configuration>
-		    <tasks>
-		      <ant antfile="${basedir}/build.xml">
-			<target name="undeploy.war.from.tomcat" />
-		      </ant>
-		    </tasks>
-		  </configuration>
-		</execution>
-	      </executions>
-	      <configuration>
-		<tasks>
-		  <ant antfile="${basedir}/build.xml">
-		    <target name="copy.war.into.tomcat" />
-		  </ant>
-		</tasks>
-	      </configuration>
-	    </plugin>
-            
-            <!-- Tomcat Maven Plugin Deploy to Tomcat using: mvn clean tomcat7:deploy 
-		 Redeploy: mvn clean tomcat7:redeploy Undeploy: mvn tomcat7:undeploy To use 
-		 this plugin, add these lines to your tomcat-users.xml: (inside the <tomcat-users>-tag) 
-		 <role rolename="manager-script"/> <user username="admin" password="admin" 
-		 roles="manager-script"/> -->
-	    <plugin>
-	      <groupId>org.apache.tomcat.maven</groupId>
-	      <artifactId>tomcat7-maven-plugin</artifactId>
-	      <version>2.2</version>
-	      <configuration>
-		<url>http://localhost:8080/manager/text</url>
-		<username>admin</username>
-		<password>admin</password>
-	      </configuration>
-	    </plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
 
-            <plugin>
-	      <!-- Deploy to JBoss AS7: mvn clean jboss-as:deploy See also: https://docs.jboss.org/jbossas/7/plugins/maven/latest/examples/deployment-example.html -->
-	      <groupId>org.jboss.as.plugins</groupId>
-	      <artifactId>jboss-as-maven-plugin</artifactId>
-	      <version>7.9.Final</version>
-	    </plugin>
-	    <plugin>
-	      <!-- Deploy to Wildfly: mvn clean wildfly:deploy See also: https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html -->
-	      <groupId>org.wildfly.plugins</groupId>
-	      <artifactId>wildfly-maven-plugin</artifactId>
-	      <version>1.2.1.Final</version>
-	    </plugin>
+			<plugin>
+				<!-- Deploy to Tomcat using: mvn clean package antrun:run Follow the 
+					instructions in build.properties.example to make it work! -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>undeployOnCleanPhase</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<ant antfile="${basedir}/build.xml">
+									<target name="undeploy.war.from.tomcat" />
+								</ant>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<tasks>
+						<ant antfile="${basedir}/build.xml">
+							<target name="copy.war.into.tomcat" />
+						</ant>
+					</tasks>
+				</configuration>
+			</plugin>
 
-            <plugin>
-              <groupId>org.apache.cxf</groupId>
-              <artifactId>cxf-codegen-plugin</artifactId>
-              <version>3.1.11</version>
-              <executions>
-                <execution>
-                  <id>generate-sources</id>
-                  <phase>generate-sources</phase>
-                  <configuration>
-                    <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
-                    <wsdlOptions>
-                      <wsdlOption>
-                        <wsdl>${basedir}/src/main/resources/ProcessInvocationService.wsdl</wsdl>
-                      </wsdlOption>
-                      <wsdlOption>
-                        <wsdl>${basedir}/src/main/resources/ProcessCallbackService.wsdl</wsdl>
-                      </wsdlOption>
-                    </wsdlOptions>
-                  </configuration>
-                  <goals>
-                    <goal>wsdl2java</goal>
-                  </goals>
-                </execution>
-              </executions>
-            </plugin>                             
-	  </plugins>
+			<!-- Tomcat Maven Plugin Deploy to Tomcat using: mvn clean tomcat7:deploy 
+				Redeploy: mvn clean tomcat7:redeploy Undeploy: mvn tomcat7:undeploy To use 
+				this plugin, add these lines to your tomcat-users.xml: (inside the <tomcat-users>-tag) 
+				<role rolename="manager-script"/> <user username="admin" password="admin" 
+				roles="manager-script"/> -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8080/manager/text</url>
+					<username>admin</username>
+					<password>admin123</password>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- Deploy to JBoss AS7: mvn clean jboss-as:deploy See also: https://docs.jboss.org/jbossas/7/plugins/maven/latest/examples/deployment-example.html -->
+				<groupId>org.jboss.as.plugins</groupId>
+				<artifactId>jboss-as-maven-plugin</artifactId>
+				<version>7.9.Final</version>
+			</plugin>
+			<plugin>
+				<!-- Deploy to Wildfly: mvn clean wildfly:deploy See also: https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html -->
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>1.2.1.Final</version>
+			</plugin>
+			<!-- <plugin> <groupId>org.apache.cxf</groupId> <artifactId>cxf-codegen-plugin</artifactId> 
+				<version>3.1.11</version> <executions> <execution> <id>generate-sources</id> 
+				<phase>generate-sources</phase> <configuration> <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot> 
+				<wsdlOptions> <wsdlOption> <wsdl>${basedir}/src/main/resources/ProcessInvocationService.wsdl</wsdl> 
+				</wsdlOption> <wsdlOption> <wsdl>${basedir}/src/main/resources/ProcessCallbackService.wsdl</wsdl> 
+				</wsdlOption> </wsdlOptions> </configuration> <goals> <goal>wsdl2java</goal> 
+				</goals> </execution> </executions> </plugin> -->
+		</plugins>
 	</build>
 </project>

@@ -1,0 +1,51 @@
+<strong>INICIA PROCESSO NA PROPRIA AGENCIA</strong>
+
+<p>
+    Este caso representa o atendimento presencial do cliente
+    <code>embedded:app:forms/start-form.html</code>
+</p>
+
+<form class="form-horizontal">
+
+    <div class="control-group">
+        <label class="control-label">Business Key</label>
+        <div class="controls">
+            <input type="text" id="businessKeyInput"
+                   cam-business-key="businessKey"
+                   required
+                   class="form-control" /><br></br>
+        </div>
+    </div>
+
+    
+    <div class="control-group">
+        <label class="control-label">Tipo de cliente</label>
+        <div class="controls">
+            <input type="text" 
+                   cam-variable-name="tipoDeCliente"
+                   cam-variable-type="String"
+                   required
+                   class="form-control" /><br></br>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Nome do Cliente</label>
+        <div class="controls">
+            <input type="text" 
+                   cam-variable-name="nomeDoCliente"
+                   cam-variable-type="String"
+                   required
+                   class="form-control" />
+        </div>
+    </div>
+
+    <!--
+         https://docs.camunda.org/manual/7.4/reference/embedded-forms/javascript/generating-businesskey/
+         <script cam-script type="text/form-script">
+         camForm.on('submit', function() {
+         camForm.businessKey = document.getElementById("businessKeyInput").value;
+         });
+         </script>
+    -->
+</form>

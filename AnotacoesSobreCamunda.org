@@ -1,0 +1,19 @@
+#+Title: Anotacoes Sobre Camunda
+#+Subtitle:
+
+
+* Varios tipos de projetos
+  Maven arqchetype:generate tem varios modelos de projetos utilizando
+diferentes tecnologias da plataforma java
+
+118: remote -> com.att.ajsc:sdk-camunda-archetype (sdk-camunda-archetype-resources)
+1689: remote -> org.camunda.bpm.archetype:camunda-archetype-cockpit-plugin (Plugin for Camunda Cockpit, contains REST-Backend, MyBatis database query, HTML and JavaScript frontend, Ant build script for one-click deployment)
+1690: remote -> org.camunda.bpm.archetype:camunda-archetype-demo (Demo application with lots of pre-built parts that uses a shared Camunda BPM engine in a Servlet Container, e.g. Apache Tomcat.
+1691: remote -> org.camunda.bpm.archetype:camunda-archetype-ejb-war (Process application that uses a shared Camunda BPM engine in a Java EE Container, e.g. JBoss Wildfly.
+1692: remote -> org.camunda.bpm.archetype:camunda-archetype-engine-plugin (Process engine plugin for Camunda BPM.
+1693: remote -> org.camunda.bpm.archetype:camunda-archetype-servlet-spring-camel-war (Process application that uses a shared Camunda BPM engine in a Servlet Container, e.g. Apache Tomcat.
+1694: remote -> org.camunda.bpm.archetype:camunda-archetype-servlet-war (Process application that uses a shared Camunda BPM engine in a Servlet Container, e.g. Apache Tomcat.
+1695: remote -> org.camunda.bpm.archetype:camunda-archetype-spring-boot (Process application that uses the Spring Boot Starter
+1696: remote -> org.camunda.bpm.archetype:camunda-archetype-spring-boot-demo (Demo application with lots of pre-built parts that uses the Spring Boot Starter
+
+* 
