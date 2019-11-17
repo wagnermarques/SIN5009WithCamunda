@@ -22,7 +22,7 @@ public class InMemoryH2Test {
   @Rule
   public static ProcessEngineRule rule = TestCoverageProcessEngineRuleBuilder.create().build();
 
-  private static final String PROCESS_DEFINITION_KEY = "camunda-servlet-spring-camel-war-agDeViagens";
+  private static final String PROCESS_DEFINITION_KEY = "Process_Participant_Cliente";
 
   // enable more detailed logging
   static {

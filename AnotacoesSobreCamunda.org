@@ -16,4 +16,7 @@ diferentes tecnologias da plataforma java
 1695: remote -> org.camunda.bpm.archetype:camunda-archetype-spring-boot (Process application that uses the Spring Boot Starter
 1696: remote -> org.camunda.bpm.archetype:camunda-archetype-spring-boot-demo (Demo application with lots of pre-built parts that uses the Spring Boot Starter
 
-* 
+* BusinessKey 
+  https://blog.camunda.com/post/2018/10/business-key/
+  
+

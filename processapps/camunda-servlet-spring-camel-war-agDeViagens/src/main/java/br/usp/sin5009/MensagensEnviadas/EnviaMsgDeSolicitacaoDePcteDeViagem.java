@@ -20,7 +20,7 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
 		LOGGER.info("\n\n\n\n[[[[[[ -------------------------------------------");
-		LOGGER.info("[[[[[[ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {...");
+		LOGGER.info("\n[[[[[[ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {...");
 
 		String thisProcessExecutionBusinessKey = execution.getBusinessKey();
 		RuntimeService runtimeService = execution.getProcessEngineServices().getRuntimeService();
@@ -33,7 +33,7 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 		 */
 		if (thisProcessExecutionBusinessKey != null) {
 			correlateWithResult = runtimeService
-					.createMessageCorrelation("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem")
+					.createMessageCorrelation(this.MSG_NAME)
 					.processInstanceBusinessKey(thisProcessExecutionBusinessKey)
 					.correlateWithResult();
 		} else {

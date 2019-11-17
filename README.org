@@ -87,132 +87,10 @@
    #+NAME: rodando o eclipse IDE
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
-      $ECLIPSE_HOME/eclipse &
-   #+END_SRC
-
-   #+RESULTS: rodando o eclipse IDE
-   : 
-   : [1] 7209
-
-* Acesssando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
-** Acessando nossas ferramentas instaladas
-   A ideia aqui e so acessar pra ver se esta tudo funcionando
-*** Acessando o camunda BPM
-
-    http://localhost:8080/camunda/app/admin/default/#/login
-
-    pra ver os logs do camunda, usar o comando abaixo...
-
-    Usuario: Administrador
-
-    Senha: Administrador
-
-*** Acessando o camunda BPM (Api rest)
-    Da pra consultar a referencia da api rest aqui:https://docs.camunda.org/manual/7.5/reference/rest/
-
-**** Quantos processos estao definidos?
-
-   #+NAME:/process-definition/count
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Engine name"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition/count)
-      echo "----------------------------------------------------------------------"
-      echo "."
-
-   #+END_SRC
-
-   #+RESULTS: /process-definition/count
-   : 
-   : Engine name
-   : {"count":2}
-   : ----------------------------------------------------------------------
-   : .
-
-
-   
-   #+NAME:  quais processos estao definidos?                   
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Engine name"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/process-definition)
-      echo "----------------------------------------------------------------------"
-      echo "."
-   #+END_SRC
-
-   #+RESULTS: quais processos estao definidos?
-   : 
-   : Engine name
-   : [{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f",
-   :   "key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL",
-   :   "description":null,"name":"Invoice Receipt","version":1,
-   :   "resource":"invoice.v1.bpmn",
-   :   "deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,
-   :   "tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},
-   :  {"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f",
-   :   "key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL",
-   :   "description":null,"name":"Invoice Receipt","version":2,
-   :   "resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true}]
-   : ----------------------------------------------------------------------
-   : .
-
-
-
-**** Deployments 
-
-   #+NAME:qtos deployments                     
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Qtos deployments?"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/deployment/count)
-      echo "----------------------------------------------------------------------"
-      echo "."  
-   #+END_SRC
-
-   #+RESULTS: qtos deployments
-   : 
-   : Qtos deployments?
-   : {"count":5}
-   : ----------------------------------------------------------------------
-   : .
-   
-   #+NAME:fazer deploy
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Fazer deploy"
-      echo $(curl --fail --silent --show-error localhost:8080/engine-rest/deployment/create)
-      echo "----------------------------------------------------------------------"
-      echo "."
-
-   #+END_SRC
-
-
-
-**** Quais sao eles?
-   
-   #+NAME: quais sao os projetos definidos                   
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      echo "Engine name"
-      echo $(curl --fail --silent --show-error -o process-definition.json localhost:8080/engine-rest/process-definition && cat process-definition.json)
-      echo "----------------------------------------------------------------------"
-      echo "."
-   #+END_SRC
-
-   #+RESULTS: quais sao os projetos definidos
-   : 
-   : Engine name
-   : [{"id":"CompanhiaAerea_0d8u3pr:1:98930796-05a0-11ea-ade2-b88584fd06d6","key":"CompanhiaAerea_0d8u3pr","category":"http://bpmn.io/schema/bpmn","description":null,"name":"CompanhiaAerea","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":null,"historyTimeToLive":null,"startableInTasklist":true},{"id":"CompanhiaAerea_0d8u3pr:2:2d3c79d3-0636-11ea-8ac8-b88584fd06d6","key":"CompanhiaAerea_0d8u3pr","category":"http://bpmn.io/schema/bpmn","description":null,"name":"CompanhiaAerea","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":null,"historyTimeToLive":null,"startableInTasklist":true},{"id":"invoice:1:5df34a11-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":1,"resource":"invoice.v1.bpmn","deploymentId":"5de1e4ed-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V1.0","historyTimeToLive":30,"startableInTasklist":true},{"id":"invoice:2:5e2d1ecb-fdd4-11e9-b303-7440bbfe2c2f","key":"invoice","category":"http://www.omg.org/spec/BPMN/20100524/MODEL","description":null,"name":"Invoice Receipt","version":2,"resource":"invoice.v2.bpmn","deploymentId":"5e268f17-fdd4-11e9-b303-7440bbfe2c2f","diagram":null,"suspended":false,"tenantId":null,"versionTag":"V2.0","historyTimeToLive":45,"startableInTasklist":true},{"id":"procIdAgDeViagens:1:98930794-05a0-11ea-ade2-b88584fd06d6","key":"procIdAgDeViagens","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameAgDeViagens","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdAgDeViagens:2:2d3b6861-0636-11ea-8ac8-b88584fd06d6","key":"procIdAgDeViagens","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameAgDeViagens","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdCliente:1:9892e083-05a0-11ea-ade2-b88584fd06d6","key":"procIdCliente","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameCliente","version":1,"resource":"process.bpmn","deploymentId":"988d3b31-05a0-11ea-ade2-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true},{"id":"procIdCliente:2:2d3acc20-0636-11ea-8ac8-b88584fd06d6","key":"procIdCliente","category":"http://bpmn.io/schema/bpmn","description":null,"name":"procNameCliente","version":2,"resource":"process.bpmn","deploymentId":"2d33791e-0636-11ea-8ac8-b88584fd06d6","diagram":null,"suspended":false,"tenantId":null,"versionTag":"0.1","historyTimeToLive":null,"startableInTasklist":true}]
-   : ----------------------------------------------------------------------
-   : .
-
-**** undeploy     
-
-     #+NAME:deployments list e delete                     
-   #+BEGIN_SRC shell :session s1 :results output :exports both
+      $ECLIPSE   #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
-      deploymentId=8bd4d84b-08eb-11ea-bf9f-7440bbfe2c2f
+      deploymentId=6feac3dc-0933-11ea-bf9f-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -576,7 +454,8 @@
 
    #+RESULTS: start eclipse
    : 
-   : [2] 14284
+   : ECLIPSE_HOME/eclipse
+   : [2] 21646
 
 
    depois de abrir o eclipse copie a url do repositorio remoto do

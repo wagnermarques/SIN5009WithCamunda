@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 @ProcessApplication
 public class CamundaBpmProcessApplication extends ServletProcessApplication {
 
-  private static final String PROCESS_DEFINITION_KEY = "camunda-servlet-spring-camel-war-agDeViagens";
+  private static final String PROCESS_DEFINITION_KEY = "Process_Participant_Cliente";
 
   private final Logger LOGGER = Logger.getLogger(CamundaBpmProcessApplication.class.getName());
  

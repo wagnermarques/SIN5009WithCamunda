@@ -1,9 +1,11 @@
-package br.usp.sin5009.javaDelagate;
+package br.usp.sin5009.ServiceTasks;
 
 import java.util.logging.Logger;
 
+import org.camunda.bpm.camel.spring.CamelServiceImpl;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * This is an empty service implementation illustrating how to use a plain Java 
@@ -13,8 +15,12 @@ public class LoggerDelegate implements JavaDelegate {
  
   private final Logger LOGGER = Logger.getLogger(LoggerDelegate.class.getName());
   
+  @Autowired
+  CamelServiceImpl camel;
+  
   public void execute(DelegateExecution execution) throws Exception {
     
+	  
     LOGGER.info("\n\n  ... LoggerDelegate invoked by "
             + "processDefinitionId=" + execution.getProcessDefinitionId()
             + ", activtyId=" + execution.getCurrentActivityId()
