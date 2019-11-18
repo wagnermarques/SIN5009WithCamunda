@@ -30,8 +30,14 @@ public class CamundaBpmProcessApplication extends ServletProcessApplication {
     Map<String, Object> variables = new HashMap<String, Object>();
     variables.put("tipoDeCliente", "vip");
     variables.put("nomeDoCliente", "Denise");
+
+    //qdo fileInputAcontece o cliente recebe email confirmando que foi recebida a solicitacao
+    // a gente vai precisar do email dele
+    variables.put("emailDoCliente", "wagnermarques@usp.br");
+    variables.put("bk", "1234");
     
-    processEngine.getRuntimeService().startProcessInstanceByKey(PROCESS_DEFINITION_KEY, variables);
+    
+    //processEngine.getRuntimeService().startProcessInstanceByKey(PROCESS_DEFINITION_KEY, variables);
   }
 
 }

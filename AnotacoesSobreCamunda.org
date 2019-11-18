@@ -1,7 +1,6 @@
 #+Title: Anotacoes Sobre Camunda
 #+Subtitle:
 
-
 * Varios tipos de projetos
   Maven arqchetype:generate tem varios modelos de projetos utilizando
 diferentes tecnologias da plataforma java
@@ -18,5 +17,42 @@ diferentes tecnologias da plataforma java
 
 * BusinessKey 
   https://blog.camunda.com/post/2018/10/business-key/
-  
+  https://forum.camunda.org/t/start-process-instance-by-message-and-set-business-key/6073
 
+* Expression Language
+  https://docs.camunda.org/manual/7.4/user-guide/process-engine/expression-language/
+
+* Variáveis de processo
+  https://docs.camunda.org/manual/7.5/user-guide/process-engine/variables/
+  https://forum.camunda.org/t/expressions-built-in-variables/7521
+  https://stackoverflow.com/questions/25547442/set-variables-on-task-in-camunda
+  
+* Camel enviando email
+  https://www.javainuse.com/camel/camel_gmail
+  from("file:C:/inputFolder?noop=true").doTry().setHeader("subject", simple("JavaInUse Invitation111"))
+				.setHeader("to", simple("javainuse@gmail.com,testouthworking@gmail.com"))
+				.to("smtps://smtp.gmail.com:465?username=testcamelsmtp@gmail.com&password=ABC@123");
+* Camel pooling inbox mail
+  https://stackoverflow.com/questions/42752091/how-to-poll-my-google-mail-inbox-for-mails-using-apache-camel
+  https://camel.465427.n5.nabble.com/How-to-poll-Google-mail-inbox-for-mails-td5738222.html
+  
+* Camel + camunda
+  
+  https://camunda.com/best-practices/routing-events-to-processes/
+  https://blog.camunda.com/post/2013/09/camunda-bpm-apache-camel-integrating/
+  https://github.com/camunda/camunda-bpm-camel
+  
+  passar todas as variaveis da instancia do processo para um endpoint
+  do camel
+
+  ${camel.sendTo('<camel endpoint>')}
+
+  ${camel.sendTo('<camel endpoint>', '<comma-separated list of processvariables>')}
+
+  Additionally you can specify a correlationKey to send to Camel. It can be used to correlate a response message. The route for the response must contain a parameter correlationKeyName with the name of the process variable which is used for correlation:
+
+  ${camel.sendTo('<camel endpoint>', '<comma-separated list of process variables>', 'correlationKey')}
+
+
+
+  

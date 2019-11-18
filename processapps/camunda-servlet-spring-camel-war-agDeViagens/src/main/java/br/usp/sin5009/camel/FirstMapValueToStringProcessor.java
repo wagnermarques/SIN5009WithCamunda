@@ -1,19 +1,19 @@
 package br.usp.sin5009.camel;
 
+import java.util.Iterator;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import java.util.logging.Logger;
-import java.util.*;
-
-import org.camunda.bpm.engine.delegate.DelegateExecution;
 
 public class FirstMapValueToStringProcessor implements Processor {
 
 	private final Logger LOGGER = Logger.getLogger(FirstMapValueToStringProcessor.class.getName());
 
+	
 	public void process(Exchange exchange) throws Exception {
+		
 		LOGGER.info(" \n\n [> [> CamelCamelCamelCamel :: FirstMapValueToStringProcessor...\n");
 		String retStr = "";
 

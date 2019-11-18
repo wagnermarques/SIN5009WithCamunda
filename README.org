@@ -54,7 +54,11 @@
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [3] 5699
+  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -83,18 +87,25 @@
    : [wagner@Unknown container]$ [3] 2865
 
 ** Rodando o eclipse IDE
-   
+** Acessando camunda bpm   
    #+NAME: rodando o eclipse IDE
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       $ECLIPSE   #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
       echo "List deployments"
-      deploymentId=6feac3dc-0933-11ea-bf9f-7440bbfe2c2f
+      deploymentId=3eb9bb07-09a3-11ea-adc7-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
+
+   #+RESULTS: rodando o eclipse IDE
+   : 
+   : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ List deployments
+   : [wagner@Unknown SIN5009WithCamunda]$
+   : ----------------------------------------------------------------------
+   : .
 
    #+RESULTS: deployments list e delete
    : 
@@ -226,8 +237,8 @@
    : ----------------------------------------------------------------------\n
 
    
-*** Acessando o camunda Modeler
-*** Acesando o nosso esb 
+** Acessando o camunda Modeler
+** Acesando o nosso esb 
     É possivel acessar o esb talend pelo menos de duas maneiras:
 
 **** webconsole
@@ -239,7 +250,7 @@
      
      https://localhost:9001/system/console/bundles
 
-*** linha de comando do karaf
+** linha de comando do karaf
     
    #+NAME:                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -443,9 +454,7 @@
 ** Usando Camunda Modeler e rodando um processo e integrando ele com nossa logica de negocio
    
 * Criando um processo
-  
-  
-  
+    
    #+NAME: start eclipse
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
