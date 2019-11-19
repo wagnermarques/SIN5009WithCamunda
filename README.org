@@ -97,7 +97,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=e582f0d6-0a95-11ea-ae44-b88584fd06d6
+      deploymentId=7c14343e-0ad2-11ea-ae44-b88584fd06d6
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  

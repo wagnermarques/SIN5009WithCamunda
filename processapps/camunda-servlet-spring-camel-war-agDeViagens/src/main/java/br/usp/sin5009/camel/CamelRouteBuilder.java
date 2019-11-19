@@ -21,8 +21,8 @@ public class CamelRouteBuilder extends RouteBuilder {
 		String processDefinitionKey_AgDeViagem = "Process_Participant_AgDeViagem";
 
 		final String startProcessPostBodyAsJson = "{\"variables\": {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\"}, \"nomeDoCliente\" : { \"value\" : \"denise\",\"type\": \"string\"},\"canal_de_comunicacao\" : {\"value\" : \"pessoalmente\",\"type\": \"string\"}},\"businessKey\" : \"bk123\"}";
-		final String msgStart_AgDeViagem="{\"messageName\" : \"MsgDeSolicitacaoRecebida\", \"businessKey\" : \"123\",\"processVariables\" : {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true } },\"nomeDeCliente\" : {\"value\" : \"Denise\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"emailDoCliente\" : {\"value\" : \"wagnermarques@usp.br\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"canal_de_comunicacao\" : {\"value\" : \"presencial\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true }}}}";
-		
+		final String msgStart_AgDeViagem = "{\"messageName\" : \"MsgDeSolicitacaoRecebida\", \"businessKey\" : \"123\",\"processVariables\" : {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true } },\"nomeDeCliente\" : {\"value\" : \"Denise\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"emailDoCliente\" : {\"value\" : \"wagnermarques@usp.br\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"canal_de_comunicacao\" : {\"value\" : \"presencial\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true }}}}";
+
 		// JSON Data Format
 		// JacksonDataFormat jsonDataFormatAsHashMap = new
 		// JacksonDataFormat(java.util.HashMap.class);
@@ -95,24 +95,78 @@ public class CamelRouteBuilder extends RouteBuilder {
 		//
 
 		/**
-		 * 
+		 * Um arquivo com a msg de start para o processo ag de viagens sendo colocado na
+		 * pasta sin5009InputFolder estarta automaticamente o processo
 		 */
-		from("file:/home/wagner/sin5009InputFolder?noop=false").process(new Processor() {
+		from("file:" + sin5009InputFolder + "?noop=false").process(new Processor() {
 
 			@Override
 			public void process(Exchange exchange) throws Exception {
-//					String body = exchange.getIn().getBody(String.class);
-//					System.out.println("from(\"file:/home/wagner/sin5009InputFolder\").process(new Processor() {...");
-//				
-
-				//exchange.getIn().setBody(msgStart_AgDeViagem);
-
-				
 				String body = exchange.getIn().getBody(String.class);
 				System.out.println(body);
 			}
 
 		}).setHeader(Exchange.HTTP_METHOD, constant("POST"))
+				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+				.to("http://localhost:8080/engine-rest/message").process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						LOGGER.info(" @@@ The response code is: {} : "
+								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+					}
+				});
+
+		/**
+		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
+		 * ATENDIMENTO PRESENCIAL o arquivo, sendo colocado na pasta sin5009InputFolder,
+		 * estarta automaticamente o processo
+		 */
+//		from("file:"+sin5009InputFolder+"?noop=false").process(new Processor() {
+//
+//			@Override
+//			public void process(Exchange exchange) throws Exception {
+//				String body = exchange.getIn().getBody(String.class);
+//				Object CamelFileNameHeader = exchange.getIn().getHeader("CamelFileName");
+//				System.out.println(CamelFileNameHeader);
+//				System.out.println(body);
+//			}
+//
+//		})		
+//		.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+//				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+//				.to("http://localhost:8080/engine-rest/message")
+//				.process(new Processor() {
+//					@Override
+//					public void process(Exchange exchange) throws Exception {
+//						LOGGER.info(" @@@ The response code is: {} : "
+//								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+//					}
+//				});
+//
+
+		
+		
+		
+		
+		
+		/**
+		 * Um arquivo com a msg de starta PROCESSO DA AG DE VIAGEM
+		 * Esse codigo nao faz parte de nenhum dos nossos use cases porque mesmo que o atendimento
+		 * fosse presencial com o agente de viagens salvando um arquivo nesse diretorio o ideal seria
+		 * iniciar o processo do cliente que por sua vez inicializa o processo da agencia
+		 * Entretanto, interessa porque he um exemplo de como enviar uma mensagem para um processo via codigo
+		 * 
+		 */		
+		from("file:"+sin5009InputFolder+"?noop=false&fileName=starMsg_MsgDeSolicitacaoRecebida.json").process(new Processor() {
+
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				String body = exchange.getIn().getBody(String.class);
+				System.out.println(body);
+			}
+
+		})		
+		.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
 				.to("http://localhost:8080/engine-rest/message")
 				.process(new Processor() {
@@ -122,6 +176,75 @@ public class CamelRouteBuilder extends RouteBuilder {
 								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
 					}
 				});
+
+		
+		
+
+		
+		/**
+		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
+		 * ATENDIMENTO PRESENCIAL o arquivo, sendo colocado na pasta sin5009InputFolder,
+		 * estarta automaticamente o processo
+		 */		
+		from("file:"+sin5009InputFolder+"?noop=false&fileName=payloadMsg_startProcess_Cliente.json").process(new Processor() {
+
+			@Override
+			public void process(Exchange exchange) throws Exception {
+				String body = exchange.getIn().getBody(String.class);
+				System.out.println(body);
+			}
+
+		})		
+		.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+				.to("http://localhost:8080/engine-rest/process-definition/key/"+processDefinitionKey_Cliente+"/submit-form")
+				.process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						LOGGER.info(" @@@ The response code is: {} : "
+								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+					}
+				});
+
+
+		
+		
+		
+		
+		
+		
+		
+		
+//		from("file:" + sin5009InputFolder + "?noop=false").process(new Processor() {
+//
+//			@Override
+//			public void process(Exchange exchange) throws Exception {
+//				String body = exchange.getIn().getBody(String.class);
+//				Object CamelFileNameHeader = exchange.getIn().getHeader("CamelFileName");
+//				System.out.println(CamelFileNameHeader);
+//				System.out.println(body);
+//			}
+//
+//		});
+//		.choice().when(header("CamelFileName").contains("starMsg_MsgDeSolicitacaoRecebida.json"))
+//				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+//				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+//				.to("http://localhost:8080/engine-rest/message").process(new Processor() {
+//					@Override
+//					public void process(Exchange exchange) throws Exception {
+//						LOGGER.info(" @@@ The response code is: {} : "
+//								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+//					}
+//				}).when(header("CamelFileName").contains("payloadMsg_startProcess_Cliente.json"))
+//				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+//				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+//				.to("http://localhost:8080/engine-rest/process-definition/key/"+processDefinitionKey_Cliente+"/submit-form").process(new Processor() {
+//					@Override
+//					public void process(Exchange exchange) throws Exception {
+//						LOGGER.info(" @@@ The response code is: {} : "
+//								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+//					}
+//				});
 
 		// .doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem
 		// Recebida"))
