@@ -31,7 +31,10 @@ public class CamelRouteBuilder extends RouteBuilder {
 		restConfiguration().component("restlet").host("localhost").port("8090");
 
 		//Endpoint de servico rest cujo metodo post inicia processo do cliente
-		rest("/processoCliente").post().to("direct:iniciaProcessoDoCliente");
+		rest("/processoCliente")
+                    .get().to("bean:")
+                    .post().to("direct:iniciaProcessoDoCliente");
+                
 
 		
 		

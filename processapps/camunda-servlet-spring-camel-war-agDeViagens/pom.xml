@@ -276,6 +276,23 @@
 					Follow the instructions in build.properties.example to make it work! -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
+                                <version>1.8</version>
+                                				<executions>
+					<execution>
+						<id>undeployOnCleanPhase</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<ant antfile="${basedir}/build.xml">
+									<target name="undeploy.tomcat" />
+								</ant>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
 				<configuration>
 					<tasks>
 						<ant antfile="${basedir}/build.xml">
@@ -284,6 +301,7 @@
 					</tasks>
 				</configuration>
 			</plugin>
+                        
 			<!-- run this plugin with first: mvn clean tomcat7:deploy then: mvn clean 
 				tomcat7:redeploy finally: mvn tomcat7:undeploy To use this plugin, add these 
 				lines to your tomcat-users.xml: (inside the <tomcat-users>-tag) <role rolename="manager-script"/> 

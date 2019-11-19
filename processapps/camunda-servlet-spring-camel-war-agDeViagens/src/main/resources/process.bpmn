@@ -92,6 +92,8 @@
     </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:process id="Process_Participant_AgDeViagem" name="Process_Participant_AgDeViagem" isExecutable="true">
+    <bpmn:sequenceFlow id="SequenceFlow_1ii11ji" sourceRef="Task_1o5drl9" targetRef="IntermediateMsgCatch_JustWaiting0" />
+    <bpmn:sequenceFlow id="SequenceFlow_0fqvwic" sourceRef="StartEvent_MsgDeSolicitacaoRecebida" targetRef="Task_1o5drl9" />
     <bpmn:startEvent id="StartEvent_MsgDeSolicitacaoRecebida" name="MsgDeSolicitacaoRecebida">
       <bpmn:outgoing>SequenceFlow_0fqvwic</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0c7153t" />
@@ -104,8 +106,6 @@
       <bpmn:incoming>SequenceFlow_1ii11ji</bpmn:incoming>
       <bpmn:messageEventDefinition messageRef="Message_0xiedgs" />
     </bpmn:intermediateCatchEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_1ii11ji" sourceRef="Task_1o5drl9" targetRef="IntermediateMsgCatch_JustWaiting0" />
-    <bpmn:sequenceFlow id="SequenceFlow_0fqvwic" sourceRef="StartEvent_MsgDeSolicitacaoRecebida" targetRef="Task_1o5drl9" />
   </bpmn:process>
   <bpmn:message id="Message_0c7153t" name="MsgDeSolicitacaoRecebida" />
   <bpmn:message id="Message_0xiedgs" name="JustWaiting" />
@@ -146,17 +146,17 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Participant_1vhyg0l_di" bpmnElement="Participant_AgDeViagem" isHorizontal="true">
-        <dc:Bounds x="158" y="780" width="600" height="250" />
+        <dc:Bounds x="158" y="780" width="1732" height="390" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="StartEvent_1ixaphn_di" bpmnElement="StartEvent_MsgDeSolicitacaoRecebida">
-        <dc:Bounds x="252" y="882" width="36" height="36" />
+        <dc:Bounds x="262" y="962" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="229" y="925" width="83" height="27" />
+          <dc:Bounds x="239" y="1005" width="83" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0fqvwic_di" bpmnElement="SequenceFlow_0fqvwic">
-        <di:waypoint x="288" y="900" />
-        <di:waypoint x="350" y="900" />
+        <di:waypoint x="298" y="980" />
+        <di:waypoint x="380" y="980" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_18lodvg_di" bpmnElement="SequenceFlow_18lodvg">
         <di:waypoint x="1198" y="510" />
@@ -171,23 +171,23 @@
       <bpmndi:BPMNEdge id="MessageFlow_1hgr9dw_di" bpmnElement="MessageFlow_1hgr9dw">
         <di:waypoint x="1180" y="528" />
         <di:waypoint x="1180" y="675" />
-        <di:waypoint x="270" y="675" />
-        <di:waypoint x="270" y="882" />
+        <di:waypoint x="280" y="675" />
+        <di:waypoint x="280" y="962" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="515" y="657" width="89" height="14" />
+          <dc:Bounds x="522" y="657" width="89" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_09gltqg_di" bpmnElement="Task_1o5drl9">
-        <dc:Bounds x="350" y="860" width="100" height="80" />
+        <dc:Bounds x="380" y="940" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1ii11ji_di" bpmnElement="SequenceFlow_1ii11ji">
-        <di:waypoint x="450" y="900" />
-        <di:waypoint x="512" y="900" />
+        <di:waypoint x="480" y="980" />
+        <di:waypoint x="582" y="980" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_1f9g0cz_di" bpmnElement="IntermediateMsgCatch_JustWaiting0">
-        <dc:Bounds x="512" y="882" width="36" height="36" />
+        <dc:Bounds x="582" y="962" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="503" y="925" width="57" height="14" />
+          <dc:Bounds x="573" y="1005" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_067ovrk_di" bpmnElement="SequenceFlow_067ovrk">

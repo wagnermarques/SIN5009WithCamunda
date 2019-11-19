@@ -2,9 +2,47 @@
 #+Subtitle:
 
 * Introducao e Apresentacao deste material   
+  Este texto foi construindo enquanto fazíamos o trabalho final da
+  disciplina SIN5009. Ele serve como anotação e suporte para obter
+  mais possibilidade de reproduzir o trabalho novamente.
+
+  Para isso anotamos aqui todos os comandos que utilizamos e acessos a
+  webservices e demais anotações relevantes para referência posterior
+  tanto nossa como também de outras pessoas que se interessarem.
+
+  Os comandos são do linux, mas usando o bash da instalação do git
+  para windows é possível utilizar os mesmos comandos no windows
+  também.
+
+  
+  
 * Download e Instalacao
+  Ferramentas utilizadas foram:
+  + Servidor bpm do camunda
+    Url:
+
+  + Modelador BPMN do camunda
+    Url:
+
+  + Eclipse IDE
+    Url:
+
+  + ESB Talend
+    Url:
+
+  + SOAPUI
+    Url:
+
+  + Maven
+    Url:
+
+    A máquina de trabalho deve ter java instalado e configurado.
+  
 ** Setup Environment 
- 
+   Abaixo segue comandos que declaram a localizacao das ferramentas na
+   máquina de trabalho. Indicando os locais corretos, todos os outros
+   comandos deste texto vao funcionar corretamente.
+   
   #+NAME:  setup environment                   
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #starts code
@@ -65,9 +103,7 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : ECLIPSE_HOME/eclipse
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-   : [1] 28410
+   : [1] 29322
 
 ** Rodando nosso ESB (Talend )
 
@@ -83,7 +119,6 @@
    : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
    : [wagner@Unknown container]$ [3] 2865
 
-
 ** Rodando o eclipse IDE
    #+NAME: rodando o eclipse IDE
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -94,6 +129,7 @@
    : [1] 15014
 
 ** Acessando camunda bpm   
+*** Fazendo undeploy de processos
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
@@ -105,18 +141,16 @@
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
+   : ECLIPSE_HOME/eclipse
    : [wagner@nsipc163 SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
-
-   
-
 
    A chamada rest acima realmente faz o undeploy dos processos
    entretanto o arquivo war continua no diretorio de deploy do
    servidor.
 
-
+*** Fazendo undeploy do projeto war
    Pra fazer o undeploy do war basta dar o comando 
    
    mvn clean
@@ -504,11 +538,18 @@ Meu eclipse acabou nao encontrando nenhum archetype nesse repositorio
 remoto, mas dando um mvn archetype:generate vc vai encontrar eesses
 archetypes listados lá...
 
-camunda4.png
+
 * referencias
   https://docs.camunda.org/get-started/quick-start/
 
-
+* Nossos webservices
+** nossos rest services
+   
+   #+NAME: acess nosso rest service1                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      curl -X POST localhost:8090/processoCliente
+   #+END_SRC
 * Desligando todos os tools
   
    #+NAME: Desligando todos os tools    
