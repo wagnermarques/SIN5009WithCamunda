@@ -1,0 +1,11 @@
+{
+    "variables": {
+        "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+        "tipoDeCliente" : {"value" : "vip", "type": "String"},
+        "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+        "canal_de_comunicacao" : {"value" : "presencial", "type": "String", "valueInfo" : { "transient" : false } }        
+    }
+}
+
+
+
