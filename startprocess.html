@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Formweb SIN5009 - Ag Viagens</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script>
+         function iniciarProcesso(){
+
+             let payloadMsgStarProcessCliente = {
+                 "variables": {
+                     "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+                     "tipoDeCliente" : {"value" : "vip", "type": "String"},
+                     "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+                     "canal_de_comunicacao" : {"value" : "formweb", "type": "String", "valueInfo" : { "transient" : false } }        
+                 }
+             };
+             
+             
+             $.ajax({
+                 url: "http://localhost:8080/engine-rest/process-definition/key/Process_Participant_Cliente/start",
+                 dataType: "json",
+                 type: "POST",
+                 contentType: 'application/json',
+                 data: JSON.stringify(payloadMsgStarProcessCliente),
+                 processData: false,
+                 //headers: {
+                 //    'Content-Type': 'application/json'
+                 //},
+                 complete: function(response,textStatus){
+                     console.log(" ### ajax complete: function(response,textStatus){.... => ");
+                     console.log("response:");
+                     console.log(response);
+                     console.log("textStatus");
+                     console.log(textStatus);
+                 },
+                 success: function(){
+                     console.log(" ### ajax success: function(){.... => requisicao de start de processo enviada com sucesso!!!");
+                 },
+                 error: function(jqXHR, textStatus, errorThrown){
+                     console.log("error: function(jqXHR, textStatus, errorThrown){... ");
+                     console.log(jqXHR);
+                     console.log(textStatus);
+                     console.log(errorThrown);
+                 } 
+             }).done(function(){
+                 console.log("done");
+             });;
+         }
+        </script>
+    </head>
+    <body>
+
+        
+        
+        <div>
+            <button id="btnLogin" onclick="iniciarProcesso()">Iniciar Processo</button>
+        </div>
+
+    </body>
+</html> 
