@@ -54,12 +54,7 @@
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-  : [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
-  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
-  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
+  : [2] 26579
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -70,7 +65,9 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : [2] 3263
+   : ECLIPSE_HOME/eclipse
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [1] 28410
 
 ** Rodando nosso ESB (Talend )
 
@@ -100,7 +97,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=7c14343e-0ad2-11ea-ae44-b88584fd06d6
+      deploymentId=e784a3e4-0afb-11ea-8a74-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -481,8 +478,8 @@
 
    #+RESULTS: start eclipse
    : 
-   : ECLIPSE_HOME/eclipse
-   : [2] 21646
+   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
+   : [1] 28988
 
 
    depois de abrir o eclipse copie a url do repositorio remoto do

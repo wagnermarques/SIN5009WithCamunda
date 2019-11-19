@@ -133,6 +133,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		}).setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
 				.to("http://localhost:8080/engine-rest/message").process(new Processor() {
+					
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						LOGGER.info(" @@@ The response code is: {} : "

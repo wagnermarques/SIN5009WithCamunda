@@ -15,7 +15,7 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 
 	private final Logger LOGGER = Logger.getLogger(EnviaMsgDeSolicitacaoDePcteDeViagem.class.getName());
-    private final String MSG_NAME="MsgDeSolicitacaoRecebida";
+	private final String MSG_NAME = "MsgDeSolicitacaoRecebida";
 
 	@Override
 	public void execute(DelegateExecution execution) throws Exception {
@@ -28,20 +28,19 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 
 		// runtimeService.startProcessInstanceByMessage("SolicitacaoDePcteDeViagemRecebidaPelaAgDeViagem");
 
-		/* 
-		 * Se o nosso processo cliente tiver um business key a gente passa ele pra agencia de viagens via msg
+		/*
+		 * Se o nosso processo cliente tiver um business key a gente passa ele pra
+		 * agencia de viagens via msg
 		 */
 		if (thisProcessExecutionBusinessKey != null) {
-			correlateWithResult = runtimeService
-					.createMessageCorrelation(this.MSG_NAME)
-					.processInstanceBusinessKey(thisProcessExecutionBusinessKey)
+			correlateWithResult = runtimeService.createMessageCorrelation(this.MSG_NAME)
+					.processInstanceBusinessKey(thisProcessExecutionBusinessKey).setVariables(execution.getVariables())
 					.correlateWithResult();
 		} else {
-			correlateWithResult = runtimeService
-                            .createMessageCorrelation(this.MSG_NAME)
-					.correlateWithResult();
+			correlateWithResult = runtimeService.createMessageCorrelation(this.MSG_NAME)
+					.setVariables(execution.getVariables()).correlateWithResult();
 		}
-		
+
 		LOGGER.info("**** entendendo correlateWithResult...");
 		MessageCorrelationResultType resultType = correlateWithResult.getResultType();
 
