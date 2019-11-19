@@ -73,4 +73,10 @@
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17.jar" sourcepath="M2_REPO/log4j/log4j/1.2.17/log4j-1.2.17-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-sql/2.15.2/camel-sql-2.15.2.jar" sourcepath="M2_REPO/org/apache/camel/camel-sql/2.15.2/camel-sql-2.15.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-mail/2.15.2/camel-mail-2.15.2.jar" sourcepath="M2_REPO/org/apache/camel/camel-mail/2.15.2/camel-mail-2.15.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-jackson/2.24.2/camel-jackson-2.24.2.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-databind/2.9.9.3/jackson-databind-2.9.9.3.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-annotations/2.9.0/jackson-annotations-2.9.0.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-core/2.9.9/jackson-core-2.9.9.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.9.9/jackson-module-jaxb-annotations-2.9.9.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/camel/camel-jaxb/2.24.2/camel-jaxb-2.24.2.jar"/>
 </classpath>

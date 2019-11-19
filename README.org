@@ -49,16 +49,13 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
-  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
-  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
+  : [1] 8996
+  : [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [2] 8997
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -69,8 +66,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : ECLIPSE_HOME/eclipse
-   : [1] 13432
+   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
+   : [2] 25159
 
 ** Rodando nosso ESB (Talend )
 
@@ -86,33 +83,33 @@
    : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
    : [wagner@Unknown container]$ [3] 2865
 
+
 ** Rodando o eclipse IDE
-** Acessando camunda bpm   
    #+NAME: rodando o eclipse IDE
    #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      $ECLIPSE   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
+   $ECLIPSE_HOME/eclipse &
+   #+END_SRC
+
+   #+RESULTS: rodando o eclipse IDE
+   : [1] 15014
+
+** Acessando camunda bpm   
+   #+NAME: fazendo undeploy cascade true
+   #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=3eb9bb07-09a3-11ea-adc7-7440bbfe2c2f
+      deploymentId=e582f0d6-0a95-11ea-ae44-b88584fd06d6
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
 
-   #+RESULTS: rodando o eclipse IDE
-   : 
-   : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ List deployments
-   : [wagner@Unknown SIN5009WithCamunda]$
+   #+RESULTS: fazendo undeploy cascade true
+   : List deployments
+   : [wagner@nsipc163 SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
-   #+RESULTS: deployments list e delete
-   : 
-   : List deployments
-   : [wagner@Unknown SIN5009WithCamunda]$
-   : ----------------------------------------------------------------------
-   : .
+   
 
 
    A chamada rest acima realmente faz o undeploy dos processos
@@ -162,13 +159,22 @@
      processo.
      https://docs.camunda.org/get-started/quick-start/deploy/
      
+***** Iniciando um processo enviando uma mensagem de start
+
+      https://docs.camunda.org/manual/develop/reference/rest/message/post-message/
+      
+      POST /message
+
+
+      Iniciando o processo de agencia de viagens enviando uma msg de
+      start para o processo
+
    #+NAME: iniciando processo                     
    #+BEGIN_SRC shell :session s1 :results output :exports both
      #starts code     
-
+     
       echo .      
-      processDefinitionKey=procIdCliente
-      echo $(curl --silent -H "Content-Type: application/json" -X POST -d '{"variables": {"tipos_de_clientes": "email"}}' http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start)
+      echo $(curl --silent -H "Content-Type: application/json" -X POST -d @starMsg_MsgDeSolicitacaoRecebida.json http://localhost:8080/engine-rest/message)
       echo 
       echo .
      
@@ -188,12 +194,22 @@
 
    #+RESULTS: iniciando processo
    : 
-   : [wagner@Unknown cxf-jaxws-javafirst-webservice]$ .
-   : [wagner@Unknown cxf-jaxws-javafirst-webservice]$   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-   :                                  Dload  Upload   Total   Spent    Left  Speed
-   :   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100    48    0     0  100    48      0     21  0:00:02  0:00:02 --:--:--    21100   554    0   506  100    48    119     11  0:00:04  0:00:04 --:--:--   130100   554    0   506  100    48    119     11  0:00:04  0:00:04 --:--:--   130
-   : 1$1); line: 1, column: 40] (through reference chain: org.camunda.bpm.engine.rest.dto.runtime.StartProcessInstanceDto[\"variables\"]->java.util.LinkedHashMap[\"canal_de_comunicacao\"])"}
+   : [wagner@nsipc163 SIN5009WithCamunda]$ .
+   : [{"resultType":"ProcessDefinition","execution":null,"processInstance":{"links":[],"id":"8db218cb-0a97-11ea-ae44-b88584fd06d6","definitionId":"e5845069-0a95-11ea-ae44-b88584fd06d6","businessKey":"789","caseInstanceId":null,"ended":false,"suspended":false,"tenantId":null}}]
+   : 
    : .
+
+
+   Iniciando o processo de Cliente
+
+   #+NAME:                     
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      echo .      
+      echo $(curl --silent -H "Content-Type: application/json" -X POST -d @starMsg_MsgDeSolicitacaoRecebida.json http://localhost:8080/engine-rest/message)
+      echo .
+      echo .
+   #+END_SRC
 
 
 **** Quantos estao executando?
@@ -236,10 +252,9 @@
    : [wagner@localhost SIN5009WithCamunda]$ curl: (22) The requested URL returned error: 415
    : ----------------------------------------------------------------------\n
 
-   
-** Acessando o camunda Modeler
+
 ** Acesando o nosso esb 
-    � possivel acessar o esb talend pelo menos de duas maneiras:
+    É possivel acessar o esb talend pelo menos de duas maneiras:
 
 **** webconsole
      Usando o webconsole do karaf
@@ -331,7 +346,7 @@
 
    #+RESULTS: undeploy all
    : 
-   : rm: não foi possível remover '/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009NonBpmnEngineArtifacts/talend/Runtime_ESBSE/container/deploy/*': No such file or directory
+   : rm: nÃ£o foi possÃ­vel remover '/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009NonBpmnEngineArtifacts/talend/Runtime_ESBSE/container/deploy/*': No such file or directory
 
 
     Fazendo deploy dos servicos
@@ -415,7 +430,7 @@
 
 *** urls references
     
-**** P�gina de boas vindas que mostra as appps do camunda
+**** Página de boas vindas que mostra as appps do camunda
      localhost:8080/camunda-welcome/index.html
 
 **** app cockpit
@@ -475,7 +490,7 @@
    [[../imgs/camunda1.png]]
 
 
-   Agora, no eclipe v� em Window -> Preferences -> Maven -> Archetypes
+   Agora, no eclipe vá em Window -> Preferences -> Maven -> Archetypes
    Clique no botao add remote catalog 
    
    e cole o repositorio, conforme a img abaixo
@@ -487,7 +502,7 @@
 
 Meu eclipse acabou nao encontrando nenhum archetype nesse repositorio
 remoto, mas dando um mvn archetype:generate vc vai encontrar eesses
-archetypes listados l�...
+archetypes listados lá...
 
 camunda4.png
 * referencias

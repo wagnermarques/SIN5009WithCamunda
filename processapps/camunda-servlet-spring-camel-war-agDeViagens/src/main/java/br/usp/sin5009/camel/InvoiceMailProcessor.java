@@ -3,7 +3,7 @@ package br.usp.sin5009.camel;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.activation.DataHandler;
+//import javax.activation.DataHandler;
 import javax.mail.internet.MimeMultipart;
 
 import org.apache.camel.Exchange;
@@ -13,7 +13,7 @@ import br.usp.sin5009.ServiceTasks.LoggerDelegate;
 
 public class InvoiceMailProcessor implements Processor {
 
-	private final Logger LOGGER = Logger.getLogger(LoggerDelegate.class.getName());
+	private final Logger LOGGER = Logger.getLogger(InvoiceMailProcessor.class.getName());
 
     public void InvoiceMailProcessor(){
         LOGGER.info("\n\n ||| InvoiceMailProcessor |||-> public void InvoiceMailProcessor(){...\n");

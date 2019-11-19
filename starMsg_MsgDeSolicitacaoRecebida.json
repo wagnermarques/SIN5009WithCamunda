@@ -1,0 +1,11 @@
+{
+    "messageName" : "MsgDeSolicitacaoRecebida",
+    "businessKey" : "789",
+    "processVariables" : {
+        "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : true } },
+        "tipoDeCliente" : {"value" : "vip", "type": "String"},
+        "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : true } },
+        "canal_de_comunicacao" : {"value" : "presencial", "type": "String", "valueInfo" : { "transient" : true } }        
+    },
+    "resultEnabled" : true
+}
