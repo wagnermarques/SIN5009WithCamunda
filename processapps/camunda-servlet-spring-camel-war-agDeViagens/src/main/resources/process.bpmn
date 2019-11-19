@@ -6,30 +6,16 @@
     <bpmn:messageFlow id="MessageFlow_1hgr9dw" name="MsgDeSolicitacao" sourceRef="IntermediateThrowEvent_MsgDeSolicitacaoRecebida" targetRef="StartEvent_MsgDeSolicitacaoRecebida" />
   </bpmn:collaboration>
   <bpmn:process id="Process_Participant_Cliente" name="Process_Participant_Cliente" isExecutable="true">
+    <bpmn:startEvent id="StartEventProcessStarted" name="IntencaoDeViajar" camunda:formKey="embedded:app:forms/start-form.html">
+      <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_067ovrk" sourceRef="IntermediateMsgCatch_JustWaiting2" targetRef="EndEventProcessEnded" />
+    <bpmn:sequenceFlow id="SequenceFlow_18lodvg" sourceRef="IntermediateThrowEvent_MsgDeSolicitacaoRecebida" targetRef="IntermediateMsgCatch_JustWaiting2" />
+    <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEventProcessStarted" targetRef="Task_1vyhi2l" />
+    <bpmn:sequenceFlow id="SequenceFlow_0epce8g" sourceRef="ExclusiveGateway_19w623j" targetRef="IntermediateThrowEvent_MsgDeSolicitacaoRecebida" />
     <bpmn:endEvent id="EndEventProcessEnded" name="File&#10;written">
       <bpmn:incoming>SequenceFlow_067ovrk</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:startEvent id="StartEventProcessStarted" name="Variable &#39;myMar&#39; entered" camunda:formKey="embedded:app:forms/start-form.html">
-      <bpmn:outgoing>SequenceFlow1</bpmn:outgoing>
-    </bpmn:startEvent>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0kkmz26">
-      <bpmn:incoming>SequenceFlow1</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_07fs12i</bpmn:outgoing>
-      <bpmn:outgoing>SequenceFlow_0k8ldlu</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Task_EnviaEmailDeSolicDePcteDeViagem" name="EnviaEmailDeSolicDePcteDeViagem" camunda:expression="${camel.sendTo(&#39;direct:enviaEmailDeSolicitacaoDePctesDeViagem&#39;, &#39;tipoDeCliente,nomeDoCliente&#39;)}">
-      <bpmn:incoming>SequenceFlow_07fs12i</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1b0hbyl</bpmn:outgoing>
-    </bpmn:serviceTask>
-    <bpmn:task id="Task_15j1dyz">
-      <bpmn:incoming>SequenceFlow_0k8ldlu</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0i06cm5</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_19w623j">
-      <bpmn:incoming>SequenceFlow_1b0hbyl</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0i06cm5</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0epce8g</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
     <bpmn:intermediateCatchEvent id="IntermediateMsgCatch_JustWaiting2" name="JustWaiting">
       <bpmn:incoming>SequenceFlow_18lodvg</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_067ovrk</bpmn:outgoing>
@@ -40,18 +26,50 @@
       <bpmn:outgoing>SequenceFlow_18lodvg</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0c7153t" camunda:class="br.usp.sin5009.MensagensEnviadas.EnviaMsgDeSolicitacaoDePcteDeViagem" />
     </bpmn:intermediateThrowEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_067ovrk" sourceRef="IntermediateMsgCatch_JustWaiting2" targetRef="EndEventProcessEnded" />
-    <bpmn:sequenceFlow id="SequenceFlow_18lodvg" sourceRef="IntermediateThrowEvent_MsgDeSolicitacaoRecebida" targetRef="IntermediateMsgCatch_JustWaiting2" />
-    <bpmn:sequenceFlow id="SequenceFlow1" sourceRef="StartEventProcessStarted" targetRef="ExclusiveGateway_0kkmz26" />
+    <bpmn:serviceTask id="Task_EnviaEmailDeSolicDePcteDeViagem" name="EnviaEmailDeSolicDePcteDeViagem" camunda:expression="${camel.sendTo(&#39;direct:enviaEmailDeSolicitacaoDePctesDeViagem&#39;, &#39;tipoDeCliente,nomeDoCliente&#39;)}">
+      <bpmn:incoming>SequenceFlow_07fs12i</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1b0hbyl</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_19w623j">
+      <bpmn:incoming>SequenceFlow_1b0hbyl</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0i06cm5</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0epce8g</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Task_15j1dyz">
+      <bpmn:incoming>SequenceFlow_0k8ldlu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0i06cm5</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0kkmz26">
+      <bpmn:incoming>SequenceFlow_1dvxa2m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_07fs12i</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0k8ldlu</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1b0hbyl" sourceRef="Task_EnviaEmailDeSolicDePcteDeViagem" targetRef="ExclusiveGateway_19w623j" />
     <bpmn:sequenceFlow id="SequenceFlow_07fs12i" sourceRef="ExclusiveGateway_0kkmz26" targetRef="Task_EnviaEmailDeSolicDePcteDeViagem">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${canal_de_comunicacao == 'email'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_0i06cm5" sourceRef="Task_15j1dyz" targetRef="ExclusiveGateway_19w623j" />
     <bpmn:sequenceFlow id="SequenceFlow_0k8ldlu" sourceRef="ExclusiveGateway_0kkmz26" targetRef="Task_15j1dyz">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${canal_de_comunicacao == 'presencial'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0epce8g" sourceRef="ExclusiveGateway_19w623j" targetRef="IntermediateThrowEvent_MsgDeSolicitacaoRecebida" />
-    <bpmn:sequenceFlow id="SequenceFlow_0i06cm5" sourceRef="Task_15j1dyz" targetRef="ExclusiveGateway_19w623j" />
+    <bpmn:sequenceFlow id="SequenceFlow_1cie6to" sourceRef="Task_1vyhi2l" targetRef="Task_0bmwukj" />
+    <bpmn:manualTask id="Task_1vyhi2l" name="Planejar a Viagem">
+      <bpmn:incoming>SequenceFlow1</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1cie6to</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1dvxa2m" sourceRef="Task_0bmwukj" targetRef="ExclusiveGateway_0kkmz26" />
+    <bpmn:manualTask id="Task_0bmwukj" name="Decidir Canal de Comunicacao com Ag de Viagem">
+      <bpmn:incoming>SequenceFlow_1cie6to</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1dvxa2m</bpmn:outgoing>
+    </bpmn:manualTask>
+    <bpmn:textAnnotation id="TextAnnotation_0h132b8">
+      <bpmn:text>Canais de comunicacao previstos: a) email,  b)presencial e  c)formweb</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1prf28w" sourceRef="Task_0bmwukj" targetRef="TextAnnotation_0h132b8" />
+    <bpmn:textAnnotation id="TextAnnotation_0155rr9">
+      <bpmn:text>Endpoints possiveis para inicializar este processo sao: a)rest service do camunda</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_07pv1hi" sourceRef="StartEventProcessStarted" targetRef="TextAnnotation_0155rr9" />
   </bpmn:process>
   <bpmn:process id="Process_Participant_AgDeViagem" name="Process_Participant_AgDeViagem" isExecutable="true">
     <bpmn:startEvent id="StartEvent_MsgDeSolicitacaoRecebida" name="MsgDeSolicitacaoRecebida">
@@ -74,34 +92,34 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1ihyywb">
       <bpmndi:BPMNShape id="Participant_06mzrbo_di" bpmnElement="Participant_Cliente" isHorizontal="true">
-        <dc:Bounds x="158" y="80" width="832" height="420" />
+        <dc:Bounds x="158" y="40" width="1732" height="460" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEventProcessStarted">
         <dc:Bounds x="232" y="272" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="210" y="308" width="81" height="27" />
+          <dc:Bounds x="209" y="308" width="85" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_0fkea3f_di" bpmnElement="EndEventProcessEnded">
-        <dc:Bounds x="872" y="272" width="36" height="36" />
+        <dc:Bounds x="1182" y="272" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="874" y="308" width="32" height="27" />
+          <dc:Bounds x="1184" y="308" width="32" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0z21t52_di" bpmnElement="Task_EnviaEmailDeSolicDePcteDeViagem">
-        <dc:Bounds x="400" y="140" width="100" height="80" />
+        <dc:Bounds x="680" y="140" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1b0hbyl_di" bpmnElement="SequenceFlow_1b0hbyl">
-        <di:waypoint x="500" y="180" />
-        <di:waypoint x="556" y="180" />
-        <di:waypoint x="556" y="265" />
+        <di:waypoint x="780" y="180" />
+        <di:waypoint x="836" y="180" />
+        <di:waypoint x="836" y="265" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="398" y="105" width="0" height="0" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_08va5r8_di" bpmnElement="SequenceFlow1">
         <di:waypoint x="268" y="290" />
-        <di:waypoint x="305" y="290" />
+        <di:waypoint x="310" y="290" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="239" y="105" width="0" height="0" />
         </bpmndi:BPMNLabel>
@@ -120,22 +138,22 @@
         <di:waypoint x="350" y="680" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_18lodvg_di" bpmnElement="SequenceFlow_18lodvg">
-        <di:waypoint x="728" y="290" />
-        <di:waypoint x="772" y="290" />
+        <di:waypoint x="968" y="290" />
+        <di:waypoint x="1052" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateThrowEvent_1349lcv_di" bpmnElement="IntermediateThrowEvent_MsgDeSolicitacaoRecebida">
-        <dc:Bounds x="692" y="272" width="36" height="36" />
+        <dc:Bounds x="932" y="272" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="668" y="242" width="85" height="27" />
+          <dc:Bounds x="908" y="242" width="85" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="MessageFlow_1hgr9dw_di" bpmnElement="MessageFlow_1hgr9dw">
-        <di:waypoint x="710" y="308" />
-        <di:waypoint x="710" y="455" />
+        <di:waypoint x="950" y="308" />
+        <di:waypoint x="950" y="455" />
         <di:waypoint x="270" y="455" />
         <di:waypoint x="270" y="662" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="446" y="437" width="89" height="14" />
+          <dc:Bounds x="566" y="437" width="89" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_09gltqg_di" bpmnElement="Task_1o5drl9">
@@ -152,42 +170,70 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_067ovrk_di" bpmnElement="SequenceFlow_067ovrk">
-        <di:waypoint x="808" y="290" />
-        <di:waypoint x="872" y="290" />
+        <di:waypoint x="1088" y="290" />
+        <di:waypoint x="1182" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_0qk9ibg_di" bpmnElement="IntermediateMsgCatch_JustWaiting2">
-        <dc:Bounds x="772" y="272" width="36" height="36" />
+        <dc:Bounds x="1052" y="272" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="762" y="315" width="57" height="14" />
+          <dc:Bounds x="1042" y="315" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0kkmz26_di" bpmnElement="ExclusiveGateway_0kkmz26" isMarkerVisible="true">
-        <dc:Bounds x="305" y="265" width="50" height="50" />
+        <dc:Bounds x="585" y="265" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_07fs12i_di" bpmnElement="SequenceFlow_07fs12i">
-        <di:waypoint x="330" y="265" />
-        <di:waypoint x="330" y="180" />
-        <di:waypoint x="400" y="180" />
+        <di:waypoint x="610" y="265" />
+        <di:waypoint x="610" y="180" />
+        <di:waypoint x="680" y="180" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Task_15j1dyz_di" bpmnElement="Task_15j1dyz">
-        <dc:Bounds x="390" y="360" width="100" height="80" />
+        <dc:Bounds x="670" y="360" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0k8ldlu_di" bpmnElement="SequenceFlow_0k8ldlu">
-        <di:waypoint x="330" y="315" />
-        <di:waypoint x="330" y="400" />
-        <di:waypoint x="390" y="400" />
+        <di:waypoint x="610" y="315" />
+        <di:waypoint x="610" y="400" />
+        <di:waypoint x="670" y="400" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_19w623j_di" bpmnElement="ExclusiveGateway_19w623j" isMarkerVisible="true">
-        <dc:Bounds x="531" y="265" width="50" height="50" />
+        <dc:Bounds x="811" y="265" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0epce8g_di" bpmnElement="SequenceFlow_0epce8g">
-        <di:waypoint x="581" y="290" />
-        <di:waypoint x="692" y="290" />
+        <di:waypoint x="861" y="290" />
+        <di:waypoint x="932" y="290" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0i06cm5_di" bpmnElement="SequenceFlow_0i06cm5">
-        <di:waypoint x="490" y="400" />
-        <di:waypoint x="556" y="400" />
-        <di:waypoint x="556" y="315" />
+        <di:waypoint x="770" y="400" />
+        <di:waypoint x="836" y="400" />
+        <di:waypoint x="836" y="315" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1cie6to_di" bpmnElement="SequenceFlow_1cie6to">
+        <di:waypoint x="410" y="290" />
+        <di:waypoint x="440" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ManualTask_1xue10g_di" bpmnElement="Task_1vyhi2l">
+        <dc:Bounds x="310" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1dvxa2m_di" bpmnElement="SequenceFlow_1dvxa2m">
+        <di:waypoint x="540" y="290" />
+        <di:waypoint x="585" y="290" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ManualTask_1umkeww_di" bpmnElement="Task_0bmwukj">
+        <dc:Bounds x="440" y="250" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0h132b8_di" bpmnElement="TextAnnotation_0h132b8">
+        <dc:Bounds x="400" y="80" width="222" height="39" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_1prf28w_di" bpmnElement="Association_1prf28w">
+        <di:waypoint x="494" y="250" />
+        <di:waypoint x="509" y="119" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_0155rr9_di" bpmnElement="TextAnnotation_0155rr9">
+        <dc:Bounds x="200" y="120" width="191" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_07pv1hi_di" bpmnElement="Association_07pv1hi">
+        <di:waypoint x="256" y="273" />
+        <di:waypoint x="287" y="174" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

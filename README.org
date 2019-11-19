@@ -49,13 +49,17 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [1] 8996
-  : [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [2] 8997
+  : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+  : [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ [wagner@nsipc163 SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -66,8 +70,7 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-   : [2] 25159
+   : [2] 3263
 
 ** Rodando nosso ESB (Talend )
 

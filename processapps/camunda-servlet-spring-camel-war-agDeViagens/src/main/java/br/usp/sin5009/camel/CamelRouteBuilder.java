@@ -23,9 +23,33 @@ public class CamelRouteBuilder extends RouteBuilder {
 		final String startProcessPostBodyAsJson = "{\"variables\": {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\"}, \"nomeDoCliente\" : { \"value\" : \"denise\",\"type\": \"string\"},\"canal_de_comunicacao\" : {\"value\" : \"pessoalmente\",\"type\": \"string\"}},\"businessKey\" : \"bk123\"}";
 		final String msgStart_AgDeViagem = "{\"messageName\" : \"MsgDeSolicitacaoRecebida\", \"businessKey\" : \"123\",\"processVariables\" : {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true } },\"nomeDeCliente\" : {\"value\" : \"Denise\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"emailDoCliente\" : {\"value\" : \"wagnermarques@usp.br\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"canal_de_comunicacao\" : {\"value\" : \"presencial\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true }}}}";
 
-		// JSON Data Format
-		// JacksonDataFormat jsonDataFormatAsHashMap = new
-		// JacksonDataFormat(java.util.HashMap.class);
+		
+		
+		//N O S S O S   S E R V I C O S    R E S T
+		// configura backend para criacao dos nossos servicos rest
+		// mais informacoes: https://tomd.xyz/articles/camel-rest/
+		restConfiguration().component("restlet").host("localhost").port("8090");
+
+		//Endpoint de servico rest cujo metodo post inicia processo do cliente
+		rest("/processoCliente").post().to("direct:iniciaProcessoDoCliente");
+
+		
+		
+		/**
+		 * Codigo que inicia processo do cliente Pode ser invocado por qualquer end
+		 * point de servico
+		 */
+		from("direct:iniciaProcessoDoCliente").routeId("direct_iniciaProcessoDoCliente")
+				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente + "/submit-form")
+				.process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						LOGGER.info(" @@@ The response code is: {} : "
+								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+					}
+				});
 
 		/**
 		 *
@@ -144,32 +168,27 @@ public class CamelRouteBuilder extends RouteBuilder {
 //				});
 //
 
-		
-		
-		
-		
-		
 		/**
-		 * Um arquivo com a msg de starta PROCESSO DA AG DE VIAGEM
-		 * Esse codigo nao faz parte de nenhum dos nossos use cases porque mesmo que o atendimento
-		 * fosse presencial com o agente de viagens salvando um arquivo nesse diretorio o ideal seria
-		 * iniciar o processo do cliente que por sua vez inicializa o processo da agencia
-		 * Entretanto, interessa porque he um exemplo de como enviar uma mensagem para um processo via codigo
+		 * Um arquivo com a msg de starta PROCESSO DA AG DE VIAGEM Esse codigo nao faz
+		 * parte de nenhum dos nossos use cases porque mesmo que o atendimento fosse
+		 * presencial com o agente de viagens salvando um arquivo nesse diretorio o
+		 * ideal seria iniciar o processo do cliente que por sua vez inicializa o
+		 * processo da agencia Entretanto, interessa porque he um exemplo de como enviar
+		 * uma mensagem para um processo via codigo
 		 * 
-		 */		
-		from("file:"+sin5009InputFolder+"?noop=false&fileName=starMsg_MsgDeSolicitacaoRecebida.json").process(new Processor() {
-
-			@Override
-			public void process(Exchange exchange) throws Exception {
-				String body = exchange.getIn().getBody(String.class);
-				System.out.println(body);
-			}
-
-		})		
-		.setHeader(Exchange.HTTP_METHOD, constant("POST"))
-				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/message")
+		 */
+		from("file:" + sin5009InputFolder + "?noop=false&fileName=starMsg_MsgDeSolicitacaoRecebida.json")
 				.process(new Processor() {
+
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						String body = exchange.getIn().getBody(String.class);
+						System.out.println(body);
+					}
+
+				}).setHeader(Exchange.HTTP_METHOD, constant("POST"))
+				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
+				.to("http://localhost:8080/engine-rest/message").process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						LOGGER.info(" @@@ The response code is: {} : "
@@ -177,27 +196,24 @@ public class CamelRouteBuilder extends RouteBuilder {
 					}
 				});
 
-		
-		
-
-		
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
 		 * ATENDIMENTO PRESENCIAL o arquivo, sendo colocado na pasta sin5009InputFolder,
 		 * estarta automaticamente o processo
-		 */		
-		from("file:"+sin5009InputFolder+"?noop=false&fileName=payloadMsg_startProcess_Cliente.json").process(new Processor() {
+		 */
+		from("file:" + sin5009InputFolder + "?noop=false&fileName=payloadMsg_startProcess_Cliente.json")
+				.process(new Processor() {
 
-			@Override
-			public void process(Exchange exchange) throws Exception {
-				String body = exchange.getIn().getBody(String.class);
-				System.out.println(body);
-			}
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						String body = exchange.getIn().getBody(String.class);
+						System.out.println(body);
+					}
 
-		})		
-		.setHeader(Exchange.HTTP_METHOD, constant("POST"))
+				}).setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/process-definition/key/"+processDefinitionKey_Cliente+"/submit-form")
+				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
+						+ "/submit-form")
 				.process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
@@ -206,15 +222,6 @@ public class CamelRouteBuilder extends RouteBuilder {
 					}
 				});
 
-
-		
-		
-		
-		
-		
-		
-		
-		
 //		from("file:" + sin5009InputFolder + "?noop=false").process(new Processor() {
 //
 //			@Override
