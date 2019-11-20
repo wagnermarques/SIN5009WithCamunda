@@ -4,7 +4,7 @@
 * Introducao e Apresentacao deste material   
   Este texto foi construindo enquanto fazíamos o trabalho final da
   disciplina SIN5009. Ele serve como anotação e suporte para obter
-  mais possibilidade de reproduzir o trabalho novamente.
+  maior possibilidade de reproduzir o trabalho.
 
   Para isso anotamos aqui todos os comandos que utilizamos e acessos a
   webservices e demais anotações relevantes para referência posterior
@@ -13,12 +13,11 @@
   Os comandos são do linux, mas usando o bash da instalação do git
   para windows é possível utilizar os mesmos comandos no windows
   também.
-
-  
   
 * Download e Instalacao
-  Ferramentas utilizadas foram:
+** Ferramentas utilizadas foram:
   + Servidor bpm do camunda
+    
     Url:
 
   + Modelador BPMN do camunda
@@ -35,17 +34,49 @@
 
   + Maven
     Url:
-
-    A máquina de trabalho deve ter java instalado e configurado.
+        A máquina de trabalho deve ter java instalado e configurado.
+  + curl
+    A gente vai querer fazer chamadas a webservices e o curl é uma
+    maneira mais prática de fazer isso utilizando a linha de comando
+    Url:
+    https://curl.haxx.se
+    
+    https://pt.wikipedia.org/wiki/CURL
+    
+** Diferencas e Semelhancas  entre o camunda e o bonita
+   A primeira parte do trabalho foi feita no bonita e a segunda no
+   camunda. Por isso vamos colocar nossas observacoes relativas as
+   diferencas e semelhancas entre eles.
   
-** Setup Environment 
+   Essas observações estão dentre da perspectiva de um usuário comum e não tipo um
+   arquiteto java.
+
+   + Utilizacao do Modelador(BPMN) e do Servidor (Diferenca)
+     Sob a perspectiva do usuário, na próprio IDE do bonita é possível
+     fazer tudo, ou seja, modelar e rodar o projeto no servidor. 
+     Já com o camunda, o usuário tem que lidar com o servidor e com o
+     modelador separadamente.
+     Quem usar o bonita vai ter a IDE do bonita que é um eclipse
+     customizado, mas quem for usar o camunda vai usar o eclise sem customização.
+
+   + Tecnologia 
+     Stack de tecnologias Java (Semelhantes)
+     Os projetos do camunda usam ferramente de build maven/gradle do
+     bonita é projeto do eclipse normal mesmo (Diferenca)
+
+     (mais semelhancas e diferencas que a gente for percebendo....)
+
+** Setup do Ambiente de Desenvolvimento 
+
    Abaixo segue comandos que declaram a localizacao das ferramentas na
-   máquina de trabalho. Indicando os locais corretos, todos os outros
+   máquina de desenvolvimento, indicando os locais onde elas estao
+   instaladas. Vc deve modificar de acordo com o lugar onde voce
+   instalou elas na sua máquina. Fazendo isso, todos os demais
    comandos deste texto vao funcionar corretamente.
+   
    
   #+NAME:  setup environment                   
   #+BEGIN_SRC shell :session s1 :results output :exports both
-     #starts code
      export thisRepoDir=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda
      export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
      export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
@@ -64,7 +95,7 @@
   #+END_SRC
 
   #+RESULTS: setup environment
-
+  
 * Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Rodando o camunda platform
  
@@ -72,13 +103,6 @@
    Sera aberta no navegador a seguinte url
    http://localhost:8080/camunda/app/admin/default/#/login
    
-
-   #+NAME:                     
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-     
-   #+END_SRC
-
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #Comando para startart o camunda
@@ -87,12 +111,14 @@
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [2] 26579
+  : CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"
+  : [2] 23251
+  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [3] 23252
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -103,7 +129,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : [1] 29322
+   : ECLIPSE_HOME/eclipse
+   : [1] 8373
 
 ** Rodando nosso ESB (Talend )
 
@@ -125,15 +152,20 @@
    $ECLIPSE_HOME/eclipse &
    #+END_SRC
 
-   #+RESULTS: rodando o eclipse IDE
-   : [1] 15014
+* Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
+** Acessando o camunda platform   
+   A gente vai precisar fazer acessos ao servicor do camunda bpm pra
+   varias tarefas como fazer undeploy de processos, deploy etc...
 
-** Acessando camunda bpm   
+   Os acessos ao servidor he feito utilizando os endpoints rest que
+   ele fornece.
+   
+   Para acessar os endpoints vamos usar o comando curl
 *** Fazendo undeploy de processos
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=e784a3e4-0afb-11ea-8a74-7440bbfe2c2f
+      deploymentId=c4325b20-0b38-11ea-8a74-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -141,8 +173,7 @@
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
-   : ECLIPSE_HOME/eclipse
-   : [wagner@nsipc163 SIN5009WithCamunda]$
+   : [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
@@ -158,7 +189,8 @@
    Fazer o undeploy do war com mvn clean nao faz o undeploy do
    processo no cockpit do camunda.
 
-   
+   Use o comando abaixo pra listar seus pacotes war no diretorio de
+   deploy do servidor do camunda.
    #+NAME: ls deploy dir
    #+BEGIN_SRC shell :session s1 :results output :exports both
       #starts code
@@ -183,7 +215,7 @@
    drwxr-x---.  3 wagner wagner    4096 out 24 15:07 ROOT
    #+end_example
 
-**** iniciando um processo
+*** iniciando um processo
      Pra ler um pouco mais sobre como instanciar um processo fazendo
      uma chamada rest, acesse a url abaixo:
 
@@ -193,7 +225,7 @@
      processo.
      https://docs.camunda.org/get-started/quick-start/deploy/
      
-***** Iniciando um processo enviando uma mensagem de start
+**** Iniciando um processo enviando uma mensagem de start
 
       https://docs.camunda.org/manual/develop/reference/rest/message/post-message/
       
@@ -286,7 +318,6 @@
    : [wagner@localhost SIN5009WithCamunda]$ curl: (22) The requested URL returned error: 415
    : ----------------------------------------------------------------------\n
 
-
 ** Acesando o nosso esb 
     É possivel acessar o esb talend pelo menos de duas maneiras:
 
@@ -320,35 +351,8 @@
       #starts code
       echo $(curl localhost:8080/engine-rest/
    #+END_SRC
-* Criando o processo
-  
-   #+NAME: mvn clean package antrun:copy.war.into.tomcat
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-     cd $thisRepoDir/processapps/AgDeViagens
-     mvn clean package antrun:copy.war.into.tomcat
-   #+END_SRC
-
-   #+RESULTS: mvn clean package antrun:copy.war.into.tomcat
-   #+begin_example
-
-   [[1;34mINFO[m] Scanning for projects...
-   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-   [[1;34mINFO[m] [1;31mBUILD FAILURE[m
-   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-   [[1;34mINFO[m] Total time:  1.753 s
-   [[1;34mINFO[m] Finished at: 2019-11-06T21:12:51-02:00
-   [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
-   [1m[Help 1][m
-   [[1;31mERROR[m] 
-   [[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
-   [[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
-   [[1;31mERROR[m] 
-   [[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
-   [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoNotFoundException
-   #+end_example
 
 * Instalando (Deploy) os artefatos de software para rodar o processo
-
 ** Instalando no esb dependencias necessarias pra rodar nossos servicos
 
       #+NAME:  installnig component                   
@@ -358,7 +362,6 @@
       #https://camel.apache.org/components/latest/jasypt.html
       cd $ESB_CMD feature:install camel-jasypt
    #+END_SRC
-
 
 ** Instalando servicos no barramento de servicos
    Agora que a gente ligou nossos servidores falta instalar ainda o que
@@ -502,45 +505,28 @@
 
 ** Usando Camunda Modeler e rodando um processo e integrando ele com nossa logica de negocio
    
-* Criando um processo
-    
-   #+NAME: start eclipse
+* Criando o processo e rodando 
+
+  Visão geral como trabalhar com o camunda.
+
+  Para criar um projeto, use o maven normalmente.
+  mvn archetype:generate
+
+  Escolha um dos archetypes do camunda 
+
+  Edite o process.bpmn que está nos resources do seu projeto
+
+  Com o camunda bpm server instalado, agora pode rodar o projeto.
+  Enquanto ferramentas bpms fornecem um botão de play, no camunda, a
+  gente roda o projeto com o comando do maven. Rodar o projeto
+  significa preparar e compilar o projeto e finalmente o deploy.
+
+  O comando abaixo faz tudo isso.
+   #+NAME: mvn clean package antrun:copy.war.into.tomcat
    #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
-      $ECLIPSE_HOME/eclipse &
+     cd diretorio do seu projeto
+     mvn clean package antrun:run
    #+END_SRC
-
-   #+RESULTS: start eclipse
-   : 
-   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-   : [1] 28988
-
-
-   depois de abrir o eclipse copie a url do repositorio remoto do
-   camunda conforme abaixo. Depois a gente vai colar no eclipse, pro
-   eclipse poder encontrar os archetypes (modelos de projetos) do
-   camunda.
-
-   [[../imgs/camunda1.png]]
-
-
-   Agora, no eclipe vá em Window -> Preferences -> Maven -> Archetypes
-   Clique no botao add remote catalog 
-   
-   e cole o repositorio, conforme a img abaixo
-
-   [[../imgs/camunda2.png]]
-
-   tem isso mais detalhado em
-   https://docs.camunda.org/manual/7.11/user-guide/process-applications/maven-archetypes/
-
-Meu eclipse acabou nao encontrando nenhum archetype nesse repositorio
-remoto, mas dando um mvn archetype:generate vc vai encontrar eesses
-archetypes listados lá...
-
-
-* referencias
-  https://docs.camunda.org/get-started/quick-start/
 
 * Nossos webservices
 ** nossos rest services
@@ -550,6 +536,9 @@ archetypes listados lá...
       #starts code
       curl -X POST localhost:8090/processoCliente
    #+END_SRC
+* referencias
+  https://docs.camunda.org/get-started/quick-start/
+
 * Desligando todos os tools
   
    #+NAME: Desligando todos os tools    

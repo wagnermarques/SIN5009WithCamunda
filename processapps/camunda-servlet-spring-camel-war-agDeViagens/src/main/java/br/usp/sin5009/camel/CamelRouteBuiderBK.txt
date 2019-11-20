@@ -64,7 +64,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		from("direct:enviaEmailDeSolicitacaoDePctesDeViagem").routeId("directEnviaEmailDeSolicitacaoDePctesDeViagem")
 				.doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem Recebida"))
 				.setHeader("to", simple("wagnerdocri@gmail.com"))
-				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=GooMt23-910*Email");
+				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta");
 
 		/**
 		 *
@@ -260,12 +260,12 @@ public class CamelRouteBuilder extends RouteBuilder {
 		// .doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem
 		// Recebida"))
 		// .setHeader("to", simple("wagnerdocri@gmail.com"))
-		// .to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=GooMt23-910*Email")
+		// .to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta")
 
 		// .doTry().setHeader("subject", simple("Vc Deixou uma Solicitacao De Pctes De
 		// Viagem em Nossa Agencia"))
 		// .setHeader("to", simple("wagnermarques@usp.br"))
-		// .to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=GooMt23-910*Email");
+		// .to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta");
 
 		// from("file:C:/inboxPOST?noop=true").process(new
 		// CreateEmployeeProcessor()).marshal(jsonDataFormat)
@@ -279,7 +279,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		 * 
 		 *
 		 **/
-		// from("imaps://imap.gmail.com:993?username=wagnerdocri@gmail.com&password=GooMt23-910*Email&delete=false&unseen=true&consumer.delay=6000")
+		// from("imaps://imap.gmail.com:993?username=wagnerdocri@gmail.com&password=SenhaSecreta&delete=false&unseen=true&consumer.delay=6000")
 		// .to("log:org.camunda.demo.camel?level=INFO&showAll=true&multiline=true")
 		// .process(new InvoiceMailProcessor())
 		// .to("camunda-bpm:start?processDefinitionKey=Process_Participant_Cliente");
