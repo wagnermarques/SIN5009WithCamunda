@@ -571,7 +571,7 @@
   
   
 
-  + Chegar na agencia pessoalmente
+  + *Chegar na agencia pessoalmente*
     Neste caso o processo tem que ser inicializado por um funcionario
     da a gencia de viagens.
     
@@ -615,14 +615,13 @@
 
     [[./imgs/initProcess-PresencialByCamundaForm.png]]
     
-  + Formulario Web
+  + *Formulario Web*
     
     Essa é outra maneira de inicializar o processo, usando um
     formulário web
 
-    Abaixo seguei o conteúdo do formulário
-    
-    
+    Abaixo segue o conteúdo do formulário
+        
    #+NAME:                     
    #+BEGIN_SRC html :results output :exports both
        <!DOCTYPE html>
