@@ -1,0 +1,1292 @@
+---
+title: Camunda Anots
+author: wagner
+layout: home
+date: 2019-11-20
+---
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-11-20 qua 12:17 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Camunda Anots</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="wagner" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Camunda Anots</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb8cf104">1. Introducao e Apresentacao deste material</a></li>
+<li><a href="#org954174f">2. Download e Instalacao</a>
+<ul>
+<li><a href="#org2294e1f">2.1. Ferramentas utilizadas foram:</a></li>
+<li><a href="#org013ac41">2.2. Diferencas e Semelhancas  entre o camunda e o bonita</a></li>
+<li><a href="#org248bf5b">2.3. Setup do Ambiente de Desenvolvimento</a></li>
+</ul>
+</li>
+<li><a href="#org8706925">3. Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)</a>
+<ul>
+<li><a href="#org2159db5">3.1. Rodando o camunda platform</a></li>
+<li><a href="#org2848677">3.2. Rodando o camunda modeler</a></li>
+<li><a href="#orgb0ea194">3.3. Rodando nosso ESB (Talend )</a></li>
+<li><a href="#org7740e1a">3.4. Rodando o eclipse IDE</a></li>
+</ul>
+</li>
+<li><a href="#org97fd4b0">4. Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)</a>
+<ul>
+<li><a href="#org94f04c4">4.1. Acessando o camunda platform</a>
+<ul>
+<li><a href="#org428b4bc">4.1.1. Fazendo undeploy de processos</a></li>
+<li><a href="#orgca0ce6f">4.1.2. Fazendo undeploy do projeto war</a></li>
+<li><a href="#org97ea008">4.1.3. iniciando um processo</a></li>
+<li><a href="#orge8bfa84">4.1.4. examinando uma instancia de processo</a></li>
+</ul>
+</li>
+<li><a href="#org98a0dfa">4.2. Acesando o nosso esb</a></li>
+<li><a href="#orgbf0d54f">4.3. linha de comando do karaf</a></li>
+</ul>
+</li>
+<li><a href="#org71bf478">5. Instalando (Deploy) os artefatos de software para rodar o processo</a>
+<ul>
+<li><a href="#orgbcb1027">5.1. Instalando no esb dependencias necessarias pra rodar nossos servicos</a></li>
+<li><a href="#orgff11c3c">5.2. Instalando servicos no barramento de servicos</a>
+<ul>
+<li><a href="#org4b40fe3">5.2.1. Instalando os webservices no nosso barramento de servicos</a></li>
+<li><a href="#org49191fd">5.2.2. Conferindos se esta tudo pronto pra rodar o processo</a></li>
+<li><a href="#org321352d">5.2.3. rest operations</a></li>
+<li><a href="#org2e98b96">5.2.4. urls references</a></li>
+<li><a href="#orgc24a318">5.2.5. Getting started</a></li>
+</ul>
+</li>
+<li><a href="#org12332fd">5.3. Usando Camunda Modeler e rodando um processo e integrando ele com nossa logica de negocio</a></li>
+</ul>
+</li>
+<li><a href="#orga6f3e8e">6. Criando o processo e rodando</a></li>
+<li><a href="#org3c5e669">7. Inicializacao do processo</a></li>
+<li><a href="#org269021a">8. Nossos webservices</a>
+<ul>
+<li><a href="#orga94b692">8.1. nossos rest services</a></li>
+</ul>
+</li>
+<li><a href="#orgce5fcc5">9. referencias</a></li>
+<li><a href="#org0e070d8">10. Desligando todos os tools</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb8cf104" class="outline-2">
+<h2 id="orgb8cf104"><span class="section-number-2">1</span> Introducao e Apresentacao deste material</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Este texto foi construindo enquanto fazíamos o trabalho final da
+disciplina SIN5009. Ele serve como anotação e suporte para obter
+maior possibilidade de reproduzir o trabalho.
+</p>
+
+<p>
+Para isso anotamos aqui todos os comandos que utilizamos e acessos a
+webservices e demais anotações relevantes para referência posterior
+tanto nossa como também de outras pessoas que se interessarem.
+</p>
+
+<p>
+Os comandos são do linux, mas usando o bash da instalação do git
+para windows é possível utilizar os mesmos comandos no windows
+também.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org954174f" class="outline-2">
+<h2 id="org954174f"><span class="section-number-2">2</span> Download e Instalacao</h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-org2294e1f" class="outline-3">
+<h3 id="org2294e1f"><span class="section-number-3">2.1</span> Ferramentas utilizadas foram:</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li><p>
+Servidor bpm do camunda
+</p>
+
+<p>
+Url:
+</p></li>
+
+<li>Modelador BPMN do camunda
+Url:</li>
+
+<li>Eclipse IDE
+Url:</li>
+
+<li>ESB Talend
+Url:</li>
+
+<li>SOAPUI
+Url:</li>
+
+<li>Maven
+Url:
+    A máquina de trabalho deve ter java instalado e configurado.</li>
+<li><p>
+curl
+A gente vai querer fazer chamadas a webservices e o curl é uma
+maneira mais prática de fazer isso utilizando a linha de comando
+Url:
+<a href="https://curl.haxx.se">https://curl.haxx.se</a>
+</p>
+
+<p>
+<a href="https://pt.wikipedia.org/wiki/CURL">https://pt.wikipedia.org/wiki/CURL</a>
+</p></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org013ac41" class="outline-3">
+<h3 id="org013ac41"><span class="section-number-3">2.2</span> Diferencas e Semelhancas  entre o camunda e o bonita</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+A primeira parte do trabalho foi feita no bonita e a segunda no
+camunda. Por isso vamos colocar nossas observacoes relativas as
+diferencas e semelhancas entre eles.
+</p>
+
+<p>
+Essas observações estão dentre da perspectiva de um usuário comum e não tipo um
+arquiteto java.
+</p>
+
+<ul class="org-ul">
+<li>Utilizacao do Modelador(BPMN) e do Servidor (Diferenca)
+Sob a perspectiva do usuário, na próprio IDE do bonita é possível
+fazer tudo, ou seja, modelar e rodar o projeto no servidor. 
+Já com o camunda, o usuário tem que lidar com o servidor e com o
+modelador separadamente.
+Quem usar o bonita vai ter a IDE do bonita que é um eclipse
+customizado, mas quem for usar o camunda vai usar o eclise sem customização.</li>
+
+<li><p>
+Tecnologia 
+Stack de tecnologias Java (Semelhantes)
+Os projetos do camunda usam ferramente de build maven/gradle do
+bonita é projeto do eclipse normal mesmo (Diferenca)
+</p>
+
+<p>
+(mais semelhancas e diferencas que a gente for percebendo&#x2026;.)
+</p></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org248bf5b" class="outline-3">
+<h3 id="org248bf5b"><span class="section-number-3">2.3</span> Setup do Ambiente de Desenvolvimento</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Abaixo segue comandos que declaram a localizacao das ferramentas na
+máquina de desenvolvimento, indicando os locais onde elas estao
+instaladas. Vc deve modificar de acordo com o lugar onde voce
+instalou elas na sua máquina. Fazendo isso, todos os demais
+comandos deste texto vao funcionar corretamente.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org4cc61ff"><span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">thisRepoDir</span>=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_HOME</span>=$<span style="color: #eedd82;">thisRepoDir</span>/tools/camunda_bpm
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_DEPLOY_DIR</span>=$<span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_HOME</span>/server/apache-tomcat-9.0.19/webapps
+
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">ECLIPSE_HOME</span>=$<span style="color: #eedd82;">thisRepoDir</span>/tools/eclipse-jee-2019-09-R-linux-gtk-x86_64
+
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">M2_HOME</span>=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">ESB_HOME</span>=$<span style="color: #eedd82;">thisRepoDir</span>/tools/talend/Runtime_ESBSE/container
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">ESB_DEPLOY_DIR</span>=$<span style="color: #eedd82;">ESB_HOME</span>/deploy
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">ESB_CMD</span>=<span style="color: #ffa07a;">"$ESB_HOME/bin/client -r 7"</span>
+
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">CAMUNDA_BPM_MODELER_HOME</span>=$<span style="color: #eedd82;">thisRepoDir</span>/tools/camunda-modeler-3.3.5-linux-x64
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">SOAPUI_HOME</span>=
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">VerLogsCmd</span>=<span style="color: #ffa07a;">"tail -f /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/logs/catalina.out"</span>
+<span style="color: #b0c4de;">export</span> <span style="color: #eedd82;">diretorioQueInicializaProcessoAoReceberArquivo</span>=/home/wagner/sin5009InputFolder
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8706925" class="outline-2">
+<h2 id="org8706925"><span class="section-number-2">3</span> Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)</h2>
+<div class="outline-text-2" id="text-3">
+</div>
+<div id="outline-container-org2159db5" class="outline-3">
+<h3 id="org2159db5"><span class="section-number-3">3.1</span> Rodando o camunda platform</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+O comando abaixo roda a plataforma camunda 
+Sera aberta no navegador a seguinte url
+<a href="http://localhost:8080/camunda/app/admin/default/#/login">http://localhost:8080/camunda/app/admin/default/#/login</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org58f5d41"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">Comando para startart o camunda</span>
+$<span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_HOME</span>/start-camunda.sh &amp;
+
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">use esse comando abaixo pra parar o camunda</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh</span>
+
+xterm -hold  -e <span style="color: #ffa07a;">"tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"</span> &amp;
+</pre>
+</div>
+
+<pre class="example">
+
+CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"
+[2] 23251
+[wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [3] 23252
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2848677" class="outline-3">
+<h3 id="org2848677"><span class="section-number-3">3.2</span> Rodando o camunda modeler</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgb34fa17"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code      </span>
+$<span style="color: #eedd82;">CAMUNDA_BPM_MODELER_HOME</span>/camunda-modeler &amp;
+</pre>
+</div>
+
+<pre class="example">
+
+ECLIPSE_HOME/eclipse
+[1] 8373
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgb0ea194" class="outline-3">
+<h3 id="orgb0ea194"><span class="section-number-3">3.3</span> Rodando nosso ESB (Talend )</h3>
+<div class="outline-text-3" id="text-3-3">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgbfb35bd"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #b0c4de;">cd</span> $<span style="color: #eedd82;">ESB_HOME</span> &amp;&amp; ./bin/start
+xterm -hold -e <span style="color: #ffa07a;">"tail -f $ESB_HOME/log/tesb.log"</span> &amp;
+</pre>
+</div>
+
+<pre class="example">
+
+CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+[wagner@Unknown container]$ [3] 2865
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7740e1a" class="outline-3">
+<h3 id="org7740e1a"><span class="section-number-3">3.4</span> Rodando o eclipse IDE</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+<pre class="src src-shell" id="org399b8dd">$<span style="color: #eedd82;">ECLIPSE_HOME</span>/eclipse &amp;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org97fd4b0" class="outline-2">
+<h2 id="org97fd4b0"><span class="section-number-2">4</span> Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)</h2>
+<div class="outline-text-2" id="text-4">
+</div>
+<div id="outline-container-org94f04c4" class="outline-3">
+<h3 id="org94f04c4"><span class="section-number-3">4.1</span> Acessando o camunda platform</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+A gente vai precisar fazer acessos ao servicos do camunda bpm pra
+varias tarefas como fazer undeploy de processos, deploy etc&#x2026;
+</p>
+
+<p>
+Os acessos ao servidor he feito utilizando os endpoints rest que
+ele fornece.
+</p>
+
+<p>
+Para acessar os endpoints vamos usar o comando curl
+</p>
+
+<p>
+Segue abaixo apenas alguns exemplos sobre como fazer isso. A gente
+utilizou esses exemplos pra fazer as interações com o servidor do
+camundo conforme as necessidades que tivemos durante o trabalho.
+</p>
+</div>
+<div id="outline-container-org428b4bc" class="outline-4">
+<h4 id="org428b4bc"><span class="section-number-4">4.1.1</span> Fazendo undeploy de processos</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org86e006d"><span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"List deployments"</span>
+<span style="color: #eedd82;">deploymentId</span>=690fdca5-0b39-11ea-8a74-7440bbfe2c2f
+<span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> -X <span style="color: #ffa07a;">"DELETE"</span> --silent --show-error localhost:8080/engine-rest/deployment/$<span style="color: #eedd82;">deploymentId</span>?<span style="color: #eedd82;">cascade</span>=true)
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"----------------------------------------------------------------------"</span>
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"."</span>  
+</pre>
+</div>
+
+<pre class="example">
+List deployments
+ECLIPSE_HOME/eclipse
+[wagner@Unknown SIN5009WithCamunda]$
+----------------------------------------------------------------------
+.
+
+</pre>
+
+<p>
+A chamada rest acima realmente faz o undeploy dos processos
+entretanto o arquivo war continua no diretorio de deploy do
+servidor.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgca0ce6f" class="outline-4">
+<h4 id="orgca0ce6f"><span class="section-number-4">4.1.2</span> Fazendo undeploy do projeto war</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+Pra fazer o undeploy do war basta dar o comando 
+</p>
+
+<p>
+mvn clean
+</p>
+
+<p>
+Fazer o undeploy do war com mvn clean nao faz o undeploy do
+processo no cockpit do camunda.
+</p>
+
+<p>
+Use o comando abaixo pra listar seus pacotes war no diretorio de
+deploy do servidor do camunda.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgf6c86af"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+      ls -l $<span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_DEPLOY_DIR</span>
+</pre>
+</div>
+
+<pre class="example">
+
+total 5100
+drwxr-x---.  5 wagner wagner    4096 nov 14 19:59 AgDeViagens
+-rw-rw-r--.  1 wagner wagner 5173874 nov 14 19:59 AgDeViagens.war
+drwxrwxr-x.  7 wagner wagner    4096 out 24 15:07 camunda
+drwxrwxr-x.  6 wagner wagner    4096 out 24 15:07 camunda-invoice
+drwxr-xr-x.  4 wagner wagner    4096 mai 22 09:24 camunda-welcome
+drwxr-x---. 14 wagner wagner    4096 out 24 15:07 docs
+drwxrwxr-x.  4 wagner wagner    4096 out 24 15:07 engine-rest
+drwxr-x---.  6 wagner wagner    4096 out 24 15:07 examples
+drwxrwxr-x.  4 wagner wagner    4096 out 24 15:07 h2
+drwxr-x---.  5 wagner wagner    4096 out 24 15:07 host-manager
+drwxr-x---.  5 wagner wagner    4096 out 24 15:07 manager
+drwxr-x---.  3 wagner wagner    4096 out 24 15:07 ROOT
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org97ea008" class="outline-4">
+<h4 id="org97ea008"><span class="section-number-4">4.1.3</span> iniciando um processo</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+Pra ler um pouco mais sobre como instanciar um processo fazendo
+uma chamada rest, acesse a url abaixo:
+</p>
+
+<p>
+<a href="https://docs.camunda.org/manual/7.7/reference/rest/process-definition/post-start-process-instance/">https://docs.camunda.org/manual/7.7/reference/rest/process-definition/post-start-process-instance/</a>
+</p>
+
+<p>
+Nesta url abaixo tem um comando do curl que inicia tambem um
+processo.
+<a href="https://docs.camunda.org/get-started/quick-start/deploy/">https://docs.camunda.org/get-started/quick-start/deploy/</a>
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgb1d5a5e"></a>Iniciando um processo enviando uma mensagem de start<br />
+<div class="outline-text-5" id="text-4-1-3-1">
+<p>
+<a href="https://docs.camunda.org/manual/develop/reference/rest/message/post-message/">https://docs.camunda.org/manual/develop/reference/rest/message/post-message/</a>
+</p>
+
+<p>
+POST /message
+</p>
+
+
+<p>
+Iniciando o processo de agencia de viagens enviando uma msg de
+start para o processo
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgff29400"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code     </span>
+
+ <span style="color: #b0c4de;">echo</span> .      
+ <span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> --silent -H <span style="color: #ffa07a;">"Content-Type: application/json"</span> -X POST -d @starMsg_MsgDeSolicitacaoRecebida.json http://localhost:8080/engine-rest/message)
+ <span style="color: #b0c4de;">echo</span> 
+ <span style="color: #b0c4de;">echo</span> .
+
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo "Iniciando processo"</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">processDefinitionId=procIdCliente:1:fb3f24c6-0732-11ea-83ce-7440bbfe2c2f</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo .</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo $("http://localhost:8080/engine-rest/$processDefinitionId/start")</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo .</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo $(</span><span style="color: #fa8072;">curl</span><span style="color: #ff7f24;"> -X POST --fail --silent --show-error localhost:8080/engine-rest/$processDefinitionId/start)</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo .</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo $(</span><span style="color: #fa8072;">curl</span><span style="color: #ff7f24;"> --fail --silent --show-error -X POST localhost:8080/engine-rest/process-definition/idProcessCliente:2:092b3210-0192-11ea-b2fe-7440bbfe2c2f/start --data '{"businessKey"="5","canal_de_comunicacao"="email"})</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo .</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo $(</span><span style="color: #fa8072;">curl</span><span style="color: #ff7f24;"> --fail --silent --show-error localhost:8080/engine-rest/execution/count)</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo "----------------------------------------------------------------------"</span>
+ <span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">echo "."</span>
+</pre>
+</div>
+
+<pre class="example">
+
+[wagner@nsipc163 SIN5009WithCamunda]$ .
+[{"resultType":"ProcessDefinition","execution":null,"processInstance":{"links":[],"id":"8db218cb-0a97-11ea-ae44-b88584fd06d6","definitionId":"e5845069-0a95-11ea-ae44-b88584fd06d6","businessKey":"789","caseInstanceId":null,"ended":false,"suspended":false,"tenantId":null}}]
+
+.
+
+</pre>
+
+
+<p>
+Iniciando o processo de Cliente
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org9da1658"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #b0c4de;">echo</span> .      
+<span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> --silent -H <span style="color: #ffa07a;">"Content-Type: application/json"</span> -X POST -d @starMsg_MsgDeSolicitacaoRecebida.json http://localhost:8080/engine-rest/message)
+<span style="color: #b0c4de;">echo</span> .
+<span style="color: #b0c4de;">echo</span> .
+</pre>
+</div>
+</div>
+</li>
+
+
+<li><a id="org892202c"></a>Quantos estao executando?<br />
+<div class="outline-text-5" id="text-4-1-3-2">
+<p>
+<a href="https://docs.camunda.org/manual/7.5/reference/rest/execution/">https://docs.camunda.org/manual/7.5/reference/rest/execution/</a>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org4948ed9"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"Get Executions"</span>
+<span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> --fail --silent --show-error localhost:8080/engine-rest/execution)
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"----------------------------------------------------------------------\n"</span>
+</pre>
+</div>
+
+<pre class="example">
+
+Get Executions
+[{"id":"5e748850-fdd4-11e9-b303-7440bbfe2c2f",
+  "processInstanceId":"5e748850-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+ {"id":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5fc46010-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+ {"id":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},
+ {"id":"5ffa3d9d-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"5feca8d7-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"6005132c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"600c665c-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"6028a068-fdd4-11e9-b303-7440bbfe2c2f","processInstanceId":"601e8e12-fdd4-11e9-b303-7440bbfe2c2f","ended":false,"tenantId":null},{"id":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","processInstanceId":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","ended":false,"tenantId":null},{"id":"a80db302-04ab-11ea-a7ce-d1ba4f139da4","processInstanceId":"a806ae1a-04ab-11ea-a7ce-d1ba4f139da4","ended":false,"tenantId":null}]
+----------------------------------------------------------------------\n
+
+</pre>
+</div>
+</li>
+
+<li><a id="orga2d2890"></a>Terminando um processo<br />
+<div class="outline-text-5" id="text-4-1-3-3">
+<p>
+nao funcionando ainda&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org4505396"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code      </span>
+   <span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"Terminating process...."</span>
+   <span style="color: #eedd82;">caseId</span>=a806ae1a-04ab-11ea-a7ce-d1ba4f139da4
+   <span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> -X POST --fail --silent --show-error localhost:8080/engine-rest/case-instance/{a806ae1a-04ab-11ea-a7ce-d1ba4f139da4}/terminate)
+   <span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"----------------------------------------------------------------------\n"</span>
+
+</pre>
+</div>
+
+<pre class="example">
+
+Terminating process....
+[wagner@localhost SIN5009WithCamunda]$ curl: (22) The requested URL returned error: 415
+----------------------------------------------------------------------\n
+
+</pre>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orge8bfa84" class="outline-4">
+<h4 id="orge8bfa84"><span class="section-number-4">4.1.4</span> examinando uma instancia de processo</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<p>
+A gente pode estar interessado em várias informacoes sobre uma
+instancia
+</p>
+
+<p>
+Por exemplo, para obter as variaveis de processo de uma instancia,
+podemos fazer o seguinte&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org6ab2c79"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #eedd82;">aProcessInstanceId</span>=3dc4336e-0ba1-11ea-8d17-7440bbfe2c2f
+<span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> -X <span style="color: #ffa07a;">"GET"</span> --silent --show-error -o respostasDaApiRestDoCamunda/processInstanceVariables.json localhost:8080/engine-rest/process-instance/$<span style="color: #eedd82;">aProcessInstanceId</span>/variables)
+
+</pre>
+</div>
+
+<pre class="example">
+
+[wagner@Unknown SIN5009WithCamunda]$
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org98a0dfa" class="outline-3">
+<h3 id="org98a0dfa"><span class="section-number-3">4.2</span> Acesando o nosso esb</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+É possivel acessar o esb talend pelo menos de duas maneiras:
+</p>
+</div>
+
+<ol class="org-ol">
+<li><a id="orgbb5530b"></a>webconsole<br />
+<div class="outline-text-5" id="text-4-2-0-1">
+<p>
+Usando o webconsole do karaf
+</p>
+
+<p>
+<a href="http://localhost:8181/system/console/bundles">http://localhost:8181/system/console/bundles</a>
+</p>
+
+<p>
+Usando webconsole no talend
+</p>
+
+<p>
+<a href="https://localhost:9001/system/console/bundles">https://localhost:9001/system/console/bundles</a>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-orgbf0d54f" class="outline-3">
+<h3 id="orgbf0d54f"><span class="section-number-3">4.3</span> linha de comando do karaf</h3>
+<div class="outline-text-3" id="text-4-3">
+<div class="org-src-container">
+<pre class="src src-shell" id="org619f9e3"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">cd $ESB_HOME &amp;&amp; ./bin/stop</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "feature:list | grep console"</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "feature:list | grep camel"</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "camel:context-list"</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "camel:endpoint-list"</span>
+
+</pre>
+</div>
+</div>
+
+<ol class="org-ol">
+<li><a id="orga53165a"></a>Iniciando o processo<br />
+<div class="outline-text-5" id="text-4-3-0-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org02baf1e"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #b0c4de;">echo</span> $(<span style="color: #fa8072;">curl</span> localhost:8080/engine-rest/
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org71bf478" class="outline-2">
+<h2 id="org71bf478"><span class="section-number-2">5</span> Instalando (Deploy) os artefatos de software para rodar o processo</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-orgbcb1027" class="outline-3">
+<h3 id="orgbcb1027"><span class="section-number-3">5.1</span> Instalando no esb dependencias necessarias pra rodar nossos servicos</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgef32854"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">no talend nao precisa</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">https://camel.apache.org/components/latest/jasypt.html</span>
+<span style="color: #b0c4de;">cd</span> $<span style="color: #eedd82;">ESB_CMD</span> feature:install camel-jasypt
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgff11c3c" class="outline-3">
+<h3 id="orgff11c3c"><span class="section-number-3">5.2</span> Instalando servicos no barramento de servicos</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Agora que a gente ligou nossos servidores falta instalar ainda o que
+vamos rodar neles. Por exemplo, falta instalar os processos e os
+servicos no barramento de servicos.
+</p>
+</div>
+
+<div id="outline-container-org4b40fe3" class="outline-4">
+<h4 id="org4b40fe3"><span class="section-number-4">5.2.1</span> Instalando os webservices no nosso barramento de servicos</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+Caso tenha algum servico no barramento, vamos remover todos pra
+comecar do zero.
+</p>
+
+<p>
+Remover os servicos do barramento significa apenas apagar os
+artefatos na pasta deploy
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="org1ad5804"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+rm $<span style="color: #eedd82;">ESB_HOME</span>/deploy/*
+</pre>
+</div>
+
+<pre class="example">
+
+rm: nÃ£o foi possÃ­vel remover '/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009NonBpmnEngineArtifacts/talend/Runtime_ESBSE/container/deploy/*': No such file or directory
+
+</pre>
+
+
+<p>
+Fazendo deploy dos servicos
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgef20844"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">ls -l $diretorioDeProjetos</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">cp -f $diretorioDeProjetos/UspTimerExample_CamelBlueprintCxt.xml $ESB_HOME/deploy</span>
+cp -f $<span style="color: #eedd82;">diretorioDeProjetos</span>/UspAgenciaViagens_CamelBLueprintCtx.xml $<span style="color: #eedd82;">ESB_HOME</span>/deploy
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">cp -f $diretorioDeProjetos/cxf-blueprint-camel-example/target/cxf-blueprint-camel-example-1.0-SNAPSHOT.jar $ESB_HOME/deploy</span>
+
+
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">cxf-blueprint-camel-example-1.0-SNAPSHOT.jar</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">osgi:install -s mvn:com.capgemini.example/cxf-blueprint-camel-example/1.0-SNAPSHOT</span>
+
+</pre>
+</div>
+
+<p>
+Aqui nos simulamos a criacao o agente de viagens que recebeu o
+cliente na agencia, preencheu um arquivo e salvou na pasta
+especifica que sempre qdo um arquivo chega nessa pasta o processo
+sera iniciado.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orgdd23c03"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+
+<span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"arquivo de solicitacao 1"</span> &gt; $<span style="color: #eedd82;">PastaDeSolicitacaoDeClientes</span>/ArqDeSol1.txt
+ls -l $<span style="color: #eedd82;">PastaDeSolicitacaoDeClientes</span>
+</pre>
+</div>
+
+<pre class="example">
+
+[wagner@nsi_pc_149_3 pastaDeSolicitacaoDeClientes]$ [wagner@nsi_pc_149_3 pastaDeSolicitacaoDeClientes]$ total 4
+-rw-rw-r--. 1 wagner wagner 25 out 24 09:37 ArqDeSol1.txt
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org49191fd" class="outline-4">
+<h4 id="org49191fd"><span class="section-number-4">5.2.2</span> Conferindos se esta tudo pronto pra rodar o processo</h4>
+<div class="outline-text-4" id="text-5-2-2">
+</div>
+<ol class="org-ol">
+<li><a id="org9902c64"></a>Conferindo karaf (nosso esb)<br />
+<div class="outline-text-5" id="text-5-2-2-1">
+<p>
+verificando se nossos bundles estao instalados e ativos
+</p>
+
+<div class="org-src-container">
+<pre class="src src-shell" id="orga25d8ab"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "bundle:list"</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">$ESB_CMD "camel:list-context"</span>
+$<span style="color: #eedd82;">ESB_CMD</span> <span style="color: #ffa07a;">"camel:context-stop CamelContextName--RecebeSolicitacaoDoCliente"</span>
+</pre>
+</div>
+
+<pre class="example">
+
+CAMUNDA_BPM_MODELER_HOME/camunda-modeler
+[wagner@Unknown apache-karaf-4.2.6]$ Logging in as karaf
+[31mCommand not found: [0m[31;1mcamel:list-context[0m
+
+</pre>
+</div>
+</li>
+</ol>
+</div>
+
+
+
+<div id="outline-container-org321352d" class="outline-4">
+<h4 id="org321352d"><span class="section-number-4">5.2.3</span> rest operations</h4>
+<div class="outline-text-4" id="text-5-2-3">
+</div>
+<ol class="org-ol">
+<li><a id="org517c2fe"></a>rest with curl<br />
+<div class="outline-text-5" id="text-5-2-3-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org1218501"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+curl -v -H <span style="color: #ffa07a;">"Accept:application/json"</span> http://localhost:8080/engine-rest/case-instance/count       
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">curl --request GET -L -v  http://localhost:8080/engine-rest/case-instance/count</span>
+</pre>
+</div>
+</div>
+</li>
+
+
+<li><a id="org705952b"></a>deploy<br />
+<div class="outline-text-5" id="text-5-2-3-2">
+<p>
+<a href="https://docs.camunda.org/manual/7.7/reference/rest/deployment/post-deployment/">https://docs.camunda.org/manual/7.7/reference/rest/deployment/post-deployment/</a>  
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orgde0c485"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+
+</pre>
+</div>
+</div>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-org2e98b96" class="outline-4">
+<h4 id="org2e98b96"><span class="section-number-4">5.2.4</span> urls references</h4>
+<div class="outline-text-4" id="text-5-2-4">
+</div>
+<ol class="org-ol">
+<li><a id="orgbff5849"></a>Página de boas vindas que mostra as appps do camunda<br />
+<div class="outline-text-5" id="text-5-2-4-1">
+<p>
+localhost:8080/camunda-welcome/index.html
+</p>
+</div>
+</li>
+
+<li><a id="org43bf85a"></a>app cockpit<br />
+<div class="outline-text-5" id="text-5-2-4-2">
+<p>
+localhost:8080/camunda/app/cockpit/
+</p>
+</div>
+</li>
+
+
+<li><a id="org0f9e159"></a>Admin<br />
+<div class="outline-text-5" id="text-5-2-4-3">
+<p>
+Pra entender melhor o app admin acesse:
+<a href="https://docs.camunda.org/manual/7.11/webapps/admin/">https://docs.camunda.org/manual/7.11/webapps/admin/</a>
+</p>
+
+<p>
+<a href="http://localhost:8080/camunda/app/admin/default/#/">http://localhost:8080/camunda/app/admin/default/#/</a>
+</p>
+</div>
+</li>
+
+<li><a id="orgbc58321"></a>Login:<br />
+<div class="outline-text-5" id="text-5-2-4-4">
+<p>
+<a href="http://localhost:8080/camunda/app/welcome/default/#!/login">http://localhost:8080/camunda/app/welcome/default/#!/login</a>
+</p>
+</div>
+</li>
+</ol>
+</div>
+
+
+
+
+<div id="outline-container-orgc24a318" class="outline-4">
+<h4 id="orgc24a318"><span class="section-number-4">5.2.5</span> Getting started</h4>
+<div class="outline-text-4" id="text-5-2-5">
+<div class="org-src-container">
+<pre class="src src-shell" id="orgcdb4ed2"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #b0c4de;">cd</span> $<span style="color: #eedd82;">projdir</span>
+mvn package
+
+</pre>
+</div>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org68d64ac"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org12332fd" class="outline-3">
+<h3 id="org12332fd"><span class="section-number-3">5.3</span> Usando Camunda Modeler e rodando um processo e integrando ele com nossa logica de negocio</h3>
+</div>
+</div>
+
+<div id="outline-container-orga6f3e8e" class="outline-2">
+<h2 id="orga6f3e8e"><span class="section-number-2">6</span> Criando o processo e rodando</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Visão geral como trabalhar com o camunda.
+</p>
+
+<p>
+Para criar um projeto, use o maven normalmente.
+mvn archetype:generate
+</p>
+
+<p>
+Escolha um dos archetypes do camunda 
+</p>
+
+<p>
+Edite o process.bpmn que está nos resources do seu projeto
+</p>
+
+<p>
+Com o camunda bpm server instalado, agora pode rodar o projeto.
+Enquanto ferramentas bpms fornecem um botão de play, no camunda, a
+gente roda o projeto com o comando do maven. Rodar o projeto
+significa preparar e compilar o projeto e finalmente o deploy.
+</p>
+
+<p>
+O comando abaixo faz tudo isso.
+</p>
+<div class="org-src-container">
+<pre class="src src-shell" id="orge4385ec"><span style="color: #b0c4de;">cd</span> diretorio do seu projeto
+mvn clean package antrun:run
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c5e669" class="outline-2">
+<h2 id="org3c5e669"><span class="section-number-2">7</span> Inicializacao do processo</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+O processo pode ser iniciado programaticamente ou via formulário
+Segundo nossos casos de uso para este trabalho um cliente pode
+</p>
+
+<p>
+Lembrando que para um processo iniciar, ou seja, para que a agencia
+de viagens possa ofertar os pacotes de viagens para o cliente, é
+necessário que haja as seguintes informaçoes, no mínimo:
+</p>
+
+<p>
+Data de início e fim da viagem
+Locais onde o cliente quer passear
+Vlr estimado que ele pretende gastar
+</p>
+
+<p>
+Essar informações vão virar variáveis do processo no momento da
+instanciacao do processo.
+</p>
+
+
+
+<ul class="org-ul">
+<li><p>
+Chegar na agencia pessoalmente
+Neste caso o processo tem que ser inicializado por um funcionario
+da a gencia de viagens.
+</p>
+
+<p>
+A funcionalidade prevista que pode ser exercitada seria o
+funcionário salvar um arquivo em um diretório especifico e um dos
+nossos serviços detecta a "chegada" desse arquivo e usa dados
+desse arquivo pra estartar o processo.
+</p>
+
+<p>
+Para exerciciar isso é só usar o comando abaixo pra colocar/salvar
+o arquivo na pasta específica.
+</p></li>
+</ul>
+
+
+<div class="org-src-container">
+<pre class="src src-shell" id="org2b0b360"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+cp payloadMsg_startProcess_Cliente.json $<span style="color: #eedd82;">diretorioQueInicializaProcessoAoReceberArquivo</span>
+</pre>
+</div>
+
+<p>
+segue abaixo o conteudo do arquivo&#x2026;
+</p>
+
+<div class="org-src-container">
+<pre class="src src-json">{
+                 <span style="color: #00ffff;">"variables"</span>: {
+                     <span style="color: #00ffff;">"intencaoDeViagem_DataFim"</span>: {<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"Date"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"2020-01-22T00:00:00.000-0200"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"canal_de_comunicacao"</span> : {<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"String"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"presencial"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"intencaoDeViagem_vlrEstimadoDeGasto"</span>:{<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"Double"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #7fffd4;">5000.0</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"intencaoDeViagem_DataInicio"</span>:{<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"Date"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"2020-01-02T00:00:00.000-0200"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"nomeDoCliente"</span>:{<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"String"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"Denise"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"intencaoDeViagem_locais"</span>:{<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"String"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"parati,buzios,rj"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}},
+                     <span style="color: #00ffff;">"tipoDeCliente"</span>:{<span style="color: #00ffff;">"type"</span>:<span style="color: #ffa07a;">"String"</span>,<span style="color: #00ffff;">"value"</span>:<span style="color: #ffa07a;">"vip"</span>,<span style="color: #00ffff;">"valueInfo"</span>:{}}
+                 }
+             }
+</pre>
+</div>
+
+<p>
+Outra funcionalidade que pode ser exercitada seria esse mesmo
+funcionario da agencia de viagens entrar em um formulário do
+camunda e preencher os dados que vão ser utilizados para estartar
+o processo.
+</p>
+
+
+<ul class="org-ul">
+<li></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org269021a" class="outline-2">
+<h2 id="org269021a"><span class="section-number-2">8</span> Nossos webservices</h2>
+<div class="outline-text-2" id="text-8">
+</div>
+<div id="outline-container-orga94b692" class="outline-3">
+<h3 id="orga94b692"><span class="section-number-3">8.1</span> nossos rest services</h3>
+<div class="outline-text-3" id="text-8-1">
+<div class="org-src-container">
+<pre class="src src-shell" id="org19d4abe"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+curl -X POST localhost:8090/processoCliente
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgce5fcc5" class="outline-2">
+<h2 id="orgce5fcc5"><span class="section-number-2">9</span> referencias</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+<a href="https://docs.camunda.org/get-started/quick-start/">https://docs.camunda.org/get-started/quick-start/</a>
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0e070d8" class="outline-2">
+<h2 id="org0e070d8"><span class="section-number-2">10</span> Desligando todos os tools</h2>
+<div class="outline-text-2" id="text-10">
+<div class="org-src-container">
+<pre class="src src-shell" id="org830c9c0"><span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">starts code</span>
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">use esse comando abaixo pra parar o camunda</span>
+$<span style="color: #eedd82;">CAMUNDA_BPM_PLATFORM_HOME</span>/shutdown-camunda.sh
+
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">O Camunda modeler he so fechar pela interface grafica dele</span>
+
+<span style="color: #ff7f24;">#</span><span style="color: #ff7f24;">Desligando ESB Talend</span>
+<span style="color: #b0c4de;">cd</span> $<span style="color: #eedd82;">ESB_HOME</span> &amp;&amp; ./bin/stop
+</pre>
+</div>
+
+<pre class="example">
+
+CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"  (wd: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda)
+(wd agora: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/talend/Runtime_ESBSE/container)
+Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
+nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
+GRAVE: Could not contact [localhost:8005] (base port [8005] and offset [0]). Tomcat may not be running.
+nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
+GRAVE: Error stopping Catalina
+java.net.ConnectException: Connection refused (Connection refused)
+        at java.net.PlainSocketImpl.socketConnect(Native Method)
+        at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
+        at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
+        at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
+        at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
+        at java.net.Socket.connect(Socket.java:589)
+        at java.net.Socket.connect(Socket.java:538)
+(Socket.java:434)
+(Socket.java:211)
+        at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:513)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:403)
+        at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:497)
+</pre>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: wagner</p>
+<p class="date">Created: 2019-11-20 qua 12:17</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
