@@ -155,13 +155,17 @@
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
-   A gente vai precisar fazer acessos ao servicor do camunda bpm pra
+   A gente vai precisar fazer acessos ao servicos do camunda bpm pra
    varias tarefas como fazer undeploy de processos, deploy etc...
 
    Os acessos ao servidor he feito utilizando os endpoints rest que
    ele fornece.
    
    Para acessar os endpoints vamos usar o comando curl
+   
+   Segue abaixo apenas alguns exemplos sobre como fazer isso. A gente
+   utilizou esses exemplos pra fazer as interações com o servidor do
+   camundo conforme as necessidades que tivemos durante o trabalho.
 *** Fazendo undeploy de processos
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
@@ -338,7 +342,6 @@
    #+RESULTS: obtendo variaveis da intancia de um processo
    : 
    : [wagner@Unknown SIN5009WithCamunda]$
-
 
 ** Acesando o nosso esb 
     É possivel acessar o esb talend pelo menos de duas maneiras:
@@ -591,7 +594,7 @@
 
    segue abaixo o conteudo do arquivo...
 
-   #+INCLUDE payloadMsg_startProcess_Cliente.json :src json
+   #+INCLUDE: payloadMsg_startProcess_Cliente.json :src json
   
     Outra funcionalidade que pode ser exercitada seria esse mesmo
     funcionario da agencia de viagens entrar em um formulário do
