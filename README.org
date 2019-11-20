@@ -594,7 +594,7 @@
 
    segue abaixo o conteudo do arquivo...
 
-   #+INCLUDE: payloadMsg_startProcess_Cliente.json :src json
+   #+INCLUDE: ./payloadMsg_startProcess_Cliente.json :src json
   
     Outra funcionalidade que pode ser exercitada seria esse mesmo
     funcionario da agencia de viagens entrar em um formulário do
