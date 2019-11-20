@@ -92,6 +92,7 @@
      export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
      export SOAPUI_HOME=
      export VerLogsCmd="tail -f /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/logs/catalina.out"
+     export diretorioQueInicializaProcessoAoReceberArquivo=/home/wagner/sin5009InputFolder
   #+END_SRC
 
   #+RESULTS: setup environment
@@ -165,7 +166,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=c4325b20-0b38-11ea-8a74-7440bbfe2c2f
+      deploymentId=690fdca5-0b39-11ea-8a74-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -173,6 +174,7 @@
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
+   : ECLIPSE_HOME/eclipse
    : [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
@@ -317,6 +319,26 @@
    : Terminating process....
    : [wagner@localhost SIN5009WithCamunda]$ curl: (22) The requested URL returned error: 415
    : ----------------------------------------------------------------------\n
+
+*** examinando uma instancia de processo
+    A gente pode estar interessado em várias informacoes sobre uma
+    instancia
+
+    Por exemplo, para obter as variaveis de processo de uma instancia,
+    podemos fazer o seguinte...
+    
+   #+NAME: obtendo variaveis da intancia de um processo                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      aProcessInstanceId=3dc4336e-0ba1-11ea-8d17-7440bbfe2c2f
+      echo $(curl -X "GET" --silent --show-error -o respostasDaApiRestDoCamunda/processInstanceVariables.json localhost:8080/engine-rest/process-instance/$aProcessInstanceId/variables)
+      
+   #+END_SRC
+
+   #+RESULTS: obtendo variaveis da intancia de um processo
+   : 
+   : [wagner@Unknown SIN5009WithCamunda]$
+
 
 ** Acesando o nosso esb 
     É possivel acessar o esb talend pelo menos de duas maneiras:
@@ -533,6 +555,19 @@
   O processo pode ser iniciado programaticamente ou via formulário
   Segundo nossos casos de uso para este trabalho um cliente pode
 
+  Lembrando que para um processo iniciar, ou seja, para que a agencia
+  de viagens possa ofertar os pacotes de viagens para o cliente, é
+  necessário que haja as seguintes informaçoes, no mínimo:
+  
+  Data de início e fim da viagem
+  Locais onde o cliente quer passear
+  Vlr estimado que ele pretende gastar
+  
+  Essar informações vão virar variáveis do processo no momento da
+  instanciacao do processo.
+  
+  
+
   + Chegar na agencia pessoalmente
     Neste caso o processo tem que ser inicializado por um funcionario
     da a gencia de viagens.
@@ -542,11 +577,28 @@
     nossos serviços detecta a "chegada" desse arquivo e usa dados
     desse arquivo pra estartar o processo.
 
+    Para exerciciar isso é só usar o comando abaixo pra colocar/salvar
+    o arquivo na pasta específica.
+
+    
+   #+NAME: colocando arquivo payloadMsg_startProcess_Cliente.json na pasta especifica                    
+   #+BEGIN_SRC shell :session s1 :results output :exports both
+      #starts code
+      cp payloadMsg_startProcess_Cliente.json $diretorioQueInicializaProcessoAoReceberArquivo
+   #+END_SRC
+
+   #+RESULTS: colocando arquivo payloadMsg_startProcess_Cliente.json na pasta especifica
+
+   segue abaixo o conteudo do arquivo...
+
+   #+INCLUDE payloadMsg_startProcess_Cliente.json :src json
+  
     Outra funcionalidade que pode ser exercitada seria esse mesmo
     funcionario da agencia de viagens entrar em um formulário do
     camunda e preencher os dados que vão ser utilizados para estartar
     o processo.
 
+    
   + 
 
 * Nossos webservices

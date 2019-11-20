@@ -9,44 +9,56 @@
 
              let payloadMsgStarProcessCliente = {
                  "variables": {
-                     "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
-                     "tipoDeCliente" : {"value" : "vip", "type": "String"},
-                     "nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
-                     "canal_de_comunicacao" : {"value" : "formweb", "type": "String", "valueInfo" : { "transient" : false } }        
+                     "intencaoDeViagem_DataFim": {"type":"Date","value":"2020-01-22T00:00:00.000-0200","valueInfo":{}},
+                     "canal_de_comunicacao" : {"type":"String","value":"presencial","valueInfo":{}},
+                     "intencaoDeViagem_vlrEstimadoDeGasto":{"type":"Double","value":5000.0,"valueInfo":{}},
+                     "intencaoDeViagem_DataInicio":{"type":"Date","value":"2020-01-02T00:00:00.000-0200","valueInfo":{}},
+                     "nomeDoCliente":{"type":"String","value":"Denise","valueInfo":{}},
+                     "intencaoDeViagem_locais":{"type":"String","value":"parati,buzios,rj","valueInfo":{}},
+                     "tipoDeCliente":{"type":"String","value":"vip","valueInfo":{}}
                  }
-             };
-             
-             
-             $.ajax({
-                 url: "http://localhost:8080/engine-rest/process-definition/key/Process_Participant_Cliente/start",
-                 dataType: "json",
-                 type: "POST",
-                 contentType: 'application/json',
-                 data: JSON.stringify(payloadMsgStarProcessCliente),
-                 processData: false,
-                 //headers: {
-                 //    'Content-Type': 'application/json'
-                 //},
-                 complete: function(response,textStatus){
-                     console.log(" ### ajax complete: function(response,textStatus){.... => ");
-                     console.log("response:");
-                     console.log(response);
-                     console.log("textStatus");
-                     console.log(textStatus);
-                 },
-                 success: function(){
-                     console.log(" ### ajax success: function(){.... => requisicao de start de processo enviada com sucesso!!!");
-                 },
-                 error: function(jqXHR, textStatus, errorThrown){
-                     console.log("error: function(jqXHR, textStatus, errorThrown){... ");
-                     console.log(jqXHR);
-                     console.log(textStatus);
-                     console.log(errorThrown);
-                 } 
-             }).done(function(){
-                 console.log("done");
-             });;
-         }
+             }
+
+                 
+                 //             {
+                 //                 "variables": {
+                 //"nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+                 //"tipoDeCliente" : {"value" : "vip", "type": "String"},
+                 //"nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
+                 //"canal_de_comunicacao" : {"value" : "formweb", "type": "String", "valueInfo" : { "transient" : false } }        
+                 //}
+                 //}
+
+                 $.ajax({
+                     url: "http://localhost:8080/engine-rest/process-definition/key/Process_Participant_Cliente/start",
+                     dataType: "json",
+                     type: "POST",
+                     contentType: 'application/json',
+                     data: JSON.stringify(payloadMsgStarProcessCliente),
+                     processData: false,
+                     //headers: {
+                     //    'Content-Type': 'application/json'
+                     //},
+                     complete: function(response,textStatus){
+                         console.log(" ### ajax complete: function(response,textStatus){.... => ");
+                         console.log("response:");
+                         console.log(response);
+                         console.log("textStatus");
+                         console.log(textStatus);
+                     },
+                     success: function(){
+                         console.log(" ### ajax success: function(){.... => requisicao de start de processo enviada com sucesso!!!");
+                     },
+                     error: function(jqXHR, textStatus, errorThrown){
+                         console.log("error: function(jqXHR, textStatus, errorThrown){... ");
+                         console.log(jqXHR);
+                         console.log(textStatus);
+                         console.log(errorThrown);
+                     } 
+                 }).done(function(){
+                     console.log("done");
+                 });;
+             }
         </script>
     </head>
     <body>
