@@ -1,6 +1,9 @@
 #protect credentials
 **/**/mail-config.properties
 **/**/credentials.txt
+**/**/camel-achetype-servlet-spring-camel-war-default
+**/**/camunda-get-started-spring/
+**/**/fornecedores
 
 #servidor do camunda
 tools/camunda_bpm/

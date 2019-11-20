@@ -83,7 +83,7 @@
 
      export ECLIPSE_HOME=$thisRepoDir/tools/eclipse-jee-2019-09-R-linux-gtk-x86_64
      
-     export M2_REPO=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+     export M2_HOME=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
 
      export ESB_HOME=$thisRepoDir/tools/talend/Runtime_ESBSE/container
      export ESB_DEPLOY_DIR=$ESB_HOME/deploy
@@ -527,6 +527,27 @@
      cd diretorio do seu projeto
      mvn clean package antrun:run
    #+END_SRC
+
+* Inicializacao do processo
+
+  O processo pode ser iniciado programaticamente ou via formulário
+  Segundo nossos casos de uso para este trabalho um cliente pode
+
+  + Chegar na agencia pessoalmente
+    Neste caso o processo tem que ser inicializado por um funcionario
+    da a gencia de viagens.
+    
+    A funcionalidade prevista que pode ser exercitada seria o
+    funcionário salvar um arquivo em um diretório especifico e um dos
+    nossos serviços detecta a "chegada" desse arquivo e usa dados
+    desse arquivo pra estartar o processo.
+
+    Outra funcionalidade que pode ser exercitada seria esse mesmo
+    funcionario da agencia de viagens entrar em um formulário do
+    camunda e preencher os dados que vão ser utilizados para estartar
+    o processo.
+
+  + 
 
 * Nossos webservices
 ** nossos rest services
