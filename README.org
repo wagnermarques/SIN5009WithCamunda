@@ -107,6 +107,7 @@
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #Comando para startart o camunda
+     export emailPassoword=SenhaDoSeuEmailTemQueConfigurarPraSuaConta
      $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
 
      #use esse comando abaixo pra parar o camunda
@@ -117,9 +118,8 @@
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"
-  : [2] 23251
-  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [3] 23252
+  : [wagner@Unknown SIN5009WithCamunda]$ [1] 5597
+  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [2] 5598
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -130,8 +130,8 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : ECLIPSE_HOME/eclipse
-   : [1] 8373
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [3] 6242
 
 ** Rodando nosso ESB (Talend )
 
@@ -153,6 +153,9 @@
    $ECLIPSE_HOME/eclipse &
    #+END_SRC
 
+   #+RESULTS: rodando o eclipse IDE
+   : [4] 15229
+
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
    A gente vai precisar fazer acessos ao servicos do camunda bpm pra
@@ -170,7 +173,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=690fdca5-0b39-11ea-8a74-7440bbfe2c2f
+      deploymentId=d4976aab-0bc4-11ea-b154-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -178,10 +181,11 @@
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
-   : ECLIPSE_HOME/eclipse
    : [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
+
+
 
    A chamada rest acima realmente faz o undeploy dos processos
    entretanto o arquivo war continua no diretorio de deploy do
@@ -569,9 +573,7 @@
   Essar informações vão virar variáveis do processo no momento da
   instanciacao do processo.
   
-  
-
-  + *Chegar na agencia pessoalmente*
+** Atendendo cliente que chegar na agencia pessoalmente
     Neste caso o processo tem que ser inicializado por um funcionario
     da a gencia de viagens.
     
@@ -615,8 +617,8 @@
 
     [[./imgs/initProcess-PresencialByCamundaForm.png]]
     
-  + *Formulario Web*
-    
+** Cliente acessa formulário web (da Agencia de Viagem)
+      
     Essa é outra maneira de inicializar o processo, usando um
     formulário web
 
@@ -699,7 +701,62 @@
 </html> 
    #+END_SRC
     
+** Cliente envia email pra agencia de viagens   
+   Vamos inicializar nosso proceso passando a variavel
+   "canal_de_comunicacao" com valor de "email".
+   Neste caso o email sera enviado para a agencia de viagens
    
+   pra entender esse comando de inicializacao do processo pode-se
+   consultar a documentacao do camunda https://docs.camunda.org/manual/7.4/reference/rest/process-definition/
+   
+   #+NAME: iniciando processo para caso de envio de email                   
+   #+BEGIN_SRC shell :session s1 :results output :exports both   
+      cd $thisRepoDir
+      processDefinitionKey=Process_Participant_Cliente;
+      curl -X "POST" -H "Content-Type: application/json" -d @payloadMsg_startProcessSendEmail.json http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start
+   #+END_SRC
+
+   #+RESULTS: iniciando processo para caso de envio de email
+   
+   [[./imgs/sendmail-usecase.png]]
+
+   outra maneira de estartar o processo
+
+   Lembrando que para o email chegar na sua caixa de email vc deve
+   fazer o seguinte...
+
+   1) ir até o arquivo de código
+      br.usp.sin5009.camel.CamelRouteBuilder
+
+   2) String emailPassword = "ColocarSuaSenhaDoSeuEmailDoGmail";
+      Claro que a gente tem que colocar isso em um arquivo externo de
+      credentials e nao comitar, mas por enquanto está assim.. cuidado
+      pra não comitar sua senha heinnn...
+
+   3) procure a string abaixo e troque o email pra onde o email será enviado
+      
+   #+NAME:                     
+   #+BEGIN_SRC java 
+      .setHeader("to", simple("wagnerdocri@gmail.com"))
+   #+END_SRC
+      
+   4) Agora, logo abaixo da string anterior, tem mais essa linha de código.
+
+      #+BEGIN_SRC java
+          .to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password="+emailPassword);
+      #+END_SRC
+      o que vc tem que fazer e colocar o seu email do gmail.
+
+
+   5) por ultimo, é só rodar o processo usando esse comando que esta
+      sendo repetido abaixo.
+
+   #+NAME: iniciando processo para caso de envio de email (2)
+   #+BEGIN_SRC shell :session s1 :results output :exports both   
+      cd $thisRepoDir
+      processDefinitionKey=Process_Participant_Cliente;
+      curl -X "POST" -H "Content-Type: application/json" -d @payloadMsg_startProcessSendEmail.json http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start
+   #+END_SRC
 
 
 * Nossos webservices
@@ -724,38 +781,16 @@
       #O Camunda modeler he so fechar pela interface grafica dele
 
       #Desligando ESB Talend
-      cd $ESB_HOME && ./bin/stop
+      #cd $ESB_HOME && ./bin/stop
    #+END_SRC
 
    #+RESULTS: Desligando todos os tools
-   #+begin_example
-
-   CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"  (wd: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda)
-   (wd agora: ~/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/talend/Runtime_ESBSE/container)
-   Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-   Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-   Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
-   Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
-   Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
-   nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
-   GRAVE: Could not contact [localhost:8005] (base port [8005] and offset [0]). Tomcat may not be running.
-   nov 03, 2019 1:46:58 AM org.apache.catalina.startup.Catalina stopServer
-   GRAVE: Error stopping Catalina
-   java.net.ConnectException: Connection refused (Connection refused)
-           at java.net.PlainSocketImpl.socketConnect(Native Method)
-           at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350)
-           at java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:206)
-           at java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:188)
-           at java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)
-           at java.net.Socket.connect(Socket.java:589)
-           at java.net.Socket.connect(Socket.java:538)
-   (Socket.java:434)
-   (Socket.java:211)
-           at org.apache.catalina.startup.Catalina.stopServer(Catalina.java:513)
-           at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-           at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-           at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-           at java.lang.reflect.Method.invoke(Method.java:498)
-           at org.apache.catalina.startup.Bootstrap.stopServer(Bootstrap.java:403)
-           at org.apache.catalina.startup.Bootstrap.main(Bootstrap.java:497)
-   #+end_example
+   : 
+   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
+   : CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"
+   : ECLIPSE_HOME/eclipse
+   : [wagner@Unknown SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+   : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+   : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+   : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+   : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar

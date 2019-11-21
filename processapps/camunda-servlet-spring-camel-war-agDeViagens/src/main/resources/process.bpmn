@@ -61,7 +61,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${canal_de_comunicacao == 'formweb'}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0y3u0h4" sourceRef="Task_0sdyfza" targetRef="ExclusiveGateway_19w623j" />
-    <bpmn:serviceTask id="Task_EnviaEmailDeSolicDePcteDeViagem" name="EnviaEmailDeSolicDePcteDeViagem" camunda:expression="${camel.sendTo(&#39;direct:enviaEmailDeSolicitacaoDePctesDeViagem&#39;, &#39;tipoDeCliente,nomeDoCliente&#39;)}">
+    <bpmn:serviceTask id="Task_EnviaEmailDeSolicDePcteDeViagem" name="EnviaEmailDeSolicDePcteDeViagem" camunda:expression="${camel.sendTo(&#39;direct:enviaEmailDeSolicitacaoDePctesDeViagem&#39;, &#39;canal_de_comunicacao,intencaoDeViagem_DataFim,intencaoDeViagem_DataInicio,intencaoDeViagem_locais,intencaoDeViagem_vlrEstimadoDeGasto,nomeDoCliente,tipoDeCliente&#39;)}">
       <bpmn:incoming>SequenceFlow_07fs12i</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1b0hbyl</bpmn:outgoing>
     </bpmn:serviceTask>

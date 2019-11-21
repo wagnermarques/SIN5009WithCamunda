@@ -1,5 +1,8 @@
 package br.usp.sin5009.camel;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.apache.camel.Exchange;
@@ -14,9 +17,12 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-
-		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator")
-				+ "sin5009InputFolder" + System.getProperty("file.separator");
+		
+		//String emailPassword = System.getenv("emailPassword");
+		String emailPassword = "SenhaSecreta";
+		System.out.println(" ### emailPassword = "+emailPassword);
+		
+		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator") + "sin5009InputFolder" + System.getProperty("file.separator");
 		String processDefinitionKey_Cliente = "Process_Participant_Cliente";
 		String processDefinitionKey_AgDeViagem = "Process_Participant_AgDeViagem";
 
@@ -38,8 +44,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		from("direct:iniciaProcessoDoCliente").routeId("direct_iniciaProcessoDoCliente")
 				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
-						+ "/submit-form")
+				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente + "/submit-form")
 
 				.process(new Processor() {
 					@Override
@@ -59,7 +64,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		from("direct:enviaEmailDeSolicitacaoDePctesDeViagem").routeId("directEnviaEmailDeSolicitacaoDePctesDeViagem")
 				.doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem Recebida"))
 				.setHeader("to", simple("wagnerdocri@gmail.com"))
-				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta");
+				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password="+emailPassword);
 
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
