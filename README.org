@@ -767,6 +767,65 @@
       #starts code
       curl -X POST localhost:8090/processoCliente
    #+END_SRC
+
+* Acessos a webservices externos
+** Acesso ao webservice viacep
+   https://viacep.com.br/ws/03828-000/json/
+   
+   Formulário de atendimento presencial do cliente acessa para
+   preencher automaticamente endereco do cliente
+   
+   Trecho do formulário que faz o acesso
+   #+BEGIN_SRC javascript
+       <script cam-script type="text/form-script">
+     inject(['$http', 'Uri', function($http, Uri) {
+         camForm.on('form-loaded', function() {
+             console.log("camForm.on('form-loaded', function() {....");
+
+             function viacepCallBackFn(viaCepResponse) {
+                 console.log("function viacepCallBackFn(viaCepResponse) {...");
+                 console.log(viaCepResponse);
+                 if (!("erro" in viaCepResponse)) {
+                     //Atualiza os campos com os valores.
+                     document.getElementById('clienteLogradouro').value=(viaCepResponse.logradouro);
+                     document.getElementById('clienteBairro').value=(viaCepResponse.bairro);
+                     document.getElementById('clienteLocalidade').value=(viaCepResponse.localidade);
+                     document.getElementById('clienteUf').value=(viaCepResponse.uf);
+                 } else {
+                     //CEP não Encontrado.
+                     alert("CEP não encontrado.");
+                 }
+             }     
+             
+             window.cepWebserviceInvoke = function(){
+                 console.log("window.cepWebserviceInvoke = function(){...");
+                 let cepInformado = window.document.getElementById("clienteCep").value;
+                 console.log("cepInformado = "+cepInformado);
+                 if (cepInformado == undefined || cepInformado == ""){
+                     alert("informe um cep");
+                 }else{
+                     let urlToInvoke="https://viacep.com.br/ws/"+cepInformado+"/json/";
+                     console.log("urlToInvoke = "+urlToInvoke);
+                     //Cria um elemento javascript.
+
+                     var request = new XMLHttpRequest();
+                     request.open('get', urlToInvoke, true);
+                     request.send();
+                     request.onload = function () {
+                         var data = JSON.parse(this.response);
+                         viacepCallBackFn(data);
+                     }
+                 }
+             }
+             //            $http.get(Uri.appUri("engine://engine/:engine/task/" + camForm.taskId + "/form")).success(function(result){
+             //                $scope.contextPath = result.contextPath;
+             //            });
+         })}]);     
+
+    </script>
+
+   #+END_SRC
+
 * referencias
   https://docs.camunda.org/get-started/quick-start/
 
