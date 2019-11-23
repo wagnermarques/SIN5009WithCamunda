@@ -55,3 +55,11 @@ processapps/**/target
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# arquivos gerados pelo próprio eclipse pra configurar o projeto no ambiente eclipse local
+*/*/.settings
+processapps/**/.classpath
+processapps/**/.project
+processapps/**/build.properties
+
+
