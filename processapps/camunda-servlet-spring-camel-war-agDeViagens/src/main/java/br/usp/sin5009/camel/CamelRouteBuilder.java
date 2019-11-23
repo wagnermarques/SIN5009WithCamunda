@@ -15,14 +15,12 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 	private final Logger LOGGER = Logger.getLogger(CamelRouteBuilder.class.getName());
 
+	
 	@Override
 	public void configure() throws Exception {
-		
-		//String emailPassword = System.getenv("emailPassword");
-		String emailPassword = "SenhaSecreta";
-		System.out.println(" ### emailPassword = "+emailPassword);
-		
-		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator") + "sin5009InputFolder" + System.getProperty("file.separator");
+
+		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator")
+				+ "sin5009InputFolder" + System.getProperty("file.separator");
 		String processDefinitionKey_Cliente = "Process_Participant_Cliente";
 		String processDefinitionKey_AgDeViagem = "Process_Participant_AgDeViagem";
 
@@ -37,6 +35,9 @@ public class CamelRouteBuilder extends RouteBuilder {
 		// Endpoint de servico rest cujo metodo post inicia processo do cliente
 		rest("/processoCliente").post().to("direct:iniciaProcessoDoCliente");
 
+
+		
+		
 		/**
 		 * Codigo que inicia processo do cliente Pode ser invocado por qualquer end
 		 * point de servico
@@ -44,7 +45,8 @@ public class CamelRouteBuilder extends RouteBuilder {
 		from("direct:iniciaProcessoDoCliente").routeId("direct_iniciaProcessoDoCliente")
 				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente + "/submit-form")
+				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
+						+ "/submit-form")
 
 				.process(new Processor() {
 					@Override
@@ -54,6 +56,9 @@ public class CamelRouteBuilder extends RouteBuilder {
 					}
 				});
 
+		
+		
+		
 		/**
 		 *
 		 * Envia email de Solicitacao de Pacotes de Viagens
@@ -61,11 +66,17 @@ public class CamelRouteBuilder extends RouteBuilder {
 		 * 'tipoDeCliente,nomeDoCliente,')}
 		 *
 		 **/
+		
 		from("direct:enviaEmailDeSolicitacaoDePctesDeViagem").routeId("directEnviaEmailDeSolicitacaoDePctesDeViagem")
 				.doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem Recebida"))
-				.setHeader("to", simple("wagnerdocri@gmail.com"))
-				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password="+emailPassword);
+				.setHeader("to", simple("each5009.camunda@gmail.com"))
+				//.to("smtps://smtp.gmail.com:465?username=each5009.camunda@gmail.com&password=" + emailPassword);
+				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta");
 
+		
+		
+		
+		
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
 		 * ATENDIMENTO PRESENCIAL o arquivo, sendo colocado na pasta sin5009InputFolder,
@@ -103,6 +114,9 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 				}).to("direct:iniciaProcessoDoCliente");
 
+		
+		
+		
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DA AG DE VIAGEM Esse codigo nao faz
 		 * parte de nenhum dos nossos use cases porque mesmo que o atendimento fosse
@@ -130,6 +144,29 @@ public class CamelRouteBuilder extends RouteBuilder {
 								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
 					}
 				});
-	}
 
+		
+		
+		/**
+		 * 
+		 */
+		String projectId = "sin5009agviagem";
+		String dataBaseId = "\\(default\\)";
+		String solicitacoesDeViagensDocuments = "solicitacoesDeViagens";
+		String firebaseBaseUrl = "https://firestore.googleapis.com/v1/";
+
+		from("direct:TaskRegistrarSolicitacaoDoCliente").routeId("direct_TaskRegistrarSolicitacaoDoCliente")
+				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
+				.to(firebaseBaseUrl + "projects/" + projectId + "/databases/" + dataBaseId + "/documents/" + solicitacoesDeViagensDocuments)
+
+				.process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						LOGGER.info(" \n@@@ from(\"direct:TaskRegistrarSolicitacaoDoCliente\").routeId(\"direct_TaskRegistrarSolicitacaoDoCliente\")");
+						LOGGER.info(" \n@@@ The response code is: {} : "
+								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
+					}
+				});
+
+	}// public void configure() throws Exception {
 }

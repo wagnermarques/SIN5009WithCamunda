@@ -107,19 +107,18 @@
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
      #Comando para startart o camunda
-     export emailPassoword=SenhaDoSeuEmailTemQueConfigurarPraSuaConta
+
      $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
 
      #use esse comando abaixo pra parar o camunda
      #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [wagner@Unknown SIN5009WithCamunda]$ [1] 5597
-  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [2] 5598
+  : [wagner@Unknown SIN5009WithCamunda]$ [5] 17137
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -130,8 +129,7 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-   : [3] 6242
+   : [4] 14813
 
 ** Rodando nosso ESB (Talend )
 
@@ -154,7 +152,8 @@
    #+END_SRC
 
    #+RESULTS: rodando o eclipse IDE
-   : [4] 15229
+   : [3] 12603
+   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
@@ -173,7 +172,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=d4976aab-0bc4-11ea-b154-7440bbfe2c2f
+      deploymentId=cc96aa4a-0e2b-11ea-997d-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -558,7 +557,7 @@
    #+END_SRC
 
 * Inicializacao do processo
-
+ 
   O processo pode ser iniciado programaticamente ou via formulário
   Segundo nossos casos de uso para este trabalho um cliente pode
 
@@ -758,7 +757,10 @@
       curl -X "POST" -H "Content-Type: application/json" -d @payloadMsg_startProcessSendEmail.json http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start
    #+END_SRC
 
+   #+RESULTS: iniciando processo para caso de envio de email (2)
 
+** O registro da solicitacao do cliente no firebase
+   
 * Nossos webservices
 ** nossos rest services
    
