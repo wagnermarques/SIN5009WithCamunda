@@ -82,23 +82,22 @@
      export CAMUNDA_BPM_PLATFORM_HOME=/c/Users/Denise/camunda-bpm
      export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.24/webapps
 				
-     #export ECLIPSE_HOME=/c/Users/Denise/eclipse/jee-2019-09/eclipse
+     # (Não precisa, inicie via IE - Internet Explore) export ECLIPSE_HOME=/c/Users/Denise/eclipse/jee-2019-09/eclipse
     
-     #export M2_HOME=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+     # (Não precisa, o maven já foi configurado, para saber é só dar o comando no git mvn -v )  export M2_HOME=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
 
      export ESB_HOME=$thisRepoDir/tools/talend/Runtime_ESBSE/container
      export ESB_DEPLOY_DIR=$ESB_HOME/deploy
      export ESB_CMD="$ESB_HOME/bin/client -r 7"
      
-     export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
+     #export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
      
      export SOAPUI_HOME=
      
      export VerLogsCmd="tail -f /c/Users/Denise/camunda-bpm/server/apache-tomcat-9.0.24/logs/catalina.out"
    
-     export diretorioQueInicializaProcessoAoReceberArquivo=c:\Users\Denise\sin5009InputFolder
+     export diretorioQueInicializaProcessoAoReceberArquivo=/c/Users/Denise/sin5009InputFolder
   
-     #export diretorioQueInicializaProcessoAoReceberArquivo=/home/wagner/sin5009InputFolder
   #+END_SRC
 
   #+RESULTS: setup environment
