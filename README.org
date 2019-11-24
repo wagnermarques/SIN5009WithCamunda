@@ -117,7 +117,11 @@
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [5] 12005
+  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
+  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
+  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
+  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -128,7 +132,7 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : [2] 5595
+   : [4] 14882
 
 ** Rodando nosso ESB (Talend )
 
@@ -151,7 +155,7 @@
    #+END_SRC
 
    #+RESULTS: rodando o eclipse IDE
-   : [1] 3177
+   : [3] 14727
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
@@ -170,7 +174,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=4decc724-0ed4-11ea-a1f9-7440bbfe2c2f
+      deploymentId=00fdc91b-0edb-11ea-a164-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
@@ -178,6 +182,7 @@
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
+   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
@@ -556,8 +561,24 @@
 
 * Inicializacao do processo
  
-  O processo pode ser iniciado programaticamente ou via formulário
-  Segundo nossos casos de uso para este trabalho um cliente pode
+  O processo pode ser iniciado programaticamente que pode significar
+  qualquer ator sendo um sistema, por exemplo. Via formulário do
+  proprio camunda, que simula o caso de um atendimento presencial do
+  cliente na agencia de viagem ou pode ser inicializado tambem atraves
+  de um outro tipo de atendimento presencial que seria o funcionario
+  da agencia de viagem salvando um arquivo em uma pasta especifica
+  sendo que um servico fica monitorando a pasta e o arquivo sendo
+  salvo na pasta tem seu conteudo lido e utilizado para inicializacao
+  do processo. Tem ainda o caso em que o cliente preenche um
+  formulario web que ao salvar vai tambem usar os dados do formulario
+  para criar um projeto.
+
+  Cada caso de uso de inicializacao do processo sera mais detalhado
+  neste texto com o intuito de viabilizar que possa ser reproduzido novamente.
+
+  Cabe ressaltar que todos esses casos de uso citados sao apensar
+  prototipos ou provas de conceitos para efeitos de entrega do
+  trabalho final da disciplina sin5009.
 
   Lembrando que para um processo iniciar, ou seja, para que a agencia
   de viagens possa ofertar os pacotes de viagens para o cliente, é
@@ -569,8 +590,10 @@
   
   Essar informações vão virar variáveis do processo no momento da
   instanciacao do processo.
-  
-** Atendendo cliente que chegar na agencia pessoalmente
+
+  Seque portanto os casos possiveis para inicializacao do processo:
+ 
+** Atendendo cliente que chegar na agencia pessoalmente (Salvamento de Arquivo)
     Neste caso o processo tem que ser inicializado por um funcionario
     da a gencia de viagens.
     
@@ -604,6 +627,9 @@
                  }
              }
    #+END_EXAMPLE
+
+** Atendendo cliente que chegar na agencia pessoalmente (Form do Camunda)
+
     Outra funcionalidade que pode ser exercitada seria esse mesmo
     funcionario da agencia de viagens entrar em um formulário do
     camunda e preencher os dados que vão ser utilizados para estartar
@@ -621,83 +647,10 @@
 
     Abaixo segue o conteúdo do formulário
         
-   #+NAME:                     
-   #+BEGIN_SRC html :results output :exports both
-       <!DOCTYPE html>
-<html>
-    <head>
-        <title>Formweb SIN5009 - Ag Viagens</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        
-        <script>
-         function iniciarProcesso(){
+    O formulario esta hospedado na amazon na seguinte url: https://s3.amazonaws.com/br.usp.sin5009/trabalho/startprocess.html
 
-             let payloadMsgStarProcessCliente = {
-                 "variables": {
-                     "intencaoDeViagem_DataFim": {"type":"Date","value":"2020-01-22T00:00:00.000-0200","valueInfo":{}},
-                     "canal_de_comunicacao" : {"type":"String","value":"presencial","valueInfo":{}},
-                     "intencaoDeViagem_vlrEstimadoDeGasto":{"type":"Double","value":5000.0,"valueInfo":{}},
-                     "intencaoDeViagem_DataInicio":{"type":"Date","value":"2020-01-02T00:00:00.000-0200","valueInfo":{}},
-                     "nomeDoCliente":{"type":"String","value":"Denise","valueInfo":{}},
-                     "intencaoDeViagem_locais":{"type":"String","value":"parati,buzios,rj","valueInfo":{}},
-                     "tipoDeCliente":{"type":"String","value":"vip","valueInfo":{}}
-                 }
-             }
+    O código do formulario esta disponivel no repositorio do projeto, em https://github.com/wagnermarques/SIN5009WithCamunda/blob/master/startprocess.html
 
-                 
-                 //             {
-                 //                 "variables": {
-                 //"nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
-                 //"tipoDeCliente" : {"value" : "vip", "type": "String"},
-                 //"nomeDoCliente" : {"value" : "Denise", "type": "String", "valueInfo" : { "transient" : false } },
-                 //"canal_de_comunicacao" : {"value" : "formweb", "type": "String", "valueInfo" : { "transient" : false } }        
-                 //}
-                 //}
-
-                 $.ajax({
-                     url: "http://localhost:8080/engine-rest/process-definition/key/Process_Participant_Cliente/start",
-                     dataType: "json",
-                     type: "POST",
-                     contentType: 'application/json',
-                     data: JSON.stringify(payloadMsgStarProcessCliente),
-                     processData: false,
-                     //headers: {
-                     //    'Content-Type': 'application/json'
-                     //},
-                     complete: function(response,textStatus){
-                         console.log(" ### ajax complete: function(response,textStatus){.... => ");
-                         console.log("response:");
-                         console.log(response);
-                         console.log("textStatus");
-                         console.log(textStatus);
-                     },
-                     success: function(){
-                         console.log(" ### ajax success: function(){.... => requisicao de start de processo enviada com sucesso!!!");
-                     },
-                     error: function(jqXHR, textStatus, errorThrown){
-                         console.log("error: function(jqXHR, textStatus, errorThrown){... ");
-                         console.log(jqXHR);
-                         console.log(textStatus);
-                         console.log(errorThrown);
-                     } 
-                 }).done(function(){
-                     console.log("done");
-                 });;
-             }
-        </script>
-    </head>
-    <body>
-
-        
-        
-        <div>
-            <button id="btnLogin" onclick="iniciarProcesso()">Iniciar Processo</button>
-        </div>
-
-    </body>
-</html> 
-   #+END_SRC
-    
 ** Cliente envia email pra agencia de viagens   
    Vamos inicializar nosso proceso passando a variavel
    "canal_de_comunicacao" com valor de "email".

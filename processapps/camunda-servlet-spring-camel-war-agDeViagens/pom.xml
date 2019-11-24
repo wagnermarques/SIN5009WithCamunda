@@ -22,6 +22,12 @@
 		<maven.compiler.target>1.6</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
+
+                <tomcat-instance-hostname>nossoIpNaNuvem</tomcat-instance-hostname>
+		<tomcat-instance-servlet-port>nossaPortaDoServNaNuvem</tomcat-instance-servlet-port>
+                <tomcat-instance-username>usuarioDoTomcat</tomcat-instance-username>
+		<tomcat-instance-password>Senha</tomcat-instance-password>
+                <version.cargo.plugin>1.6.5</version.cargo.plugin>
 	</properties>
 
 	<dependencyManagement>
@@ -313,6 +319,52 @@
 					</tasks>
 				</configuration>
 			</plugin>
+
+                        <!-- 
+                             https://codehaus-cargo.github.io/cargo/Home.html 
+                             https://codehaus-cargo.github.io/cargo/Deploying+to+a+running+container.html
+                             Cargo supports deploying to an already running container. This feature is called Hot Deployment). You call it by using the (cargo:deploy) goal (e.g. mvn cargo:deploy).
+                        -->
+			<plugin>
+			  <groupId>org.codehaus.cargo</groupId>
+			  <artifactId>cargo-maven2-plugin</artifactId>
+			  <version>${version.cargo.plugin}</version>
+			  <configuration>
+                             <!-- Container configuration -->
+                             <container>
+                               <containerId>tomcat9x</containerId>
+                               <type>remote</type>
+                             </container>
+
+                             <!-- Configuration to use with the container (which will also configure the deployer) -->
+			    <configuration>
+			      <type>runtime</type>
+			      <properties>
+				<cargo.hostname>${tomcat-instance-hostname}</cargo.hostname>
+				<cargo.servlet.port>${tomcat-instance-servlet-port}</cargo.servlet.port>
+				<cargo.remote.username>${tomcat-instance-username}</cargo.remote.username>
+				<cargo.remote.password>${tomcat-instance-password}</cargo.remote.password>
+			      </properties>
+			    </configuration>
+
+                            <!-- Deployables configuration -->
+                            <deployables>
+                              <deployable>
+                                <groupId>br.usp.sin5009</groupId>
+                                <artifactId>camunda-servlet-spring-camel-war-agDeViagens</artifactId>
+                                <type>war</type>
+                                <!--
+                                <properties>
+                                  <context>optional root context</context>
+                                </properties>
+                                <pingURL>optional url to ping to know if deployable is done or not</pingURL>
+                                <pingTimeout>optional timeout to ping (default 20000 milliseconds)</pingTimeout>
+                                -->
+                              </deployable>
+                            </deployables>
+			    </configuration>
+			  </plugin>
+                        
                         
 			<!-- run this plugin with first: mvn clean tomcat7:deploy then: mvn clean 
 				tomcat7:redeploy finally: mvn tomcat7:undeploy To use this plugin, add these 

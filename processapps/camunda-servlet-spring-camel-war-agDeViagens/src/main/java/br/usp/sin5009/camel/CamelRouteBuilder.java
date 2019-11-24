@@ -45,7 +45,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 		from("direct:iniciaProcessoDoCliente").routeId("direct_iniciaProcessoDoCliente")
 				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
+				.to("http://45.79.225.175:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
 						+ "/submit-form")
 
 				.process(new Processor() {

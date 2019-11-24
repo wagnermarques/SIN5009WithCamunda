@@ -13,12 +13,10 @@ package br.usp.sin5009.security;
 
 public class Credentials {
 
-	public static String usuarioDoEmail = "emailQueEnviaOEmailParaAgencia@dominio";
-	public static String senhaDoEmail = "SenhaSecretaDoEmailQueEnviaOEmail";
+	public static String usuarioDoEmail = "emailqueenvia";
+	public static String senhaDoEmail = "senhaDoEmailQueEnvia*";
 	
-	public static String usuarioDoPostgresql = "UsuarioDoPostgresqsl";
-	public static String senhaDoPostgresql = "SenhaSecretaDoUsuarioDoPostgresql";
-	
-	
+	public static String usuarioDoPostgresql = "usuarioDoPostgresql";
+	public static String senhaDoPostgresql = "senhaDoUsuarioDoPostgresql";
 	
 }

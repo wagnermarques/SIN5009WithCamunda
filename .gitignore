@@ -1,3 +1,5 @@
+pombk.xml
+processapps/camunda-servlet-spring-camel-war-agDeViagens/src/main/java/br/usp/sin5009/security/Credentials.java.bk
 #protect credentials
 **/**/mail-config.properties
 **/**/credentials.txt

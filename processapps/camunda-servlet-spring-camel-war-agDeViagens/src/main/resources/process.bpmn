@@ -169,10 +169,10 @@
       <bpmn:incoming>SequenceFlow_04x9r7m</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ii11ji</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:textAnnotation id="TextAnnotation_1rdwd2s">
-      <bpmn:text>Clientes vip podem enviar suas malas antecipadamente ate o hotel ao custo do frete especifico</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:association id="Association_06ne0q6" sourceRef="Task_1nit18k" targetRef="TextAnnotation_1rdwd2s" />
+    <bpmn:textAnnotation id="TextAnnotation_1rdwd2s">
+      <bpmn:text>Clientes vip podem enviar suas malas antecipadamente ate o hotel ao custo do frete especifico ISSO VAI SER UM EMAIL, MAS ISSO DEVERA SER DEPOI QUE O CLIENTE DEFINIR POR QUAL PCTE OFERTADO</bpmn:text>
+    </bpmn:textAnnotation>
   </bpmn:process>
   <bpmn:message id="Message_0c7153t" name="MsgDeSolicitacaoRecebida" />
   <bpmn:message id="Message_0xiedgs" name="JustWaiting" />
@@ -436,11 +436,11 @@
         <di:waypoint x="1430" y="1115" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="TextAnnotation_1rdwd2s_di" bpmnElement="TextAnnotation_1rdwd2s">
-        <dc:Bounds x="1310" y="910" width="269" height="54" />
+        <dc:Bounds x="1260" y="860" width="269" height="96" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_06ne0q6_di" bpmnElement="Association_06ne0q6">
-        <di:waypoint x="1340" y="1000" />
-        <di:waypoint x="1400" y="964" />
+        <di:waypoint x="1325" y="990" />
+        <di:waypoint x="1354" y="956" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_17j5mwt_di" bpmnElement="SequenceFlow_17j5mwt">
         <di:waypoint x="1185" y="1140" />
