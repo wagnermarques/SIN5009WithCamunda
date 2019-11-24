@@ -29,7 +29,6 @@
   + ESB Talend
     Url:
 
-
   + SOAPUI
     Url:
 
@@ -158,6 +157,9 @@
    $ECLIPSE_HOME/eclipse &
    #+END_SRC
 
+   #+RESULTS: rodando o eclipse IDE
+   : [4] 15229
+						   
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
    A gente vai precisar fazer acessos ao servicos do camunda bpm pra
@@ -574,9 +576,7 @@
   Essar informações vão virar variáveis do processo no momento da
   instanciacao do processo.
   
-  
-
-  + *Chegar na agencia pessoalmente*
+   + *Chegar na agencia pessoalmente*
     Neste caso o processo tem que ser inicializado por um funcionario
     da a gencia de viagens.
     
@@ -620,8 +620,8 @@
 
     [[./imgs/initProcess-PresencialByCamundaForm.png]]
     
-  + *Formulario Web*
-    
+** Cliente acessa formulário web (da Agencia de Viagem)
+   
     Essa é outra maneira de inicializar o processo, usando um
     formulário web
 
