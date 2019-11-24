@@ -1,5 +1,5 @@
 <strong>INICIA PROCESSO NA PROPRIA AGENCIA</strong>
-   
+
 
 <p>
     Este caso representa o atendimento presencial do cliente
@@ -20,31 +20,32 @@
 
     
     <div class="control-group">
-        <label class="control-label">Tipo de cliente</label>
+        <label class="control-label">nomeDoCliente</label>
         <div class="controls">
-            <input type="text" 
-                   cam-variable-name="tipoDeCliente"
+            <input type="text" id="nomeDoCliente"
+                   cam-variable-name="nomeDoCliente"
                    cam-variable-type="String"
-                   required
                    class="form-control" /><br></br>
         </div>
     </div>
 
+    
     <div class="control-group">
-        <label class="control-label">Nome do Cliente</label>
+        <label class="control-label">emailDoCliente</label>
         <div class="controls">
-            <input type="text" 
-                   cam-variable-name="nomeDoCliente"
+            <input type="text" id="emailDoCliente"
+                   cam-variable-name="emailDoCliente"
                    cam-variable-type="String"
                    required
-                   class="form-control" />
+                   class="form-control" value="wagnerdocri@gmail.com" /><br></br>
         </div>
     </div>
 
+    
     <div class="control-group">
         <label class="control-label">canal_de_comunicacao</label>
         <div class="controls">
-            <input type="text" id="CanalDeComunicacaoInputText"
+            <input type="text" id="canal_de_comunicacao"
                    cam-variable-name="canal_de_comunicacao"
                    cam-variable-type="String"
                    required
@@ -53,57 +54,6 @@
     </div>
 
 
-
-
-
-
-    <div class="control-group">
-        <label class="control-label">Data Inicio</label>
-        <div class="controls">
-            <input type="text" id="intencaoDeViagem_DataInicio"
-                   cam-variable-name="intencaoDeViagem_DataInicio"
-                   cam-variable-type="Date"
-                   required
-                   class="form-control" value="2020-01-02T00:00:00" /><br></br>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Data Fim</label>
-        <div class="controls">
-            <input type="text" id="intencaoDeViagem_DataFim"
-                   cam-variable-name="intencaoDeViagem_DataFim"
-                   cam-variable-type="Date"
-                   required
-                   class="form-control" value="2020-01-22T00:00:00" /><br></br>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">vlrEstimadoDeGasto</label>
-        <div class="controls">
-            <input type="text" id="intencaoDeViagem_vlrEstimadoDeGasto"
-                   cam-variable-name="intencaoDeViagem_vlrEstimadoDeGasto"
-                   cam-variable-type="Double"
-                   required
-                   class="form-control" value="5000" /><br></br>
-        </div>
-    </div>
-
-    <div class="control-group">
-        <label class="control-label">Locais de Destino</label>
-        <div class="controls">
-            <input type="text" id="intencaoDeViagem_locais"
-                   cam-variable-name="intencaoDeViagem_locais"
-                   cam-variable-type="String"
-                   required
-                   class="form-control" value="parati,buzios,rj"/><br></br>
-        </div>
-    </div>
-
-
-
-    
     <div class="control-group">
         <label class="control-label" id="cep">Endereco</label>
         <div class="controls">
@@ -111,52 +61,37 @@
             <input type="text" id="clienteCep"
                    cam-variable-name="clienteCep"
                    cam-variable-type="String"
-                   required
                    class="form-control" value="03828-000"/><button type="button" onclick="window.cepWebserviceInvoke()">Verificar CEP</button> <br></br>
             <label>clienteLogradouro</label>
             <input type="text" id="clienteLogradouro"
                    cam-variable-name="clienteLogradouro"
                    cam-variable-type="String"
-                   required
-                   class="form-control" value=""/><br></br>
+                   class="form-control"/><br></br>
+
             <label>clienteBairro</label>
             <input type="text" id="clienteBairro"
                    cam-variable-name="clienteBairro"
                    cam-variable-type="String"
-                   required
-                   class="form-control" value=""/><br></br>
+                   class="form-control"/><br></br>
+
             <label>clienteLocalidade</label>
             <input type="text" id="clienteLocalidade"
                    cam-variable-name="clienteLocalidade"
                    cam-variable-type="String"
-                   required
-                   class="form-control" value=""/><br></br>
+                   class="form-control"/><br></br>
+
             <label>clienteUf</label>
             <input type="text" id="clienteUf"
                    cam-variable-name="clienteUf"
                    cam-variable-type="String"
-                   required
-                   class="form-control" value=""/><br></br>           
+                   class="form-control"/><br></br>           
         </div>
     </div>
-
-
     
-    <!--
-         https://docs.camunda.org/manual/7.4/reference/embedded-forms/javascript/generating-businesskey/
-         <script cam-script type="text/form-script">
-         camForm.on('submit', function() {
-         camForm.businessKey = document.getElementById("businessKeyInput").value;
-         });
-         </script>
-    -->
-
-
     <script cam-script type="text/form-script">
      inject(['$http', 'Uri', function($http, Uri) {
          camForm.on('form-loaded', function() {
              console.log("camForm.on('form-loaded', function() {....");
-
              function viacepCallBackFn(viaCepResponse) {
                  console.log("function viacepCallBackFn(viaCepResponse) {...");
                  console.log(viaCepResponse);
@@ -182,7 +117,6 @@
                      let urlToInvoke="https://viacep.com.br/ws/"+cepInformado+"/json/";
                      console.log("urlToInvoke = "+urlToInvoke);
                      //Cria um elemento javascript.
-
                      var request = new XMLHttpRequest();
                      request.open('get', urlToInvoke, true);
                      request.send();
@@ -199,5 +133,8 @@
      //             };
      //     )}]);
     </script>
+
+
+
 
 </form>

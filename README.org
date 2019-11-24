@@ -106,19 +106,18 @@
    
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
-     #Comando para startart o camunda
-
-     $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
+     #Comando para startar o camunda
+     #$CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
 
      #use esse comando abaixo pra parar o camunda
-     #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
+     $CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
      #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [wagner@Unknown SIN5009WithCamunda]$ [5] 17137
+  : [5] 12005
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -129,7 +128,7 @@
 
    #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
    : 
-   : [4] 14813
+   : [2] 5595
 
 ** Rodando nosso ESB (Talend )
 
@@ -152,8 +151,7 @@
    #+END_SRC
 
    #+RESULTS: rodando o eclipse IDE
-   : [3] 12603
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+   : [1] 3177
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
@@ -172,7 +170,7 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=cc96aa4a-0e2b-11ea-997d-7440bbfe2c2f
+      deploymentId=4decc724-0ed4-11ea-a1f9-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  

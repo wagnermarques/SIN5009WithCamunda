@@ -94,19 +94,11 @@
   <bpmn:process id="Process_Participant_AgDeViagem" name="Process_Participant_AgDeViagem" isExecutable="true">
     <bpmn:sequenceFlow id="SequenceFlow_1ii11ji" sourceRef="Task_1o5drl9" targetRef="IntermediateMsgCatch_JustWaiting0" />
     <bpmn:sequenceFlow id="SequenceFlow_0fqvwic" sourceRef="StartEvent_MsgDeSolicitacaoRecebida" targetRef="Task_001n9xn" />
-    <bpmn:sequenceFlow id="SequenceFlow_109q7y6" sourceRef="SubProcess_0zu13vl" targetRef="Task_1o5drl9" />
+    <bpmn:sequenceFlow id="SequenceFlow_109q7y6" sourceRef="SubProcess_0zu13vl" targetRef="ExclusiveGateway_0ml40dn" />
     <bpmn:startEvent id="StartEvent_MsgDeSolicitacaoRecebida" name="MsgDeSolicitacaoRecebida">
       <bpmn:outgoing>SequenceFlow_0fqvwic</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0c7153t" />
     </bpmn:startEvent>
-    <bpmn:intermediateCatchEvent id="IntermediateMsgCatch_JustWaiting0" name="JustWaiting">
-      <bpmn:incoming>SequenceFlow_1ii11ji</bpmn:incoming>
-      <bpmn:messageEventDefinition messageRef="Message_0xiedgs" />
-    </bpmn:intermediateCatchEvent>
-    <bpmn:serviceTask id="Task_1o5drl9" name="Logger" camunda:class="br.usp.sin5009.ServiceTasks.LoggerDelegate">
-      <bpmn:incoming>SequenceFlow_109q7y6</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1ii11ji</bpmn:outgoing>
-    </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_14tdi4h" sourceRef="Task_001n9xn" targetRef="SubProcess_0zu13vl" />
     <bpmn:serviceTask id="Task_001n9xn" name="Registrar solicitacao do cliente" camunda:class="br.usp.sin5009.ServiceTasks.RegistrarSolicitacaoDoCliente">
       <bpmn:incoming>SequenceFlow_0fqvwic</bpmn:incoming>
@@ -146,11 +138,41 @@
       <bpmn:scriptTask id="Task_1osh51t" name="Redireciona para atendente especializado" scriptFormat="groovy">
         <bpmn:incoming>SequenceFlow_01qyey7</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1hg3cpu</bpmn:outgoing>
-        <bpmn:script>
-          println "##################### Script Groovy Runned"
-					</bpmn:script>
+        <bpmn:script>println "##################### Script Groovy Runned"</bpmn:script>
       </bpmn:scriptTask>
     </bpmn:subProcess>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0ml40dn" default="SequenceFlow_17j5mwt">
+      <bpmn:incoming>SequenceFlow_109q7y6</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1isxalt</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_17j5mwt</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1isxalt" name="Vip" sourceRef="ExclusiveGateway_0ml40dn" targetRef="Task_1nit18k">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${tipoDeCliente == 'vip'}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:intermediateCatchEvent id="IntermediateMsgCatch_JustWaiting0" name="JustWaiting">
+      <bpmn:incoming>SequenceFlow_1ii11ji</bpmn:incoming>
+      <bpmn:messageEventDefinition messageRef="Message_0xiedgs" />
+    </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1fgawcf" sourceRef="Task_1nit18k" targetRef="ExclusiveGateway_098pwcz" />
+    <bpmn:task id="Task_1nit18k" name="Perguntar Se Deseja Despacho de Malas">
+      <bpmn:incoming>SequenceFlow_1isxalt</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1fgawcf</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:sequenceFlow id="SequenceFlow_17j5mwt" name="cliente nao vip" sourceRef="ExclusiveGateway_0ml40dn" targetRef="ExclusiveGateway_098pwcz" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_098pwcz">
+      <bpmn:incoming>SequenceFlow_17j5mwt</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1fgawcf</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_04x9r7m</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_04x9r7m" sourceRef="ExclusiveGateway_098pwcz" targetRef="Task_1o5drl9" />
+    <bpmn:serviceTask id="Task_1o5drl9" name="Logger" camunda:class="br.usp.sin5009.ServiceTasks.LoggerDelegate">
+      <bpmn:incoming>SequenceFlow_04x9r7m</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ii11ji</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:textAnnotation id="TextAnnotation_1rdwd2s">
+      <bpmn:text>Clientes vip podem enviar suas malas antecipadamente ate o hotel ao custo do frete especifico</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_06ne0q6" sourceRef="Task_1nit18k" targetRef="TextAnnotation_1rdwd2s" />
   </bpmn:process>
   <bpmn:message id="Message_0c7153t" name="MsgDeSolicitacaoRecebida" />
   <bpmn:message id="Message_0xiedgs" name="JustWaiting" />
@@ -223,16 +245,16 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_09gltqg_di" bpmnElement="Task_1o5drl9">
-        <dc:Bounds x="1199" y="1100" width="100" height="80" />
+        <dc:Bounds x="1530" y="1100" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1ii11ji_di" bpmnElement="SequenceFlow_1ii11ji">
-        <di:waypoint x="1299" y="1140" />
-        <di:waypoint x="1362" y="1140" />
+        <di:waypoint x="1630" y="1140" />
+        <di:waypoint x="1722" y="1140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="IntermediateCatchEvent_1f9g0cz_di" bpmnElement="IntermediateMsgCatch_JustWaiting0">
-        <dc:Bounds x="1362" y="1122" width="36" height="36" />
+        <dc:Bounds x="1722" y="1122" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1351" y="1168" width="57" height="14" />
+          <dc:Bounds x="1711" y="1168" width="57" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_067ovrk_di" bpmnElement="SequenceFlow_067ovrk">
@@ -335,7 +357,7 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_109q7y6_di" bpmnElement="SequenceFlow_109q7y6">
         <di:waypoint x="1073" y="1140" />
-        <di:waypoint x="1199" y="1140" />
+        <di:waypoint x="1135" y="1140" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="StartEvent_0m05hr5_di" bpmnElement="StartEvent_0m05hr5">
         <dc:Bounds x="535" y="1122" width="36" height="36" />
@@ -394,6 +416,46 @@
       <bpmndi:BPMNShape id="ServiceTask_0j1515d_di" bpmnElement="Task_001n9xn">
         <dc:Bounds x="353" y="1100" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0ml40dn_di" bpmnElement="ExclusiveGateway_0ml40dn" isMarkerVisible="true">
+        <dc:Bounds x="1135" y="1115" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1isxalt_di" bpmnElement="SequenceFlow_1isxalt">
+        <di:waypoint x="1160" y="1115" />
+        <di:waypoint x="1160" y="1030" />
+        <di:waypoint x="1240" y="1030" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1167" y="1070" width="16" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Task_1nit18k_di" bpmnElement="Task_1nit18k">
+        <dc:Bounds x="1240" y="990" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fgawcf_di" bpmnElement="SequenceFlow_1fgawcf">
+        <di:waypoint x="1340" y="1030" />
+        <di:waypoint x="1430" y="1030" />
+        <di:waypoint x="1430" y="1115" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1rdwd2s_di" bpmnElement="TextAnnotation_1rdwd2s">
+        <dc:Bounds x="1310" y="910" width="269" height="54" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_06ne0q6_di" bpmnElement="Association_06ne0q6">
+        <di:waypoint x="1340" y="1000" />
+        <di:waypoint x="1400" y="964" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_17j5mwt_di" bpmnElement="SequenceFlow_17j5mwt">
+        <di:waypoint x="1185" y="1140" />
+        <di:waypoint x="1405" y="1140" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1260" y="1122" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_098pwcz_di" bpmnElement="ExclusiveGateway_098pwcz" isMarkerVisible="true">
+        <dc:Bounds x="1405" y="1115" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04x9r7m_di" bpmnElement="SequenceFlow_04x9r7m">
+        <di:waypoint x="1455" y="1140" />
+        <di:waypoint x="1530" y="1140" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>
