@@ -58,6 +58,9 @@ public class VerificaSeOClienteEVip implements JavaDelegate {
 
 			if (intCliVip == 1) {
 				execution.setVariable("tipoDeCliente", "vip");
+			}else {
+				//cai aqui qdo o tipo de cliente e igual a null e nao e vip
+				execution.setVariable("tipoDeCliente", "comum");
 			}
 
 		} else {

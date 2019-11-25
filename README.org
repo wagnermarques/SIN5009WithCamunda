@@ -176,16 +176,16 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=00fdc91b-0edb-11ea-a164-7440bbfe2c2f
+      deploymentId=7b8b7b13-0f20-11ea-91d5-7440bbfe2c2f
       echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
+      #echo $(curl -X "DELETE" --silent --show-error $ip:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
-   : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-   : [wagner@Unknown SIN5009WithCamunda]$
+   : [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
