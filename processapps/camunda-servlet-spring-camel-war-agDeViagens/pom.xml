@@ -23,10 +23,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 
-                <tomcat-instance-hostname>nossoIpNaNuvem</tomcat-instance-hostname>
-		<tomcat-instance-servlet-port>nossaPortaDoServNaNuvem</tomcat-instance-servlet-port>
-                <tomcat-instance-username>usuarioDoTomcat</tomcat-instance-username>
-		<tomcat-instance-password>Senha</tomcat-instance-password>
+                <tomcat-instance-hostname>ipDoServidor</tomcat-instance-hostname>
+		<tomcat-instance-servlet-port>porta</tomcat-instance-servlet-port>
+                <tomcat-instance-username>usuario</tomcat-instance-username>
+		<tomcat-instance-password>senha</tomcat-instance-password>
                 <version.cargo.plugin>1.6.5</version.cargo.plugin>
 	</properties>
 

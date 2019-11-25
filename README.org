@@ -13,6 +13,10 @@
   Os comandos são do linux, mas usando o bash da instalação do git
   para windows é possível utilizar os mesmos comandos no windows
   também.
+
+  A sessao "iniciando o processo" inicia um roteiro de apresentacao do
+  trabalho, que seria a interacao com o processo sob o pronto de vista
+  do usuario final.
   
 * Download e Instalacao
 ** Ferramentas utilizadas foram:
@@ -44,7 +48,7 @@
     https://pt.wikipedia.org/wiki/CURL
     
 ** Diferencas e Semelhancas  entre o camunda e o bonita
-   A primeira parte do trabalho foi feita no bonita e a segunda no
+   A primeira parte deste trabalho foi feita no bonita e a segunda no
    camunda. Por isso vamos colocar nossas observacoes relativas as
    diferencas e semelhancas entre eles.
   
@@ -73,10 +77,10 @@
    instaladas. Vc deve modificar de acordo com o lugar onde voce
    instalou elas na sua máquina. Fazendo isso, todos os demais
    comandos deste texto vao funcionar corretamente.
-   
-   
+      
   #+NAME:  setup environment                   
   #+BEGIN_SRC shell :session s1 :results output :exports both
+     export ip="45.79.225.175"
      export thisRepoDir=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda
      export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
      export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
@@ -106,22 +110,20 @@
    
   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   #+BEGIN_SRC shell :session s1 :results output :exports both
+
      #Comando para startar o camunda
-     #$CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
+     $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
 
      #use esse comando abaixo pra parar o camunda
-     $CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
+     #$CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda.sh
 
-     #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
+     xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
   #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
   : 
-  : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$ Using CATALINA_BASE:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_HOME:   /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19
-  : Using CATALINA_TMPDIR: /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/temp
-  : Using JRE_HOME:        /home/wagner/PROGSATIVOS/jdk1.8.0_191
-  : Using CLASSPATH:       /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/bootstrap.jar:/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/bin/tomcat-juli.jar
+  : [1] 3641
+  : [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$ [2] 3642
 
 ** Rodando o camunda modeler
    #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
@@ -155,7 +157,7 @@
    #+END_SRC
 
    #+RESULTS: rodando o eclipse IDE
-   : [3] 14727
+   : [3] 4755
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
@@ -663,7 +665,7 @@
    #+BEGIN_SRC shell :session s1 :results output :exports both   
       cd $thisRepoDir
       processDefinitionKey=Process_Participant_Cliente;
-      curl -X "POST" -H "Content-Type: application/json" -d @payloadMsg_startProcessSendEmail.json http://localhost:8080/engine-rest/process-definition/key/$processDefinitionKey/start
+      curl -X "POST" -H "Content-Type: application/json" -d @payloadMsg_startProcessSendEmail.json http://$ip:8080/engine-rest/process-definition/key/$processDefinitionKey/start
    #+END_SRC
 
    #+RESULTS: iniciando processo para caso de envio de email

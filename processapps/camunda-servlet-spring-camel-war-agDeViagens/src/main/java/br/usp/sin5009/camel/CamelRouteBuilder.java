@@ -9,6 +9,8 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 
+import br.usp.sin5009.security.Credentials;
+
 //import org.apache.camel.component.jackson.JacksonDataFormat;
 
 public class CamelRouteBuilder extends RouteBuilder {
@@ -71,7 +73,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 				.doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem Recebida"))
 				.setHeader("to", simple("each5009.camunda@gmail.com"))
 				//.to("smtps://smtp.gmail.com:465?username=each5009.camunda@gmail.com&password=" + emailPassword);
-				.to("smtps://smtp.gmail.com:465?username=wagnerdocri@gmail.com&password=SenhaSecreta");
+				.to("smtps://smtp.gmail.com:465?username="+ Credentials.usuarioDoEmail +"&password="+Credentials.senhaDoEmail);
 
 		
 		
