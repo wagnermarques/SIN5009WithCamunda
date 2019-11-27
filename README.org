@@ -101,7 +101,7 @@
 
   #+RESULTS: setup environment
   
-* Rodando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
+* Rodando a ferramentas de software
 ** Rodando o camunda platform
  
    O comando abaixo roda a plataforma camunda 
@@ -157,7 +157,7 @@
    #+END_SRC
 
    #+RESULTS: rodando o eclipse IDE
-   : [3] 4755
+   : [1] 4094
 
 * Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
 ** Acessando o camunda platform   
@@ -176,16 +176,16 @@
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
-      deploymentId=7b8b7b13-0f20-11ea-91d5-7440bbfe2c2f
-      echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
-      #echo $(curl -X "DELETE" --silent --show-error $ip:8080/engine-rest/deployment/$deploymentId?cascade=true)
+      deploymentId=05d3e646-10a6-11ea-803f-02428898ebce
+      #echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
+      echo $(curl -X "DELETE" --silent --show-error $ip:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
 
    #+RESULTS: fazendo undeploy cascade true
    : List deployments
-   : [wagner@localhost SIN5009WithCamunda]$ [wagner@localhost SIN5009WithCamunda]$
+   : [wagner@Unknown SIN5009WithCamunda]$ [wagner@Unknown SIN5009WithCamunda]$
    : ----------------------------------------------------------------------
    : .
 
@@ -714,7 +714,18 @@
 
 ** O registro da solicitacao do cliente no firebase
    
+** Qdo O Cliente vip, webservice soap do correio oferece envio de malas
+   Url com documentacao do webservice: 
+   http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx
+   
+   Documentacao utilizada: https://www.correios.com.br/a-a-z/pdf/calculador-remoto-de-precos-e-prazos/manual-de-implementacao-do-calculo-remoto-de-precos-e-prazos
+
+   wlsd utilizado: http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl
+
+   
 * Nossos webservices
+
+
 ** nossos rest services
    
    #+NAME: acess nosso rest service1                   

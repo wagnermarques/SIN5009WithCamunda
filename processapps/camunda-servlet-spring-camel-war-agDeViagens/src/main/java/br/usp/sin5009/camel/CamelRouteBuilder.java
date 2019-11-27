@@ -1,8 +1,5 @@
 package br.usp.sin5009.camel;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.apache.camel.Exchange;
@@ -11,16 +8,27 @@ import org.apache.camel.builder.RouteBuilder;
 
 import br.usp.sin5009.security.Credentials;
 
+import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
+
 //import org.apache.camel.component.jackson.JacksonDataFormat;
 
 public class CamelRouteBuilder extends RouteBuilder {
 
 	private final Logger LOGGER = Logger.getLogger(CamelRouteBuilder.class.getName());
-
 	
 	@Override
 	public void configure() throws Exception {
 
+		// XML Data Format
+		JaxbDataFormat xmlDataFormat = new JaxbDataFormat();
+		//JAXBContext con = JAXBContext.newInstance(Employee.class);
+		//xmlDataFormat.setContext(con);
+
+		// JSON Data Format
+		//JacksonDataFormat jsonDataFormat = new JacksonDataFormat(Employee.class);
+
+		
 		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator")
 				+ "sin5009InputFolder" + System.getProperty("file.separator");
 		String processDefinitionKey_Cliente = "Process_Participant_Cliente";
