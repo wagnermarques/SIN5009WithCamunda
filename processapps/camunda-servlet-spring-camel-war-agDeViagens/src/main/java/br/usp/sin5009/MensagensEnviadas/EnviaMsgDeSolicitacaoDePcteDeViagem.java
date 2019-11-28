@@ -32,19 +32,37 @@ public class EnviaMsgDeSolicitacaoDePcteDeViagem implements JavaDelegate {
 		 * Se o nosso processo cliente tiver um business key a gente passa ele pra
 		 * agencia de viagens via msg
 		 */
-		if (thisProcessExecutionBusinessKey != null) {
+//		if (thisProcessExecutionBusinessKey != null) {
+		//ESTAMOS CONSIDERANDO QUE TODOS OS PROCESSOS ESTARTADOS TERAO BUSINESSKEY
+		//PARA EFEITOS DE COORELACIONAMENTO DE MENSAGENS ENTRE OS PROCESSOS
 			correlateWithResult = runtimeService.createMessageCorrelation(this.MSG_NAME)
-					.processInstanceBusinessKey(thisProcessExecutionBusinessKey).setVariables(execution.getVariables())
+					.processInstanceBusinessKey(thisProcessExecutionBusinessKey)
+					.setVariables(execution.getVariables())
+					.setVariable("cliProcessInstanceId", execution.getProcessInstanceId())
+					.setVariable("cliProcessBusinessKey", execution.getBusinessKey())
 					.correlateWithResult();
-		} else {
-			correlateWithResult = runtimeService.createMessageCorrelation(this.MSG_NAME)
-					.setVariables(execution.getVariables()).correlateWithResult();
-		}
+//		}
+//		} else {
+//			correlateWithResult = runtimeService.createMessageCorrelation(this.MSG_NAME)
+//					.setVariables(execution.getVariables())
+//					.processInstanceBusinessKey(businessKey)
+//					.setVariable("cliProcessInstanceId", execution.getProcessInstanceId())
+//					.setVariable("cliProcessBusinessKey", execution.getBusinessKey())
+//					.correlateWithResult();
+//		}
 
+		LOGGER.info("LOGGER.info(\"\\n[[[[[[ setando variavel de process \"agViagemProcessInstanceId\" no processo do cliente");
+		ProcessInstance agViagemProcessInstance = correlateWithResult.getProcessInstance();
+		execution.setVariable("agViagemProcessInstanceId", agViagemProcessInstance.getId());
+		execution.setVariable("agViagemProcessBusinessKey", agViagemProcessInstance.getBusinessKey());
+		
+		
 		LOGGER.info("**** entendendo correlateWithResult...");
 		MessageCorrelationResultType resultType = correlateWithResult.getResultType();
 
+		
 		String businessKey = correlateWithResult.getProcessInstance().getBusinessKey();
+		
 		String caseInstanceId = correlateWithResult.getProcessInstance().getCaseInstanceId();
 		String processDefinitionId = correlateWithResult.getProcessInstance().getProcessDefinitionId();
 		String processInstanceId = correlateWithResult.getProcessInstance().getProcessInstanceId();

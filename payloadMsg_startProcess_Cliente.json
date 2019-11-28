@@ -1,13 +1,20 @@
 {
-                 "variables": {
-                     "intencaoDeViagem_DataFim": {"type":"Date","value":"2020-01-22T00:00:00.000-0200","valueInfo":{}},
-                     "canal_de_comunicacao" : {"type":"String","value":"presencial","valueInfo":{}},
-                     "intencaoDeViagem_vlrEstimadoDeGasto":{"type":"Double","value":5000.0,"valueInfo":{}},
-                     "intencaoDeViagem_DataInicio":{"type":"Date","value":"2020-01-02T00:00:00.000-0200","valueInfo":{}},
-                     "nomeDoCliente":{"type":"String","value":"Denise","valueInfo":{}},
-                     "intencaoDeViagem_locais":{"type":"String","value":"parati,buzios,rj","valueInfo":{}},
-                     "tipoDeCliente":{"type":"String","value":"vip","valueInfo":{}}
-                 }
-             }
+    "businessKey":"ArqSalvoBk123",
+    "variables":{
+        "nomeDoCliente":{ "value":"CliNameArqSalvoBk123", "type":"String"},
+        "emailDoCliente":{"value":"wagnerdocri@gmail.com","type":"String"},
+        "canal_de_comunicacao":{"value":"presencial","type":"String"},
+        "clienteCep":{"value":"03828-000","type":"String"},
+        "clienteLogradouro":{"value":"Rua Arlindo Bettio","type":"String"},
+        "clienteBairro":{"value":"Vila Guaraciaba","type":"String"},
+        "clienteLocalidade":{"value":"Sao Paulo","type":"String"},
+        "clienteUf":{"value":"SP","type":"String"},
+        "intencaoDeViagem_DataFim": {"type":"Date","value":"2020-01-22T00:00:00.000-0300","valueInfo":{}},
+        "intencaoDeViagem_vlrEstimadoDeGasto":{"type":"Double","value":5000.0,"valueInfo":{}},
+        "intencaoDeViagem_DataInicio":{"type":"Date","value":"2020-01-02T00:00:00.000-0300","valueInfo":{}},
+        "intencaoDeViagem_locais":{"type":"String","value":"parati,buzios,rj","valueInfo":{}}
+    }
+}
+
 
 

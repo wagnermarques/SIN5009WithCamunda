@@ -15,8 +15,12 @@
 
 	<properties>
 
-	        <camunda.version>7.7.0</camunda.version>
-                <camel.version>2.15.2</camel.version>
+	  <camunda.version>7.7.0</camunda.version>
+          <!--
+          <camel.version>2.15.2</camel.version>
+          -->
+          <camel.version>2.24.2</camel.version>
+          
                 <spring.version>5.2.0.RELEASE</spring.version>
                 
 		<spring.version>4.0.7.RELEASE</spring.version>
@@ -26,10 +30,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 
-                <tomcat-instance-hostname>45.79.225.175</tomcat-instance-hostname>
-		<tomcat-instance-servlet-port>8080</tomcat-instance-servlet-port>
-                <tomcat-instance-username>admin</tomcat-instance-username>
-		<tomcat-instance-password>admin123</tomcat-instance-password>
+                <tomcat-instance-hostname>ipDaMaqNaNuvem</tomcat-instance-hostname>
+		<tomcat-instance-servlet-port>porta</tomcat-instance-servlet-port>
+                <tomcat-instance-username>usuarioDoTomcat</tomcat-instance-username>
+		<tomcat-instance-password>senha</tomcat-instance-password>
                 <version.cargo.plugin>1.6.5</version.cargo.plugin>
 	</properties>
 
@@ -224,6 +228,14 @@
 			<scope>test</scope>
 		</dependency>
 
+
+<!-- https://mvnrepository.com/artifact/javax.xml.ws/jaxws-api -->
+<dependency>
+    <groupId>javax.xml.ws</groupId>
+    <artifactId>jaxws-api</artifactId>
+    <version>2.1</version>
+</dependency>
+                
 
 
 

@@ -5,30 +5,35 @@ import java.util.logging.Logger;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
+import org.tempuri.CalcPreco;
 
 import br.usp.sin5009.security.Credentials;
 
-import org.apache.camel.component.jackson.JacksonDataFormat;
-import org.apache.camel.converter.jaxb.JaxbDataFormat;
+//https://stackoverflow.com/questions/46766311/xml-to-object-in-apache-camel/46767555#46767555
+//parece que isso he a partir do camel 2.16.x
+//import org.apache.camel.component.jackson.JacksonDataFormat;
+//import org.apache.camel.converter.jaxb.JaxbDataFormat;
 
 //import org.apache.camel.component.jackson.JacksonDataFormat;
 
 public class CamelRouteBuilder extends RouteBuilder {
 
 	private final Logger LOGGER = Logger.getLogger(CamelRouteBuilder.class.getName());
-	
+
 	@Override
 	public void configure() throws Exception {
 
 		// XML Data Format
-		JaxbDataFormat xmlDataFormat = new JaxbDataFormat();
-		//JAXBContext con = JAXBContext.newInstance(Employee.class);
-		//xmlDataFormat.setContext(con);
+		// https://stackoverflow.com/questions/46766311/xml-to-object-in-apache-camel/46767555#46767555
+		// parece que isso he a partir do camel 2.16.x
+		// JaxbDataFormat xmlDataFormat = new JaxbDataFormat();
+		// JAXBContext con = JAXBContext.newInstance(Employee.class);
+		// xmlDataFormat.setContext(con);
 
 		// JSON Data Format
-		//JacksonDataFormat jsonDataFormat = new JacksonDataFormat(Employee.class);
+		// JacksonDataFormat jsonDataFormat = new JacksonDataFormat(Employee.class);
 
-		
 		String sin5009InputFolder = System.getProperty("user.home") + System.getProperty("file.separator")
 				+ "sin5009InputFolder" + System.getProperty("file.separator");
 		String processDefinitionKey_Cliente = "Process_Participant_Cliente";
@@ -36,6 +41,8 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 		final String startProcessPostBodyAsJson = "{\"variables\": {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\"}, \"nomeDoCliente\" : { \"value\" : \"denise\",\"type\": \"string\"},\"canal_de_comunicacao\" : {\"value\" : \"pessoalmente\",\"type\": \"string\"}},\"businessKey\" : \"bk123\"}";
 		final String msgStart_AgDeViagem = "{\"messageName\" : \"MsgDeSolicitacaoRecebida\", \"businessKey\" : \"123\",\"processVariables\" : {\"tipoDeCliente\" : {\"value\" : \"vip\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true } },\"nomeDeCliente\" : {\"value\" : \"Denise\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"emailDoCliente\" : {\"value\" : \"wagnermarques@usp.br\", \"type\": \"String\", \"valueInfo\" : { \"transient\" : true } },\"canal_de_comunicacao\" : {\"value\" : \"presencial\", \"type\": \"String\",\"valueInfo\" : { \"transient\" : true }}}}";
+
+		CalcPreco calcPreco = new CalcPreco();
 
 		// N O S S O S S E R V I C O S R E S T
 		// configura backend para criacao dos nossos servicos rest
@@ -45,9 +52,6 @@ public class CamelRouteBuilder extends RouteBuilder {
 		// Endpoint de servico rest cujo metodo post inicia processo do cliente
 		rest("/processoCliente").post().to("direct:iniciaProcessoDoCliente");
 
-
-		
-		
 		/**
 		 * Codigo que inicia processo do cliente Pode ser invocado por qualquer end
 		 * point de servico
@@ -56,6 +60,8 @@ public class CamelRouteBuilder extends RouteBuilder {
 				.setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
 				.to("http://45.79.225.175:8080/engine-rest/process-definition/key/" + processDefinitionKey_Cliente
+				// .to("http://localhost:8080/engine-rest/process-definition/key/" +
+				// processDefinitionKey_Cliente
 						+ "/submit-form")
 
 				.process(new Processor() {
@@ -66,9 +72,6 @@ public class CamelRouteBuilder extends RouteBuilder {
 					}
 				});
 
-		
-		
-		
 		/**
 		 *
 		 * Envia email de Solicitacao de Pacotes de Viagens
@@ -76,17 +79,25 @@ public class CamelRouteBuilder extends RouteBuilder {
 		 * 'tipoDeCliente,nomeDoCliente,')}
 		 *
 		 **/
-		
+
 		from("direct:enviaEmailDeSolicitacaoDePctesDeViagem").routeId("directEnviaEmailDeSolicitacaoDePctesDeViagem")
 				.doTry().setHeader("subject", simple("Solicitacao De Pctes De Viagem Recebida"))
 				.setHeader("to", simple("each5009.camunda@gmail.com"))
-				//.to("smtps://smtp.gmail.com:465?username=each5009.camunda@gmail.com&password=" + emailPassword);
-				.to("smtps://smtp.gmail.com:465?username="+ Credentials.usuarioDoEmail +"&password="+Credentials.senhaDoEmail);
+				// .to("smtps://smtp.gmail.com:465?username=each5009.camunda@gmail.com&password="
+				// + emailPassword);
+				.to("smtps://smtp.gmail.com:465?username=" + Credentials.usuarioDoEmail + "&password="
+						+ Credentials.senhaDoEmail);
 
-		
-		
-		
-		
+		from("direct:enviaEmail_PerguntarSeDesejaDespachoDeMalas")
+				.routeId("directEnviaEmail_PerguntarSeDesejaDespachoDeMalas")
+				// .unmarshal().json(JsonLibrary.Jackson, MsgBody.class)
+				.doTry().setHeader("subject", simple("Ola ${property.nomeDoDoCliente}, deseja Despacho De Malas?"))
+				.setHeader("to", simple("each5009.camunda@gmail.com"))
+				// .to("smtps://smtp.gmail.com:465?username=each5009.camunda@gmail.com&password="
+				// + emailPassword);
+				.to("smtps://smtp.gmail.com:465?username=" + Credentials.usuarioDoEmail + "&password="
+						+ Credentials.senhaDoEmail);
+
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DO CLIENTE PARA O USE CASE DE
 		 * ATENDIMENTO PRESENCIAL o arquivo, sendo colocado na pasta sin5009InputFolder,
@@ -124,9 +135,6 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 				}).to("direct:iniciaProcessoDoCliente");
 
-		
-		
-		
 		/**
 		 * Um arquivo com a msg de starta PROCESSO DA AG DE VIAGEM Esse codigo nao faz
 		 * parte de nenhum dos nossos use cases porque mesmo que o atendimento fosse
@@ -147,7 +155,7 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 				}).setHeader(Exchange.HTTP_METHOD, constant("POST"))
 				.setHeader(Exchange.CONTENT_TYPE, constant("application/json"))
-				.to("http://localhost:8080/engine-rest/message").process(new Processor() {
+				.to("http://45.79.225.175:8080/engine-rest/message").process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
 						LOGGER.info(" @@@ The response code is: {} : "
@@ -155,8 +163,6 @@ public class CamelRouteBuilder extends RouteBuilder {
 					}
 				});
 
-		
-		
 		/**
 		 * 
 		 */
@@ -167,16 +173,27 @@ public class CamelRouteBuilder extends RouteBuilder {
 
 		from("direct:TaskRegistrarSolicitacaoDoCliente").routeId("direct_TaskRegistrarSolicitacaoDoCliente")
 				.setHeader(Exchange.HTTP_METHOD, constant("GET"))
-				.to(firebaseBaseUrl + "projects/" + projectId + "/databases/" + dataBaseId + "/documents/" + solicitacoesDeViagensDocuments)
+				.to(firebaseBaseUrl + "projects/" + projectId + "/databases/" + dataBaseId + "/documents/"
+						+ solicitacoesDeViagensDocuments)
 
 				.process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
-						LOGGER.info(" \n@@@ from(\"direct:TaskRegistrarSolicitacaoDoCliente\").routeId(\"direct_TaskRegistrarSolicitacaoDoCliente\")");
+						LOGGER.info(
+								" \n@@@ from(\"direct:TaskRegistrarSolicitacaoDoCliente\").routeId(\"direct_TaskRegistrarSolicitacaoDoCliente\")");
 						LOGGER.info(" \n@@@ The response code is: {} : "
 								+ exchange.getIn().getHeader(Exchange.HTTP_RESPONSE_CODE));
 					}
 				});
+
+		/**
+		 * 
+		 */
+//		from("direct:correiosWSCalcPreco").bean(CalcPreco.class).setHeader("operationName", constant("CalcPreco"))
+//				.setHeader("operationNameSpace", constant("http://tempuri.org/CalcPreco"))
+//				.to("cxf://http://ws.correios.com.br/calculador/CalcPrecoPrazo.asmx?wsdl"
+//						+ "?serviceClass=org.tempuri.CalcPreco" + "&wsdlURL=/wsdl/CalcPrecoPrazo.asmx.xml");
+		// rest of the route goes here...
 
 	}// public void configure() throws Exception {
 }

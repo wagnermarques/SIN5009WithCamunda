@@ -7,27 +7,19 @@
 </p>
 
 <form class="form-horizontal">
-  <div class="control-group">
-    <label class="control-label">Name</label>
-    <div class="controls">
-      <input type="text" 
-             cam-variable-name="name"
-             readonly="true" 
-             class="form-control" />      
-    </div>
-  </div>
-  <div class="control-group">
-    <label class="control-label">Approve?</label>
-    <div class="controls">
-      <input type="checkbox"
-             cam-variable-name="approved"
-             cam-variable-type="Boolean"
-             name="approved"
-             class="form-control" />
-    </div>
-  </div>
 
-  <script cam-script type="text/form-script">
-  // custom JavaScript goes here
-  </script>
+    <div class="control-group">
+        <label class="control-label">Deseja Despachar Malas?</label>
+        <div class="controls">
+            <input type="checkbox"
+                   cam-variable-name="desejaDespacharMalas"
+                   cam-variable-type="Boolean"
+                   name="desejaDespacharMalas"
+                   class="form-control" />
+        </div>
+    </div>
+    
+    <script cam-script type="text/form-script">
+     // custom JavaScript goes here
+    </script>
 </form>

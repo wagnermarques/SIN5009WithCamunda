@@ -43,7 +43,7 @@ public class VerificaSeOClienteEVip implements JavaDelegate {
 			//isso he so um exercicio, nao nos preocupamos com sqlinjectin aqui...
 			PreparedStatement pstm = connectionInstance
 					.prepareStatement(
-							"select count(*) as clienteVip from clientes where nome='" 
+							"select * from clientes where nome='" 
 									+ variablenomeDoCliente + "' and tipoDeCliente='vip';");		
 			ResultSet rs = pstm.executeQuery();
 
@@ -51,17 +51,46 @@ public class VerificaSeOClienteEVip implements JavaDelegate {
 			 * Vamos so ver se tem um cliente com o nome especifico e que seja vip
 			 * obviamente me producao fariamos algo mais sofisticado
 			 */
+			String nomeDoCliente = null;
+			String emailDoCliente = null;
+			String tipoDoCliente = null;
 			while (rs.next()) {
 				// Se intCliVip for pelo 1, o cliente he vip
-				intCliVip = rs.getInt("clienteVip");
+				intCliVip = 1;
+				nomeDoCliente = rs.getString("nome");
+				emailDoCliente = rs.getString("emaildocliente");
+				tipoDoCliente = rs.getString("tipodecliente"); 
 			}
 
+			
+			//Se o emailDoCliente ja tiver sido informado a gente vai ficar com o que foi informado
+			//caso contrario a gente usa o email que esta cadastrado no banco de dados
+			//se nenhuma dessas alternativas funcionarem, nao temos email
 			if (intCliVip == 1) {
-				execution.setVariable("tipoDeCliente", "vip");
+				LOGGER.info("\n %%%%%%%%%% O cliente "+ variablenomeDoCliente + " he vip!");
+				execution.setVariable("tipoDeCliente", "vip");			
+				//pra efeitos desse trabalho, os clientes vips sempre terao emails cadastrados no banco
+				execution.setVariable("emailDoCliente", emailDoCliente);
 			}else {
+				LOGGER.info("\n %%%%%%%%%% O cliente "+ variablenomeDoCliente + " N-A-O he vip!");
 				//cai aqui qdo o tipo de cliente e igual a null e nao e vip
-				execution.setVariable("tipoDeCliente", "comum");
+				execution.setVariable("tipoDeCliente", "comum");				
+				
+				//neste caso pode ser que no banco nao tenha e nem tenha sido informado
+				if(execution.getVariable("emailDoCliente") != null || execution.getVariable("emailDoCliente").equals("")){
+					//este he o caso em que o email do cliente foi informado
+					//mesmo ele nao sendo vip
+				}else {
+					//bom, aqui o email nao foi informado anteriomente,
+					//vamos ver se da pra usar algum que esteja cadastrado no bacno
+					if(emailDoCliente != null || emailDoCliente.equals("")) {
+						execution.setVariable("emailDoCliente", emailDoCliente);
+					}else {
+						//o cliente nao vai ter email 
+					}
+				}				
 			}
+			
 
 		} else {
 			LOGGER.info(
