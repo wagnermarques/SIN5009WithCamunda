@@ -1,0 +1,27 @@
+** Tools
+  + Servidor bpm do camunda  
+    Url:https://camunda.com/download/
+
+  + Modelador BPMN do camunda
+    Url:https://camunda.com/download/modeler/
+
+  + Eclipse IDE
+    Url:https://www.eclipse.org/downloads/packages/
+
+  + Karaf 
+    Url:https://karaf.apache.org/download
+
+  + SOAPUI
+    Url:
+
+  + Maven
+    Url:https://maven.apache.org/download.cgi?Preferred=ftp://ftp.osuosl.org/pub/apache/
+
+  + curl
+    A gente vai querer fazer chamadas a webservices e o curl é uma
+    maneira mais prática de fazer isso utilizando a linha de comando
+    Url:
+    https://curl.haxx.se
+    
+    https://pt.wikipedia.org/wiki/CURL
+

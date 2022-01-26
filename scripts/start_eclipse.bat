@@ -1,0 +1,1 @@
+%ECLIPSE_HOME%\eclipse

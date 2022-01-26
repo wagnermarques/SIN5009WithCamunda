@@ -19,34 +19,10 @@
   do usuario final.
   
 * Download e Instalacao
-** Ferramentas utilizadas foram:
-  + Servidor bpm do camunda
-    
-    Url:
+  It's not detailed, but provide figure out of the tools used
+  [[./tools.org][download some tools]]
 
-  + Modelador BPMN do camunda
-    Url:
-
-  + Eclipse IDE
-    Url:
-
-  + ESB Talend
-    Url:
-
-  + SOAPUI
-    Url:
-
-  + Maven
-    Url:
-        A máquina de trabalho deve ter java instalado e configurado.
-  + curl
-    A gente vai querer fazer chamadas a webservices e o curl é uma
-    maneira mais prática de fazer isso utilizando a linha de comando
-    Url:
-    https://curl.haxx.se
-    
-    https://pt.wikipedia.org/wiki/CURL
-    
+  
 ** Diferencas e Semelhancas  entre o camunda e o bonita
    A primeira parte deste trabalho foi feita no bonita e a segunda no
    camunda. Por isso vamos colocar nossas observacoes relativas as
@@ -77,39 +53,34 @@
    instaladas. Vc deve modificar de acordo com o lugar onde voce
    instalou elas na sua máquina. Fazendo isso, todos os demais
    comandos deste texto vao funcionar corretamente.
-      
-  #+NAME:  setup environment                   
-  #+BEGIN_SRC shell :session s1 :results output :exports both
-     export ip="45.79.225.175"
-     export thisRepoDir=/home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda
-     export CAMUNDA_BPM_PLATFORM_HOME=$thisRepoDir/tools/camunda_bpm
-     export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
 
-     export ECLIPSE_HOME=$thisRepoDir/tools/eclipse-jee-2019-09-R-linux-gtk-x86_64
-     
-     export M2_HOME=/home/wagner/wagnerdocri@gmail.com3/fzlbpms/fzlStudio/integrated/build/apache-maven-3.6.0/
+** no linux
 
-     export ESB_HOME=$thisRepoDir/tools/talend/Runtime_ESBSE/container
-     export ESB_DEPLOY_DIR=$ESB_HOME/deploy
-     export ESB_CMD="$ESB_HOME/bin/client -r 7"
-     
-     export CAMUNDA_BPM_MODELER_HOME=$thisRepoDir/tools/camunda-modeler-3.3.5-linux-x64
-     export SOAPUI_HOME=
-     export VerLogsCmd="tail -f /home/wagner/wagnerdocri@gmail.com3/envs/env-dev/sources/SIN5009WithCamunda/tools/camunda_bpm/server/apache-tomcat-9.0.19/logs/catalina.out"
-     export diretorioQueInicializaProcessoAoReceberArquivo=/home/wagner/sin5009InputFolder
+     #+NAME:  setup environment                   
+  #+BEGIN_SRC shell :session s1 :results output :exports both :shebang "#!/bin/bash" :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\env-setup.sh
+    export DEPLOY_TO_IP="127.0.0.1"
+    export thisRepoDir=/cygdrive/c/Users/wagner/BPMNTasks/SIN5009WithCamunda
+    export CAMUNDA_BPM_PLATFORM_HOME= /cygdrive/c/Users/wagner/PROGSATIVOS/camunda-bpm-tomcat-7.16.0
+    export CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=$CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/webapps
+
+    export ECLIPSE_HOME=/cygdrive/c/Users/wagner/PROGSATIVOS/eclipse-jee-2021-12-R-win32-x86_64
+
+    export M2_HOME=/cygdrive/c/Users/wagner/PROGSATIVOS/apache-maven-3.8.4
+
+    export ESB_HOME=/cygdrive/c/Users/wagner/PROGSATIVOS/apache-karaf-4.3.6
+    export ESB_DEPLOY_DIR=$ESB_HOME/deploy
+    export START_ESB_CMD="$ESB_HOME/bin/start"
+
+    export CAMUNDA_BPM_MODELER_HOME=/cygdrive/c/Users/wagner/PROGSATIVOS/camunda-modeler-4.11.1-win-x64
+    export SOAPUI_HOME=
+    export watchLogs="tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out"
+
+    export processes_content_management_directory=/cygdrive/c/Users/wagner/CONTENT_MANAGMENT_DIR
   #+END_SRC
 
-  #+RESULTS: setup environment
-  
-* Rodando a ferramentas de software
-** Rodando o camunda platform
- 
-   O comando abaixo roda a plataforma camunda 
-   Sera aberta no navegador a seguinte url
-   http://localhost:8080/camunda/app/admin/default/#/login
-   
-  #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-  #+BEGIN_SRC shell :session s1 :results output :exports both
+
+    #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
+  #+BEGIN_SRC shell :session s1 :results output :exports both :shebang "#!/bin/bash" :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_camunda_server.sh
 
      #Comando para startar o camunda
      $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh &
@@ -120,47 +91,89 @@
      #xterm -hold  -e "tail -f $CAMUNDA_BPM_PLATFORM_HOME/server/apache-tomcat-9.0.19/logs/catalina.out" &
   #+END_SRC
 
-  #+RESULTS: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-  : 
-  : CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-  : ECLIPSE_HOME/eclipse
-  : [1] 19151
 
-** Rodando o camunda modeler
-   #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code      
-      $CAMUNDA_BPM_MODELER_HOME/camunda-modeler &
+** no windao
+
+  #+NAME:  setup environment no windao
+  #+BEGIN_SRC shell :session s1 :results output :exports both :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\env-setup.bat
+    set DEPLOY_IP="127.0.0.1"
+    set thisRepoDir=C:\Users\wagner\BPMNTasks\SIN5009WithCamunda
+    set CAMUNDA_BPM_PLATFORM_HOME= C:\Users\wagner\PROGSATIVOS\camunda-bpm-tomcat-7.16.0
+    set CAMUNDA_BPM_PLATFORM_DEPLOY_DIR=%CAMUNDA_BPM_PLATFORM_HOME%\server\apache-tomcat-9.0.19\webapps
+
+    set ECLIPSE_HOME=C:\Users\wagner\PROGSATIVOS\eclipse-jee-2021-12-R-win32-x86_64
+
+    set M2_HOME=C:\Users\wagner\PROGSATIVOS\apache-maven-3.8.4
+
+    set ESB_HOME=C:\Users\wagner\PROGSATIVOS\apache-karaf-4.3.6
+    set ESB_DEPLOY_DIR=%ESB_HOME%\deploy
+    set START_ESB_CMD=%ESB_HOME%\bin\start
+
+    set CAMUNDA_BPM_MODELER_HOME=C:\Users\wagner\PROGSATIVOS\camunda-modeler-4.11.1-win-x64
+    set SOAPUI_HOME=
+    set processes_content_management_directory=C:\Users\wagner\CONTENT_MANAGMENT_DIR
+
+    #+END_SRC
+
+   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/start-camunda-server.bat
+   #+BEGIN_SRC shell :session s1 :results output :exports code :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_camunda_server.bat
+
+   #Comando para startar o camunda
+   %CAMUNDA_BPM_PLATFORM_HOME%\start-camunda.bat
    #+END_SRC
 
-   #+RESULTS: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler
-   : 
-   : [2] 21602
 
-** Rodando nosso ESB (Talend )
+   #+NAME: $CAMUNDA_BPM_PLATFORM_HOME/shutdown-camunda-server.bat
+   #+BEGIN_SRC shell :session s1 :results output :exports code :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\shutdown_camunda_server.bat
+   %CAMUNDA_BPM_PLATFORM_HOME%\shutdown-camunda.bat
+   #+END_SRC
 
-   #+NAME: rodando esb
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-      #starts code
+    
+*** Rodando o camunda modeler
+   #+NAME: $CAMUNDA_BPM_MODELER_HOME/camunda-modeler                     
+   #+BEGIN_SRC shell :session s1 :results output :exports code :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_camunda_modeler.bat
+   #starts code      
+   %CAMUNDA_BPM_MODELER_HOME%\camunda-modeler &
+   #+END_SRC
+
+
+*** Rodando nosso ESB (Karaf )
+
+    lembre-se de habilitar o usuario karaf pra poder acessar o servidor: https://karaf.apache.org/manual/latest/security
+    
+    #+NAME: rodando esb on windows
+    #+BEGIN_SRC shell :session s1 :results output :exports both :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_esb_server.bat
+      cd %ESB_HOME%\bin
+      start.bat
+    #+END_SRC
+
+    Entre no karaf com %KARAF_HOME%\bin client
+    e instale o webconsole com o cmando karaf@root()> feature:install webconsole
+    Se tiver algum problema com proxy consutar as referencias[fn:1]
+
+    #+NAME: rodando esb on linux
+    #+BEGIN_SRC shell :session s1 :results output :exports both :shebang "#!/bin/bash" :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_esb_server.sh
       cd $ESB_HOME && ./bin/start
       xterm -hold -e "tail -f $ESB_HOME/log/tesb.log" &
-   #+END_SRC
+    #+END_SRC
 
-   #+RESULTS: rodando esb
-   : 
-   : CAMUNDA_BPM_PLATFORM_HOME/start-camunda.sh
-   : [wagner@Unknown container]$ [3] 2865
 
-** Rodando o eclipse IDE
-   #+NAME: rodando o eclipse IDE
-   #+BEGIN_SRC shell :session s1 :results output :exports both
-   $ECLIPSE_HOME/eclipse &
-   #+END_SRC
+*** Rodando o eclipse IDE
 
-   #+RESULTS: rodando o eclipse IDE
-   : [1] 26192
+    #+NAME: rodando o eclipse IDE onwin
+    #+BEGIN_SRC shell :session s1 :results output :exports code :tangle C:\Users\wagner\BPMNTasks\SIN5009WithCamunda\scripts\start_eclipse.bat
+    %ECLIPSE_HOME%\eclipse
+    #+END_SRC
 
-* Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Talend)
+    
+    #+NAME: rodando o eclipse IDE onlin
+    #+BEGIN_SRC shell :session s1 :results output :exports both
+    $ECLIPSE_HOME/eclipse &
+    #+END_SRC
+
+
+
+* Acessando o Camunda BPM Platform, Camunda Modeler e ESB (Karaf)
 ** Acessando o camunda platform   
    A gente vai precisar fazer acessos ao servicos do camunda bpm pra
    varias tarefas como fazer undeploy de processos, deploy etc...
@@ -173,15 +186,16 @@
    Segue abaixo apenas alguns exemplos sobre como fazer isso. A gente
    utilizou esses exemplos pra fazer as interações com o servidor do
    camundo conforme as necessidades que tivemos durante o trabalho.
+
 *** Fazendo undeploy de processos
    #+NAME: fazendo undeploy cascade true
    #+BEGIN_SRC shell :session s1 :results output :exports both
       echo "List deployments"
       deploymentId=15a99776-1146-11ea-803f-02428898ebce
       echo $deploymentId
-      echo $ip
+      echo $DEPLOY_IP
       #echo $(curl -X "DELETE" --silent --show-error localhost:8080/engine-rest/deployment/$deploymentId?cascade=true)
-      echo $(curl -X "DELETE" --silent --show-error $ip:8080/engine-rest/deployment/$deploymentId?cascade=true)
+      echo $(curl -X "DELETE" --silent --show-error $DEPLOY_IP:8080/engine-rest/deployment/$deploymentId?cascade=true)
       echo "----------------------------------------------------------------------"
       echo "."  
    #+END_SRC
@@ -808,8 +822,10 @@
    #+END_SRC
 
 * referencias
-  https://docs.camunda.org/get-started/quick-start/
+[fn:1] https://docs.oracle.com/cd/E35636_01/doc.11116/e29133/app_proxy_server.htm
+[fn:2] https://docs.camunda.org/get-started/quick-start/
 
+  
 * Desligando todos os tools
   
    #+NAME: Desligando todos os tools    
