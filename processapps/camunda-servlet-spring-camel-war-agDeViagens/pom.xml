@@ -21,7 +21,7 @@
           -->
           <camel.version>2.24.2</camel.version>
           
-                <spring.version>5.2.0.RELEASE</spring.version>
+                <spring.version>6.0.0</spring.version>
                 
 		<spring.version>4.0.7.RELEASE</spring.version>
 		<sl4j.version>1.7.7</sl4j.version>
